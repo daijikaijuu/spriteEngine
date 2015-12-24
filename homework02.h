@@ -2,7 +2,9 @@
 #include "TXLib.h"
 #include <unordered_map>
 
-using namespace std;
+using std::string;
+using std::unordered_map;
+using std::pair;
 
 #define a_size(T) (sizeof(T) / sizeof(*T))
 

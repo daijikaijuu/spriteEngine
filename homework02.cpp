@@ -35,11 +35,11 @@ int main()
 
 Scene::Scene(double width, double height) : GenericScene(width, height)
 {
-	AddActor(SUN, new SunActor(-200, 200, m_sceneWidth / 15));
+	AddActor(SUN,        new SunActor(-200, 200, m_sceneWidth / 15));
 	AddActor("mountain", new MountainsActor());
-	AddActor("human", new HumanActor(900, ACTOR_Y_PLACEMENT - 30, 60));
-	AddActor("tree", new TreeActor(200, ACTOR_Y_PLACEMENT, 100, 300, RGB(0, 100, 0)));
-	AddActor("house", new HouseActor(700, 200, 200, 200, true));
+	AddActor("human",    new HumanActor(900, ACTOR_Y_PLACEMENT - 30, 60));
+	AddActor("tree",     new TreeActor(200, ACTOR_Y_PLACEMENT, 100, 300, RGB(0, 100, 0)));
+	AddActor("house",    new HouseActor(700, 200, 200, 200, true));
 }
 
 void Scene::Draw()
