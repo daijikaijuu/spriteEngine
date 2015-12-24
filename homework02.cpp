@@ -6,8 +6,6 @@ const int HEIGHT = 720;
 const int GROUND_LEVEL = HEIGHT - 120;
 const int ACTOR_Y_PLACEMENT = GROUND_LEVEL + (HEIGHT - GROUND_LEVEL) / 2;
 
-const string SUN = "sun";
-
 Scene *scene= NULL;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -37,7 +35,7 @@ Scene::Scene(double width, double height) :
 	GenericScene(width, height),
 	m_sun(NULL)
 {
-	AddActor(SUN,        new SunActor(-200, 200, m_sceneWidth / 15));
+	AddActor("sun",      new SunActor(-200, 200, m_sceneWidth / 15));
 	AddActor("mountain", new MountainsActor());
 	AddActor("human",    new HumanActor(900, ACTOR_Y_PLACEMENT - 30, 60));
 	AddActor("tree",     new TreeActor(200, ACTOR_Y_PLACEMENT, 100, 300, RGB(0, 100, 0)));
