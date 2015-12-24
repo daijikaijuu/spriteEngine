@@ -144,7 +144,7 @@ public:
 	virtual void Draw();
 
 	void AddActor(string name, GenericActor *actor);
-	GenericActor* GetActor(string name);
+	virtual GenericActor* GetActor(string name);
 
 protected:
 	double    m_sceneWidth, m_sceneHeight;
@@ -158,8 +158,12 @@ public:
 
 	virtual void Draw();
 
-private:
-	void DrawBackground(double sunPosition);
+	virtual GenericActor* GetActor(string name);
+	GenericActor* GetSun() { return m_sun != NULL ? m_sun : GetActor("sun"); }
 
+private:
+	GenericActor	*m_sun;
+
+	void DrawBackground(double sunPosition);
 	COLORREF RecalcBackgroundColor(double sunPosition);
 };

@@ -33,7 +33,9 @@ int main()
 	return 0;
 }
 
-Scene::Scene(double width, double height) : GenericScene(width, height)
+Scene::Scene(double width, double height) :
+	GenericScene(width, height),
+	m_sun(NULL)
 {
 	AddActor(SUN,        new SunActor(-200, 200, m_sceneWidth / 15));
 	AddActor("mountain", new MountainsActor());
@@ -44,7 +46,7 @@ Scene::Scene(double width, double height) : GenericScene(width, height)
 
 void Scene::Draw()
 {
-	GenericActor *sun = GetActor(SUN);
+	GenericActor *sun = GetSun();
 	DrawBackground(sun->X());
 
 	GenericScene::Draw();
@@ -264,6 +266,18 @@ COLORREF Scene::RecalcBackgroundColor(double sunPosition)
 
 	return RGB(0, 0, blue);
 }
+
+GenericActor* Scene::GetActor(string name)
+{
+	if (name == "sun")
+	{
+		m_sun = m_sun != NULL ? m_sun : GenericScene::GetActor(name);
+		return m_sun;
+	}
+
+	return GenericScene::GetActor(name);
+}
+
 
 void GenericScene::Draw()
 {
