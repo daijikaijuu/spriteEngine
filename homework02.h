@@ -11,7 +11,10 @@ using std::pair;
 class GenericActor
 {
 public:
-	GenericActor(double x, double y) : m_x(x), m_y(y) {}
+	GenericActor(double x, double y) :
+		m_x(x),
+		m_y(y)
+	{}
 	virtual ~GenericActor() {}
 
 	virtual void Draw() = 0;
@@ -30,14 +33,15 @@ protected:
 	double m_x, m_y;
 };
 
-
 class SunActor : public GenericActor
 {
 public:
 	SunActor(double x, double y, double radius) :
 		GenericActor(x, y),
 		m_radius(radius),
-		m_angle(0), m_rotaryStartAngle(0), m_rotaryEndAngle(0)
+		m_angle(0),
+		m_rotaryStartAngle(0),
+		m_rotaryEndAngle(0)
 	{}
 
 	virtual void Draw();
@@ -60,7 +64,10 @@ class HouseActor : public GenericActor
 {
 public:
 	HouseActor(double x, double y, double width, double height, bool doorLeft = false) :
-		GenericActor(x, y), m_width(width), m_height(height), m_doorLeft(doorLeft)
+		GenericActor(x, y),
+		m_width(width),
+		m_height(height),
+		m_doorLeft(doorLeft)
 	{}
 
 	virtual void Draw();
@@ -74,7 +81,10 @@ private:
 class HumanActor : public GenericActor
 {
 public:
-	HumanActor(double x, double y, double height) : GenericActor(x, y), m_height(height) {}
+	HumanActor(double x, double y, double height) : 
+		GenericActor(x, y),
+		m_height(height)
+	{}
 
 	virtual void Draw();
 	virtual void Animate() { Draw(); }
@@ -87,7 +97,10 @@ class TreeActor : public GenericActor
 {
 public:
 	TreeActor(double x, double y, double width, double height, COLORREF color) :
-		GenericActor(x, y), m_width(width), m_height(height), m_color(color)
+		GenericActor(x, y),
+		m_width(width),
+		m_height(height),
+		m_color(color)
 	{}
 
 	virtual void Draw();
@@ -101,7 +114,8 @@ private:
 class MountainsActor : public GenericActor
 {
 public:
-	MountainsActor(double x = 0, double y = 0) : GenericActor(x, y)
+	MountainsActor(double x = 0, double y = 0) : 
+		GenericActor(x, y)
 	{}
 
 	virtual void Draw();
@@ -112,7 +126,10 @@ class GenericScene
 {
 	using actorsMap = unordered_map<string, GenericActor*>;
 public:
-	GenericScene(double width, double height) : m_sceneWidth(width), m_sceneHeight(height), m_actors()
+	GenericScene(double width, double height) :
+		m_sceneWidth(width),
+		m_sceneHeight(height),
+		m_actors()
 	{}
 
 	virtual ~GenericScene()
