@@ -11,9 +11,10 @@ using std::pair;
 class GenericActor
 {
 public:
-	GenericActor(double x, double y) :
+	GenericActor(double x, double y, bool animated = true) :
 		m_x(x),
-		m_y(y)
+		m_y(y),
+		m_animated(animated)
 	{}
 	virtual ~GenericActor() {}
 
@@ -31,6 +32,7 @@ public:
 
 protected:
 	double m_x, m_y;
+	bool   m_animated;
 };
 
 class SunActor : public GenericActor
@@ -42,7 +44,9 @@ public:
 		m_angle(0),
 		m_rotaryStartAngle(0),
 		m_rotaryEndAngle(0)
-	{}
+	{
+		recalcAngles();
+	}
 
 	virtual void Draw();
 	virtual void Animate();
@@ -74,23 +78,33 @@ public:
 	virtual void Animate() { Draw(); }
 
 private:
-	double m_width, m_height;
-	bool   m_doorLeft;
+	double   m_width, m_height;
+	bool     m_doorLeft;
 };
 
 class HumanActor : public GenericActor
 {
 public:
-	HumanActor(double x, double y, double height) : 
-		GenericActor(x, y),
-		m_height(height)
-	{}
+	HumanActor(double x, double y, double height, bool animated = true) : 
+		GenericActor(x, y, animated),
+		m_height(height),
+		m_leftHand(0),
+		m_rightHand(0),
+		m_handDelta(0),
+		m_backwardHandMovement(false)
+	{
+		RecalcHandsPosition();
+	}
 
 	virtual void Draw();
-	virtual void Animate() { Draw(); }
+	virtual void Animate();
 
 private:
 	double m_height;
+	double m_leftHand, m_rightHand, m_handDelta;
+	bool   m_backwardHandMovement;
+
+	void RecalcHandsPosition();
 };
 
 class TreeActor : public GenericActor

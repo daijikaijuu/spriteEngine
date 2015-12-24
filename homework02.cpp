@@ -56,6 +56,7 @@ void Scene::Draw()
 	}
 }
 
+
 void SunActor::Draw()
 {
 	txSetColor(TX_YELLOW, 3);
@@ -82,8 +83,11 @@ void SunActor::Animate()
 {
 	Draw();
 
-	m_angle += 0.05f;
-	recalcAngles();
+	if (m_animated)
+	{
+		m_angle += 0.05f;
+		recalcAngles();
+	}
 }
 
 
@@ -139,7 +143,6 @@ void HouseActor::Draw()
 	txLine(x1, ACTOR_Y_PLACEMENT - m_height * 40 / 100, x1, ACTOR_Y_PLACEMENT - 6);
 }
 
-
 void HumanActor::Draw()
 {
 	txSetColor(TX_BLACK, 3);
@@ -148,8 +151,10 @@ void HumanActor::Draw()
 	// body
 	txLine(m_x, m_y + m_height / 20, m_x, m_y + m_height * 60 / 100);
 	txCircle(m_x, m_y + m_height / 10, m_height * 15 / 100);
-	txLine(m_x, m_y + m_height * 35 / 100, m_x + m_height * 25 / 100, m_y + m_height * 30 / 100);
-	txLine(m_x, m_y + m_height * 35 / 100, m_x - m_height * 25 / 100, m_y + m_height * 30 / 100);
+	// hands
+	txLine(m_x, m_y + m_height * 35 / 100, m_x + m_height * 25 / 100, m_leftHand);
+	txLine(m_x, m_y + m_height * 35 / 100, m_x - m_height * 25 / 100, m_rightHand);
+	// legs
 	txLine(m_x, m_y + m_height * 60 / 100, m_x - m_height * 20 / 100, m_y + m_height);
 	txLine(m_x, m_y + m_height * 60 / 100, m_x + m_height * 20 / 100, m_y + m_height);
 	txSetFillColor(TX_WHITE);
@@ -160,6 +165,34 @@ void HumanActor::Draw()
 	txLine(m_x, m_y + m_height * 15 / 100 * 50 / 100, m_x, m_y + m_height * 13 / 100);
 	// mouth
 	txEllipse(m_x - m_height * 15 / 100 / 2.5, m_y + m_height * 16 / 100, m_x + m_height * 15 / 100 / 2.5, m_y + m_height * 18 / 100);
+}
+
+void HumanActor::Animate()
+{
+	if (m_animated)
+	{
+		RecalcHandsPosition();
+	}
+	Draw();
+}
+
+void HumanActor::RecalcHandsPosition()
+{
+	double steps = 100;
+	double step = m_height * 30 / 100 / steps;
+
+	m_leftHand  = m_y + step * m_handDelta;
+	m_rightHand = m_y + step * m_handDelta;
+
+	if (m_handDelta > steps)
+	{
+		m_backwardHandMovement = true;
+	}
+	if (m_handDelta < 0)
+	{
+		m_backwardHandMovement = false;
+	}
+	m_handDelta = m_backwardHandMovement ? m_handDelta - 1 : m_handDelta + 1;
 }
 
 void TreeActor::Draw()
@@ -235,6 +268,7 @@ void MountainsActor::Draw()
 	};
 	txPolygon(snowcap, a_size(snowcap));
 }
+
 
 void Scene::DrawBackground(double sunPosition)
 {
