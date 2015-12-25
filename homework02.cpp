@@ -90,7 +90,7 @@ BOOL CreateGLWindow(LPWSTR title, int width, int height, int bits)
         return FALSE;
 
     dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
-    dwStyle = WS_OVERLAPPEDWINDOW;
+    dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
 
     AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle);
 
