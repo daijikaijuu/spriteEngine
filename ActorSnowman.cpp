@@ -21,10 +21,11 @@ void ActorSnowman::Draw()
     double middleY = bottomY + bottomRadius + middleRadius;
     double topY = middleY + middleRadius + topRadius;
 
-    glColor3f(1.0f, 1.0f, 1.0f);
-    drawCircle(m_x, bottomY, bottomRadius);
-    drawCircle(m_x, middleY, middleRadius * 1.1f);
-    drawCircle(m_x, topY, topRadius * 1.1f);
+    double innerColor[] = { 0.4f, 0.4f, 0.4f };
+    double outterColor[] = { 1.0f, 1.0f, 1.0f };
+    drawRadialGradientCircle(m_x, bottomY, bottomRadius, outterColor, innerColor);
+    drawRadialGradientCircle(m_x, middleY, middleRadius * 1.1f, outterColor, innerColor);
+    drawRadialGradientCircle(m_x, topY, topRadius * 1.1f, outterColor, innerColor);
 }
 
 void ActorSnowman::Animate()

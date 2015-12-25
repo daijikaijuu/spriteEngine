@@ -19,15 +19,16 @@ ActorSun::~ActorSun()
 void ActorSun::Draw()
 {
     double radius = m_size / 3;
-
-    glColor3f(1.0f, 1.0f, 0.0f);
-    drawCircle(m_x, m_y, radius);
+    double innerColor[] = { 0.6f, 0.6f, 0.0f };
+    double outterColor[] = { 1.0f, 1.0f, 0.0f };
+    drawRadialGradientCircle(m_x, m_y, radius, outterColor, innerColor);
 
     double length = radius;
     double rays = 16;
     double theta = m_rotaryStartAngle;
     double angleAmount = (m_rotaryEndAngle - m_rotaryStartAngle) / rays;
 
+    glColor3dv(outterColor);
     for (int i = 0; i < rays; i++)
     {
         double x1 = m_x + cos(theta) * radius * 1.2f;
