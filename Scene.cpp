@@ -3,6 +3,7 @@
 #include "ActorHouse.h"
 #include "ActorSun.h"
 #include "ActorSnowman.h"
+#include "ActorCloud.h"
 
 Scene::Scene(double width, double height) :
     GenericScene(width, height),
@@ -11,6 +12,7 @@ Scene::Scene(double width, double height) :
     AddActor("sun", new ActorSun(-200.0f, m_sceneHeight - 100.0f, 100.0f));
     AddActor("house", new ActorHouse(400, 0));
     AddActor("snowman", new ActorSnowman(100, 10));
+    AddActor("cloud01", new ActorCloud(0, m_sceneHeight - 200, m_sceneWidth, 200));
 }
 
 
@@ -58,5 +60,5 @@ void Scene::RecalcBackground()
     double step = m_sceneWidth / 255;
     double blue = sunX / step / 255;
 
-    glClearColor(0.0f, 0.0f, (float)blue, 0.5f);
+    glClearColor(0.0f, 0.0f, (double)blue, 1.0f);
 }
