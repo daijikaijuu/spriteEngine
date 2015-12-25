@@ -1,10 +1,8 @@
 // 2015 Domrachev Alexandr <Alexandr.Domrachev@gmail.com>
 #include "TXLib.h"
-#include <unordered_map>
+#include <map>
 
 using std::string;
-using std::unordered_map;
-using std::pair;
 
 #define a_size(T) (sizeof(T) / sizeof(*T))
 
@@ -153,12 +151,13 @@ private:
 
 class GenericScene
 {
-	using actorsMap = unordered_map<string, GenericActor*>;
+	using actorsMap = std::map<string, GenericActor*>;
 public:
 	GenericScene(double width, double height) :
 		m_sceneWidth(width),
 		m_sceneHeight(height),
-		m_actors()
+		m_actors(),
+		m_actorsIndex()
 	{}
 
 	virtual ~GenericScene()
@@ -168,6 +167,7 @@ public:
 			delete it.second;
 		}
 		m_actors.clear();
+		m_actorsIndex.clear();
 	}
 
 	virtual void Draw();
@@ -178,6 +178,7 @@ public:
 protected:
 	double    m_sceneWidth, m_sceneHeight;
 	actorsMap m_actors;
+	std::vector<string> m_actorsIndex;
 };
 
 class Scene : public GenericScene

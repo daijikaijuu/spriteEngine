@@ -35,6 +35,8 @@ Scene::Scene(double width, double height) :
 	GenericScene(width, height),
 	m_sun(NULL)
 {
+	// Order dependant
+	// First ones drawn firs
 	AddActor("sun",				new SunActor(-200, 200, m_sceneWidth / 15));
 	AddActor("cloudNearSun",	new CloudActor(m_sceneWidth - 300, 50, 200));
 	AddActor("cloud01",			new CloudActor(300, 100, 400));
@@ -335,15 +337,17 @@ GenericActor* Scene::GetActor(string name)
 
 void GenericScene::Draw()
 {
-	for (auto &it : m_actors)
+	for (auto &it : m_actorsIndex)
 	{
-		it.second->Animate();
+		GenericActor *actor = m_actors[it];
+		actor->Animate();
 	}
 }
 
 void GenericScene::AddActor(string name, GenericActor *actor)
 {
-	m_actors.insert(pair<string, GenericActor*>(name, actor));
+	m_actors.insert(std::pair<string, GenericActor*>(name, actor));
+	m_actorsIndex.push_back(name);
 }
 
 GenericActor* GenericScene::GetActor(string name)
