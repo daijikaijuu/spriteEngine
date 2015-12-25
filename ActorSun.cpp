@@ -30,10 +30,10 @@ void ActorSun::Draw()
 
     for (int i = 0; i < rays; i++)
     {
-        float x1 = m_x + cos(theta) * radius * 1.2f;
-        float y1 = m_y + sin(theta) * radius * 1.2f;
-        float x2 = x1 + cos(theta) * length;
-        float y2 = y1 + sin(theta) * length;
+        double x1 = m_x + cos(theta) * radius * 1.2f;
+        double y1 = m_y + sin(theta) * radius * 1.2f;
+        double x2 = x1 + cos(theta) * length;
+        double y2 = y1 + sin(theta) * length;
         theta += angleAmount;
         glBegin(GL_LINES);
         glVertex2d(x1, y1);
