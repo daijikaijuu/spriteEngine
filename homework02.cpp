@@ -35,11 +35,14 @@ Scene::Scene(double width, double height) :
 	GenericScene(width, height),
 	m_sun(NULL)
 {
-	AddActor("sun",      new SunActor(-200, 200, m_sceneWidth / 15));
-	AddActor("mountain", new MountainsActor());
-	AddActor("human",    new HumanActor(900, ACTOR_Y_PLACEMENT - 30, 60));
-	AddActor("tree",     new TreeActor(200, ACTOR_Y_PLACEMENT, 100, 300, RGB(0, 100, 0)));
-	AddActor("house",    new HouseActor(700, 200, 200, 200, true));
+	AddActor("sun",				new SunActor(-200, 200, m_sceneWidth / 15));
+	AddActor("cloudNearSun",	new CloudActor(m_sceneWidth - 300, 50, 200));
+	AddActor("cloud01",			new CloudActor(300, 100, 400));
+	AddActor("cloud02",			new CloudActor(100, 40, 200));
+	AddActor("mountain",		new MountainsActor());
+	AddActor("human",			new HumanActor(900, ACTOR_Y_PLACEMENT - 30, 60));
+	AddActor("tree",			new TreeActor(200, ACTOR_Y_PLACEMENT, 100, 300, RGB(0, 100, 0)));
+	AddActor("house",			new HouseActor(700, 200, 200, 200, true));
 }
 
 void Scene::Draw()
@@ -269,6 +272,25 @@ void MountainsActor::Draw()
 	txPolygon(snowcap, a_size(snowcap));
 }
 
+
+void CloudActor::Draw()
+{
+	txSetColor(TX_WHITE, 0);
+	txSetFillColor(TX_WHITE);
+
+	double x = m_x;
+	double y = m_y;
+	double xs = m_size;
+	double ys = m_size * 2 / 5;
+
+	txEllipse(x,            y + ys / 3,   x + xs, y + ys);
+	txEllipse(x + xs / 5,	y,            x + xs, y + ys);
+	txEllipse(x + xs / 5,	y + ys / 1.5, x + xs, y + ys);
+	txEllipse(x + xs / 2.5, y + ys / 1.5, x + xs, y + ys);
+	txEllipse(x + xs / 1.6, y,            x + xs, y + ys);
+	txEllipse(x + xs / 1.6, y + ys,		  x + xs, y + ys);
+	txEllipse(x + xs / 1.4, y + ys / 1.2, x + xs, y + ys);
+}
 
 void Scene::DrawBackground(double sunPosition)
 {

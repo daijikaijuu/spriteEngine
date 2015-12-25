@@ -136,6 +136,21 @@ public:
 	virtual void Animate() { Draw(); }
 };
 
+class CloudActor : public GenericActor
+{
+public:
+	CloudActor(double x, double y, double size = 200) :
+		GenericActor(x, y),
+		m_size(size)
+	{}
+
+	virtual void Draw();
+	virtual void Animate() { Draw(); }
+
+private:
+	double m_size;
+};
+
 class GenericScene
 {
 	using actorsMap = unordered_map<string, GenericActor*>;
