@@ -1,387 +1,250 @@
 // 2015 Domrachev Alexandr <Alexandr.Domrachev@gmail.com>
 #include "homework02.h"
+#include "Scene.h"
 
-const int WIDTH = 1028;
-const int HEIGHT = 720;
-const int GROUND_LEVEL = HEIGHT - 120;
-const int ACTOR_Y_PLACEMENT = GROUND_LEVEL + (HEIGHT - GROUND_LEVEL) / 2;
+HDC			hDC = NULL;
+HGLRC		hRC = NULL;
+HWND		hWnd = NULL;
+HINSTANCE	hInstance;
+Scene       *scene = NULL;
 
-Scene *scene= NULL;
+bool keys[256];
+bool active = true;
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-void CleanUP();
+LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-int main()
+GLvoid ResizeGLScene(GLsizei width, GLsizei height)
 {
-	txCreateWindow(WIDTH, HEIGHT);
-	txSetWindowsHook(WndProc);
+    if (height == 0)
+        height = 1;
 
-	scene = new Scene(WIDTH, HEIGHT);
+    glViewport(0, 0, width, height);
+    if (scene)
+        scene->ResizeScene(width, height);
 
-	while (!GetAsyncKeyState(VK_ESCAPE))
-	{
-		txBegin();
-		if (scene != NULL)
-		{
-			scene->Draw();
-		}
-		txEnd();
-	}
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
 
-	return 0;
+    gluOrtho2D(0.0f, width, 0.0f, height);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
-Scene::Scene(double width, double height) :
-	GenericScene(width, height),
-	m_sun(NULL)
+int InitGL(GLvoid)
 {
-	// Order dependant
-	// First ones drawn firs
-	AddActor("sun",				new SunActor(-200, 200, m_sceneWidth / 15));
-	AddActor("cloudNearSun",	new CloudActor(m_sceneWidth - 300, 50, 200));
-	AddActor("cloud01",			new CloudActor(300, 100, 400));
-	AddActor("cloud02",			new CloudActor(100, 40, 200));
-	AddActor("mountain",		new MountainsActor());
-	AddActor("human",			new HumanActor(900, ACTOR_Y_PLACEMENT - 30, 60));
-	AddActor("tree",			new TreeActor(200, ACTOR_Y_PLACEMENT, 100, 300, RGB(0, 100, 0)));
-	AddActor("house",			new HouseActor(700, 200, 200, 200, true));
+    glShadeModel(GL_SMOOTH);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
+    glClearDepth(1.0f);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+    return true;
 }
 
-void Scene::Draw()
+GLvoid KillGLWindow(GLvoid)
 {
-	GenericActor *sun = GetSun();
-	DrawBackground(sun->X());
+    if (hRC)
+    {
+        wglMakeCurrent(NULL, NULL);
+        wglDeleteContext(hRC);
+        hRC = NULL;
+    }
 
-	GenericScene::Draw();
+    if (hDC && !ReleaseDC(hWnd, hDC))
+    {
+        hDC = NULL;
+    }
 
-	double x = sun->X();
-	if (x < m_sceneWidth - 100)
-	{
-		sun->Move(0.3f, 0);
-	}
+    if (hWnd && !DestroyWindow(hWnd))
+    {
+        hWnd = NULL;
+    }
+
+    if (!UnregisterClass(L"Homework02OpenGLWindow", hInstance))
+        hInstance = NULL;
 }
 
-
-void SunActor::Draw()
+BOOL CreateGLWindow(LPWSTR title, int width, int height, int bits)
 {
-	txSetColor(TX_YELLOW, 3);
-	txSetFillColor(TX_YELLOW);
-	txCircle(m_x - m_radius, m_y - m_radius, m_radius);
+    GLuint		PixelFormat;
+    WNDCLASS    wc;
+    DWORD       dwExStyle;
+    DWORD       dwStyle;
+    RECT        WindowRect = { 0, 0, width, height };
 
-	double length = m_radius;
-	double rays = 16;
-	double theta = m_rotaryStartAngle;
-	double angleAmount = (m_rotaryEndAngle - m_rotaryStartAngle) / rays;
+    hInstance = GetModuleHandle(NULL);
+    wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    wc.lpfnWndProc = (WNDPROC)WndProc;
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hInstance = hInstance;
+    wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground = NULL;
+    wc.lpszMenuName = NULL;
+    wc.lpszClassName = L"Homework02OpenGLWindow";
 
-	for (int i = 0; i < rays; ++i)
-	{
-		double x1 = m_x - m_radius + cos(theta) * m_radius * 1.2;
-		double y1 = m_y - m_radius + sin(theta) * m_radius * 1.2;
-		double x2 = x1 + cos(theta) * length;
-		double y2 = y1 + sin(theta) * length;
-		theta += angleAmount;
-		txLine(x1, y1, x2, y2);
-	}
+    if (!RegisterClass(&wc))
+        return FALSE;
+
+    dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
+    dwStyle = WS_OVERLAPPEDWINDOW;
+
+    AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle);
+
+    hWnd = CreateWindowEx(
+        dwExStyle,
+        L"Homework02OpenGLWindow",
+        title,
+        dwStyle | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
+        0, 0,
+        WindowRect.right - WindowRect.left,
+        WindowRect.bottom - WindowRect.top,
+        NULL,
+        NULL,
+        hInstance,
+        NULL);
+    if (!hWnd)
+    {
+        KillGLWindow();
+        return FALSE;
+    }
+
+    static	PIXELFORMATDESCRIPTOR pfd =				// pfd Tells Windows How We Want Things To Be
+    {
+        sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
+        1,											// Version Number
+        PFD_DRAW_TO_WINDOW |						// Format Must Support Window
+        PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
+        PFD_DOUBLEBUFFER,							// Must Support Double Buffering
+        PFD_TYPE_RGBA,								// Request An RGBA Format
+        bits,										// Select Our Color Depth
+        0, 0, 0, 0, 0, 0,							// Color Bits Ignored
+        0,											// No Alpha Buffer
+        0,											// Shift Bit Ignored
+        0,											// No Accumulation Buffer
+        0, 0, 0, 0,									// Accumulation Bits Ignored
+        16,											// 16Bit Z-Buffer (Depth Buffer)  
+        0,											// No Stencil Buffer
+        0,											// No Auxiliary Buffer
+        PFD_MAIN_PLANE,								// Main Drawing Layer
+        0,											// Reserved
+        0, 0, 0										// Layer Masks Ignored
+    };
+
+    if (!(hDC = GetDC(hWnd)))
+    {
+        KillGLWindow();
+        return FALSE;
+    }
+
+    if (!(PixelFormat = ChoosePixelFormat(hDC, &pfd)))
+    {
+        KillGLWindow();
+        return FALSE;
+    }
+
+    if (!SetPixelFormat(hDC, PixelFormat, &pfd))
+    {
+        KillGLWindow();
+        return FALSE;
+    }
+
+    if (!(hRC = wglCreateContext(hDC)))
+    {
+        KillGLWindow();
+        return FALSE;
+    }
+
+    if (!wglMakeCurrent(hDC, hRC))
+    {
+        KillGLWindow();
+        return FALSE;
+    }
+
+    ShowWindow(hWnd, SW_SHOW);
+    SetForegroundWindow(hWnd);
+    SetFocus(hWnd);
+
+    ResizeGLScene(width, height);
+
+    if (!InitGL())
+    {
+        KillGLWindow();
+        return FALSE;
+    }
+
+    return TRUE;
 }
 
-void SunActor::Animate()
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	Draw();
+    switch (uMsg)
+    {
+    case WM_ACTIVATE:
+        active = HIWORD(wParam) ? false : true;
+        return 0;
+    case WM_SIZE:
+        ResizeGLScene(LOWORD(lParam), HIWORD(lParam));
+        return 0;
+    case WM_CLOSE:
+        PostQuitMessage(0);
+        return 0;
+    case WM_KEYDOWN:
+        keys[wParam] = true;
+        return 0;
+    case WM_KEYUP:
+        keys[wParam] = false;
+        return 0;
+    }
 
-	if (m_animated)
-	{
-		m_angle += 0.05f;
-		recalcAngles();
-	}
+    return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-
-void HouseActor::Draw()
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	txSetColor(TX_DARKGRAY, 1);
-	txSetFillColor(TX_DARKGRAY);
-	txRectangle(
-		m_x - m_width / 2, ACTOR_Y_PLACEMENT - m_height,
-		m_x + m_width / 2, ACTOR_Y_PLACEMENT
-	);
+    MSG     msg;
+    bool    done = false;
 
-	// roof
-	txSetColor(TX_RED, 1);
-	txSetFillColor(TX_RED);
-	POINT roof[] = {
-		{(LONG)(m_x - m_width / 2), (LONG)(ACTOR_Y_PLACEMENT - m_height)},
-		{(LONG)(m_x + m_width / 2), (LONG)(ACTOR_Y_PLACEMENT - m_height)},
-		{(LONG)m_x,                 (LONG)(ACTOR_Y_PLACEMENT - m_height - m_height * 25 / 100)}
-	};
-	txPolygon(roof, a_size(roof));
+    CreateGLWindow(L"Homework02 openGL rework", 800, 600, 32);
 
-	// windows
-	txSetFillColor(TX_DARKGRAY);
-	double xOffset = m_width * 6.666666666 / 100;
-	double yOffset = m_height * 4 / 100;
-	double x1 = m_x - m_width / 2 + xOffset;
-	double y1 = ACTOR_Y_PLACEMENT - m_height + yOffset;
-	double windowWidth = m_width * 40 / 100;
-	double windowHeight = m_height * 35 / 100;
-	for (int ix = 0; ix < 2; ++ix)
-	{
-		for (int iy = 0; iy < 2; ++iy)
-		{
-			txSetColor(TX_BLACK, 6);
-			txRectangle(
-				x1 + (xOffset + windowWidth) * ix, y1 + (yOffset + windowHeight) * iy,
-				x1 + (xOffset + windowWidth) * ix + windowWidth, y1 + (yOffset + windowHeight) * iy + windowHeight);
-			txSetColor(TX_BLACK, 3);
-			txLine(
-				x1 + (xOffset + windowWidth) * ix, y1 + (yOffset + windowHeight) * iy + windowHeight / 3,
-				x1 + (xOffset + windowWidth) * ix + windowWidth, y1 + (yOffset + windowHeight) * iy + windowHeight / 3);
-			txLine(
-				x1 + (xOffset + windowWidth) * ix + windowWidth / 2, y1 + (yOffset + windowHeight) * iy,
-				x1 + (xOffset + windowWidth) * ix + windowWidth / 2, y1 + (yOffset + windowHeight) * iy + windowHeight);
-		}
-	}
+    scene = new Scene(800, 600);
 
+    while (!done)
+    {
+        if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        {
+            if (msg.message == WM_QUIT)
+            {
+                done = true;
+            }
+            else
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+        }
+        else
+        {
+            if (active)
+            {
+                if (keys[VK_ESCAPE])
+                {
+                    done = true;
+                }
+                else
+                {
+                    scene->Draw();
+                    SwapBuffers(hDC);
+                }
+            }
+        }
+    }
 
-	// door
-	txSetColor(TX_BLACK, 6);
-	x1 = m_doorLeft ? m_x - m_width / 2 - 1 : m_x + m_width / 2 + 1;
-	txLine(x1, ACTOR_Y_PLACEMENT - m_height * 40 / 100, x1, ACTOR_Y_PLACEMENT - 6);
-}
+    KillGLWindow();
+    delete scene;
 
-void HumanActor::Draw()
-{
-	txSetColor(TX_BLACK, 3);
-	txSetFillColor(TX_PINK);
-
-	// body
-	txLine(m_x, m_y + m_height / 20, m_x, m_y + m_height * 60 / 100);
-	txCircle(m_x, m_y + m_height / 10, m_height * 15 / 100);
-	// hands
-	txLine(m_x, m_y + m_height * 35 / 100, m_x + m_height * 25 / 100, m_leftHand);
-	txLine(m_x, m_y + m_height * 35 / 100, m_x - m_height * 25 / 100, m_rightHand);
-	// legs
-	txLine(m_x, m_y + m_height * 60 / 100, m_x - m_height * 20 / 100, m_y + m_height);
-	txLine(m_x, m_y + m_height * 60 / 100, m_x + m_height * 20 / 100, m_y + m_height);
-	txSetFillColor(TX_WHITE);
-	// eyes
-	txCircle(m_x - m_height * 15 / 100 / 2.5, m_y + m_height * 15 / 100 * 20 / 100, m_height * 15 / 100 * 15 / 100);
-	txCircle(m_x + m_height * 15 / 100 / 2.5, m_y + m_height * 15 / 100 * 20 / 100, m_height * 15 / 100 * 15 / 100);
-	// nose
-	txLine(m_x, m_y + m_height * 15 / 100 * 50 / 100, m_x, m_y + m_height * 13 / 100);
-	// mouth
-	txEllipse(m_x - m_height * 15 / 100 / 2.5, m_y + m_height * 16 / 100, m_x + m_height * 15 / 100 / 2.5, m_y + m_height * 18 / 100);
-}
-
-void HumanActor::Animate()
-{
-	if (m_animated)
-	{
-		RecalcHandsPosition();
-	}
-	Draw();
-}
-
-void HumanActor::RecalcHandsPosition()
-{
-	double steps = 100;
-	double step = m_height * 30 / 100 / steps;
-
-	m_leftHand  = m_y + step * m_handDelta;
-	m_rightHand = m_y + step * m_handDelta;
-
-	if (m_handDelta > steps)
-	{
-		m_backwardHandMovement = true;
-	}
-	if (m_handDelta < 0)
-	{
-		m_backwardHandMovement = false;
-	}
-	m_handDelta = m_backwardHandMovement ? m_handDelta - 1 : m_handDelta + 1;
-}
-
-void TreeActor::Draw()
-{
-	txSetFillColor(m_color);
-	txSetColor(m_color, 1);
-
-	POINT tree[] = {
-		{(LONG)(m_x),                 (LONG)(m_y - m_height)},
-		{(LONG)(m_x - m_width / 4),   (LONG)(m_y - m_height / 1.2)},
-		{(LONG)(m_x - m_width / 6),   (LONG)(m_y - m_height / 1.2)},
-		{(LONG)(m_x - m_width / 3),   (LONG)(m_y - m_height / 1.3)},
-		{(LONG)(m_x - m_width / 6),   (LONG)(m_y - m_height / 1.3)},
-		{(LONG)(m_x - m_width / 2.8), (LONG)(m_y - m_height / 1.5)},
-		{(LONG)(m_x - m_width / 5.8), (LONG)(m_y - m_height / 1.47)},
-		{(LONG)(m_x - m_width / 2.5), (LONG)(m_y - m_height / 1.9)},
-		{(LONG)(m_x - m_width / 5.8), (LONG)(m_y - m_height / 1.9)},
-		{(LONG)(m_x - m_width / 1.5), (LONG)(m_y - m_height * 15 / 100)},
-		{(LONG)(m_x),                 (LONG)(m_y - m_height * 15 / 100)},
-		{(LONG)(m_x),                 (LONG)(m_y - m_height)},
-		{(LONG)(m_x + m_width / 4),   (LONG)(m_y - m_height / 1.2)},
-		{(LONG)(m_x + m_width / 6),   (LONG)(m_y - m_height / 1.2)},
-		{(LONG)(m_x + m_width / 3),   (LONG)(m_y - m_height / 1.3)},
-		{(LONG)(m_x + m_width / 6),   (LONG)(m_y - m_height / 1.3)},
-		{(LONG)(m_x + m_width / 2.8), (LONG)(m_y - m_height / 1.5)},
-		{(LONG)(m_x + m_width / 5.8), (LONG)(m_y - m_height / 1.47)},
-		{(LONG)(m_x + m_width / 2.5), (LONG)(m_y - m_height / 1.9)},
-		{(LONG)(m_x + m_width / 5.8), (LONG)(m_y - m_height / 1.9)},
-		{(LONG)(m_x + m_width / 1.5), (LONG)(m_y - m_height * 15 / 100)},
-		{(LONG)(m_x),                 (LONG)(m_y - m_height * 15 / 100)}
-	};
-	txPolygon(tree, a_size(tree));
-
-	txSetFillColor(RGB(55, 50, 30));
-	txSetColor(m_color, 1);
-	txRectangle(m_x - m_width / 7, m_y - m_height * 15 / 100, m_x + m_width / 7, m_y);
-}
-
-void MountainsActor::Draw()
-{
-	// background mountains
-	txSetFillColor(RGB(30, 30, 30));
-	txSetColor(RGB(30, 30, 30));
-	POINT bg_mountain[] = {
-		{0, GROUND_LEVEL},
-		{WIDTH / 5, GROUND_LEVEL / 2},
-		{WIDTH / 2, GROUND_LEVEL},
-		{WIDTH - WIDTH / 5, GROUND_LEVEL / 2},
-		{WIDTH, GROUND_LEVEL}
-	};
-	txPolygon(bg_mountain, a_size(bg_mountain));
-
-	// foreground mountain
-	txSetFillColor(RGB(50, 50, 50));
-	txSetColor(RGB(50, 50, 50));
-	POINT fg_mountain[] = {
-		{(LONG)(WIDTH / 5),         GROUND_LEVEL},
-		{(LONG)(WIDTH / 2.7),       (LONG)(GROUND_LEVEL / 1.87)},
-		{(LONG)(WIDTH / 2.5),       (LONG)(GROUND_LEVEL / 1.9)},
-		{(LONG)(WIDTH / 2),         (LONG)(GROUND_LEVEL / 4)},
-		{(LONG)(WIDTH / 1.5),       (LONG)(GROUND_LEVEL / 1.9)},
-		{(LONG)(WIDTH - WIDTH / 5), GROUND_LEVEL}
-	};
-	txPolygon(fg_mountain, a_size(fg_mountain));
-
-	// snowcap
-	txSetFillColor(RGB(200, 200, 200));
-	txSetColor(RGB(200, 200, 200));
-	POINT snowcap[] = {
-		{(LONG)(WIDTH / 2.5), (LONG)(GROUND_LEVEL / 1.9)},
-		{(LONG)(WIDTH / 2),   (LONG)(GROUND_LEVEL / 4)},
-		{(LONG)(WIDTH / 1.5), (LONG)(GROUND_LEVEL / 1.9)}
-	};
-	txPolygon(snowcap, a_size(snowcap));
-}
-
-
-void CloudActor::Draw()
-{
-	txSetColor(TX_WHITE, 0);
-	txSetFillColor(TX_WHITE);
-
-	double x = m_x;
-	double y = m_y;
-	double xs = m_size;
-	double ys = m_size * 2 / 5;
-
-	txEllipse(x,            y + ys / 3,   x + xs, y + ys);
-	txEllipse(x + xs / 5,	y,            x + xs, y + ys);
-	txEllipse(x + xs / 5,	y + ys / 1.5, x + xs, y + ys);
-	txEllipse(x + xs / 2.5, y + ys / 1.5, x + xs, y + ys);
-	txEllipse(x + xs / 1.6, y,            x + xs, y + ys);
-	txEllipse(x + xs / 1.6, y + ys,		  x + xs, y + ys);
-	txEllipse(x + xs / 1.4, y + ys / 1.2, x + xs, y + ys);
-}
-
-void Scene::DrawBackground(double sunPosition)
-{
-	// sky
-	COLORREF backgroundColor = RecalcBackgroundColor(sunPosition);
-	txSetColor(backgroundColor, 1);
-	txSetFillColor(backgroundColor);
-	txRectangle(0, 0, m_sceneWidth, GROUND_LEVEL);
-
-	// grass
-	txSetColor(TX_GREEN, 1);
-	txSetFillColor(TX_GREEN);
-	txRectangle(0, GROUND_LEVEL, m_sceneWidth, m_sceneHeight);
-}
-
-COLORREF Scene::RecalcBackgroundColor(double sunPosition)
-{
-	if ((sunPosition < 0) || (sunPosition > m_sceneWidth))
-	{
-		return RGB(0, 0, 0);
-	}
-
-	unsigned short blue = 0;
-	double step = m_sceneWidth / 255;
-	blue = (unsigned short)(sunPosition / step);
-	if (blue > 255) blue = 255;
-
-	return RGB(0, 0, blue);
-}
-
-GenericActor* Scene::GetActor(string name)
-{
-	if (name == "sun")
-	{
-		m_sun = m_sun != NULL ? m_sun : GenericScene::GetActor(name);
-		return m_sun;
-	}
-
-	return GenericScene::GetActor(name);
-}
-
-
-void GenericScene::Draw()
-{
-	for (auto &it : m_actorsIndex)
-	{
-		GenericActor *actor = m_actors[it];
-		actor->Animate();
-	}
-}
-
-void GenericScene::AddActor(string name, GenericActor *actor)
-{
-	m_actors.insert(std::pair<string, GenericActor*>(name, actor));
-	m_actorsIndex.push_back(name);
-}
-
-GenericActor* GenericScene::GetActor(string name)
-{
-	actorsMap::iterator it = m_actors.find(name);
-	assert(it != m_actors.end());
-
-	return it->second;
-}
-
-
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	UNREFERENCED_PARAMETER(hWnd);
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
-
-	switch (message)
-	{
-	case WM_DESTROY:
-		CleanUP();
-		break;
-	default:
-		break;
-	}
-
-	return 0;
-}
-
-void CleanUP()
-{
-	if (scene != NULL)
-	{
-		delete scene;
-		scene = NULL;
-	}
+    return (int)msg.wParam;
 }
