@@ -216,3 +216,5 @@ ModelManifest.xml
 homework02_build_log.html
 homework02.depend
 *.exe
+*.bmarks
+homework02.layout
