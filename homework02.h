@@ -2,8 +2,6 @@
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "glu32.lib")
 
-#define UNICODE
-
 #include <windows.h>
 #include <math.h>
 #include <GL/gl.h>

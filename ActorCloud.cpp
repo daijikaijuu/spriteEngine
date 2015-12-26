@@ -29,10 +29,10 @@ ActorCloud::ActorCloud(double x, double y, double width, double height) :
         for (int j = 0; j < 256; j++)
         {
             double color = m_map256[i * 256 + j];
-            m_texture[i][j][0] = color;
-            m_texture[i][j][1] = color;
-            m_texture[i][j][2] = color;
-            m_texture[i][j][3] = color;
+            m_texture[i][j][0] = (char)color;
+            m_texture[i][j][1] = (char)color;
+            m_texture[i][j][2] = (char)color;
+            m_texture[i][j][3] = (char)color;
         }
     }
 

@@ -14,6 +14,7 @@
 					<Add option="-DWIN32" />
 					<Add option="-D_DEBUG" />
 					<Add option="-D_CONSOLE" />
+					<Add option="-DUNICODE" />
 				</Compiler>
 				<Linker>
 					<Add library="opengl32" />
@@ -27,6 +28,7 @@
 				<Compiler>
 					<Add option="-D_DEBUG" />
 					<Add option="-D_CONSOLE" />
+					<Add option="-DUNICODE" />
 				</Compiler>
 				<Linker>
 					<Add library="opengl32" />
@@ -40,6 +42,7 @@
 				<Compiler>
 					<Add option="-DNDEBUG" />
 					<Add option="-D_CONSOLE" />
+					<Add option="-DUNICODE" />
 				</Compiler>
 				<Linker>
 					<Add library="opengl32" />
@@ -54,6 +57,7 @@
 					<Add option="-DWIN32" />
 					<Add option="-DNDEBUG" />
 					<Add option="-D_CONSOLE" />
+					<Add option="-DUNICODE" />
 				</Compiler>
 				<Linker>
 					<Add library="opengl32" />

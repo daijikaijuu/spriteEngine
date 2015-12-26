@@ -60,5 +60,5 @@ void Scene::RecalcBackground()
     double step = m_sceneWidth / 255;
     double blue = sunX / step / 255;
 
-    glClearColor(0.0f, 0.0f, (double)blue, 1.0f);
+    glClearColor(0.0f, 0.0f, (float)blue, 1.0f);
 }
