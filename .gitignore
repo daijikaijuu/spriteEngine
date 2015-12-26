@@ -21,6 +21,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+.objs/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -66,6 +67,7 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
+*.o
 
 # Chutzpah Test files
 _Chutzpah*
@@ -210,3 +212,7 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+*.save
+homework02_build_log.html
+homework02.depend
+*.exe

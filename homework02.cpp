@@ -31,7 +31,7 @@ GLvoid ResizeGLScene(GLsizei width, GLsizei height)
     glLoadIdentity();
 }
 
-int InitGL(GLvoid)
+int InitGL()
 {
     glShadeModel(GL_SMOOTH);
     glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
@@ -43,7 +43,7 @@ int InitGL(GLvoid)
     return true;
 }
 
-GLvoid KillGLWindow(GLvoid)
+GLvoid KillGLWindow()
 {
     if (hRC)
     {
@@ -126,7 +126,7 @@ BOOL CreateGLWindow(LPWSTR title, int width, int height, int bits)
         0,											// Shift Bit Ignored
         0,											// No Accumulation Buffer
         0, 0, 0, 0,									// Accumulation Bits Ignored
-        16,											// 16Bit Z-Buffer (Depth Buffer)  
+        16,											// 16Bit Z-Buffer (Depth Buffer)
         0,											// No Stencil Buffer
         0,											// No Auxiliary Buffer
         PFD_MAIN_PLANE,								// Main Drawing Layer
