@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActorBackgroundMountain.cpp" />
     <ClCompile Include="ActorCloud.cpp" />
     <ClCompile Include="ActorHouse.cpp" />
     <ClCompile Include="ActorSnowman.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActorBackgroundMountain.h" />
     <ClInclude Include="ActorCloud.h" />
     <ClInclude Include="ActorHouse.h" />
     <ClInclude Include="ActorSnowman.h" />

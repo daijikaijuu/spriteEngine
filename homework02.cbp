@@ -69,6 +69,8 @@
 			<Add library="opengl32" />
 			<Add library="glu32" />
 		</Linker>
+		<Unit filename="ActorBackgroundMountain.cpp" />
+		<Unit filename="ActorBackgroundMountain.h" />
 		<Unit filename="ActorCloud.cpp" />
 		<Unit filename="ActorCloud.h" />
 		<Unit filename="ActorHouse.cpp" />
