@@ -19,6 +19,8 @@
 				<Linker>
 					<Add library="opengl32" />
 					<Add library="glu32" />
+					<Add library="freeglut" />
+					<Add directory="." />
 				</Linker>
 			</Target>
 			<Target title="Debug x64">
@@ -33,6 +35,8 @@
 				<Linker>
 					<Add library="opengl32" />
 					<Add library="glu32" />
+					<Add library="freeglut" />
+					<Add directory="." />
 				</Linker>
 			</Target>
 			<Target title="Release x64">
@@ -47,6 +51,8 @@
 				<Linker>
 					<Add library="opengl32" />
 					<Add library="glu32" />
+					<Add library="freeglut" />
+					<Add directory="." />
 				</Linker>
 			</Target>
 			<Target title="Release Win32">
@@ -62,6 +68,8 @@
 				<Linker>
 					<Add library="opengl32" />
 					<Add library="glu32" />
+					<Add library="freeglut" />
+					<Add directory="." />
 				</Linker>
 			</Target>
 		</Build>

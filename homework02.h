@@ -4,7 +4,7 @@
 
 #include <windows.h>
 #include <math.h>
-#include <GL/gl.h>
-#include <GL/GLU.h>
+#include <GL\GL.h>
+#include <GL\GLU.h>
 
 #define PI 3.1415926535897932384626433832795
