@@ -15,5 +15,7 @@ public:
 
 private:
     double *m_heights;
+
+    void CalculateHeights();
 };
 

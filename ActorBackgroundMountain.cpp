@@ -14,46 +14,7 @@ ActorBackgroundMountain::ActorBackgroundMountain(double width, double height) :
     GenericActor(width, height),
     m_heights(NULL)
 {
-    const int step = (int)m_x;
-    m_heights = new double[step];
-    srand((unsigned)time(NULL));
-
-    double buffer[4096];
-    unsigned char ucbuf[IBUFSIZE];
-    unsigned char wtb[256];
-
-    int i;
-    for (i = 0; i < 4096; i++)
-        buffer[i] = rand() / 32767.0f;
-    for (i = 0; i < IBUFSIZE; i++)
-        ucbuf[i] = rand();
-    for (i = 0; i < 256; i++)
-        wtb[i] = (unsigned char)(255 * fsc(i / 256.0f));
-
-
-    for (int i = 0; i < step; i++)
-    {
-        double x = i / width;
-
-        if (x < 0) x = -x;
-        double r = 0;
-        double ampl = 0.6f;
-        int xi = (int)x;
-        double xf = x - xi;
-
-        for (int i = 0; i < OCTAVEN; i++)
-        {
-            double n1;
-            n1 = buffer[xi & 4095];
-            n1 += fsc(xf)*(buffer[(xi + 1) & 4095] - n1);
-            r += n1*ampl;
-            ampl *= 0.9f;
-            xi <<= 1; xf *= 2;
-            if (xf >= 1.0f) xi++, xf -= 1.0f;
-        }
-
-        m_heights[i] = r * 150;
-    }
+    CalculateHeights();
 }
 
 
@@ -86,4 +47,48 @@ void ActorBackgroundMountain::Draw()
 void ActorBackgroundMountain::Animate()
 {
     Draw();
+}
+
+void ActorBackgroundMountain::CalculateHeights()
+{
+    const int step = (int)m_x;
+    m_heights = new double[step];
+    srand((unsigned)time(NULL));
+
+    double buffer[4096];
+    unsigned char ucbuf[IBUFSIZE];
+    unsigned char wtb[256];
+
+    int i;
+    for (i = 0; i < 4096; i++)
+        buffer[i] = rand() / 32767.0f;
+    for (i = 0; i < IBUFSIZE; i++)
+        ucbuf[i] = rand();
+    for (i = 0; i < 256; i++)
+        wtb[i] = (unsigned char)(255 * fsc(i / 256.0f));
+
+
+    for (int i = 0; i < step; i++)
+    {
+        double x = i / m_x;
+
+        if (x < 0) x = -x;
+        double r = 0;
+        double ampl = 0.6f;
+        int xi = (int)x;
+        double xf = x - xi;
+
+        for (int i = 0; i < OCTAVEN; i++)
+        {
+            double n1;
+            n1 = buffer[xi & 4095];
+            n1 += fsc(xf)*(buffer[(xi + 1) & 4095] - n1);
+            r += n1*ampl;
+            ampl *= 0.9f;
+            xi <<= 1; xf *= 2;
+            if (xf >= 1.0f) xi++, xf -= 1.0f;
+        }
+
+        m_heights[i] = r * 150;
+    }
 }
