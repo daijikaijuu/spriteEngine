@@ -5,7 +5,7 @@ class ActorCloud :
     public GenericActor
 {
 public:
-    ActorCloud(double x, double y, double width, double height);
+    ActorCloud(double x, double y, double width, double height, int octave = 4);
     ~ActorCloud();
 
     virtual void Draw();
@@ -16,6 +16,7 @@ private:
     double m_map32[32 * 32];
     double m_map256[256 * 256];
     char m_texture[256][256][4];
+    int m_octave;
 
     void SetNoise();
     void OverlapOctaves();

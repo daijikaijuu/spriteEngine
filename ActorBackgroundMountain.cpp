@@ -89,6 +89,6 @@ void ActorBackgroundMountain::CalculateHeights()
             if (xf >= 1.0f) xi++, xf -= 1.0f;
         }
 
-        m_heights[i] = r * 150;
+        m_heights[i] = 50 + r * 150;
     }
 }

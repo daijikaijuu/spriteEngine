@@ -11,8 +11,8 @@ Scene::Scene(double width, double height) :
     m_sun(NULL)
 {
     AddActor("sun", new ActorSun(-200.0f, m_sceneHeight - 100.0f, 100.0f));
-    AddActor("cloud01", new ActorCloud(0, m_sceneHeight - 400, m_sceneWidth, 400));
-    AddActor("cloud02", new ActorCloud(-100, m_sceneHeight - 500, m_sceneWidth + 100, 500));
+    AddActor("cloud01", new ActorCloud(0, 0, m_sceneWidth, m_sceneHeight));
+    AddActor("cloud02", new ActorCloud(-100, 0, m_sceneWidth + 100, m_sceneHeight, 16));
     AddActor("background_mountain", new ActorBackgroundMountain(m_sceneWidth, m_sceneHeight - 200));
     AddActor("house", new ActorHouse(400, 0));
     AddActor("snowman", new ActorSnowman(100, 10));

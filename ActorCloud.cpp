@@ -4,17 +4,18 @@
 #include "ActorCloud.h"
 #include "helpers.h"
 
-ActorCloud::ActorCloud(double x, double y, double width, double height) :
+ActorCloud::ActorCloud(double x, double y, double width, double height, int octave) :
     GenericActor(x, y),
     m_width(width),
     m_height(height),
     m_map32(),
-    m_texture()
+    m_texture(),
+    m_octave(octave)
 {
     SetNoise();
     OverlapOctaves();
 
-    double cover = 10.0f;
+    double cover = 15.0f;
     double sharpness = 0.99f;
     for (int x = 0; x < 256 * 256; x++)
     {
@@ -119,7 +120,7 @@ void ActorCloud::OverlapOctaves()
         m_map256[x] = 0;
     }
 
-    for (int octave = 0; octave < 5; octave++)
+    for (int octave = 0; octave < m_octave; octave++)
     {
         for (int x = 0; x < 256; x++)
         {
