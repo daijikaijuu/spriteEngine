@@ -8,11 +8,11 @@
 class Shader
 {
 public:
-    Shader(const std::string &fileName);
-    Shader(const std::string &vertex,
-           const std::string &fragment,
-           const std::string &geometry);
+    Shader();
     virtual ~Shader();
+
+    void Load(const std::string &fileName);
+    void Load(const std::string &vertex, const std::string &fragment, const std::string &geometry);
 
     void RegisterAttribute(const char *attrib);
     void RegisterUniform(const char *uniform);
@@ -42,10 +42,6 @@ private:
     std::string loadFromFile(ShaderType type, const std::string &fileName);
     GLuint loadFromText(ShaderType type, std::string text);
     void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const char* msg);
-
-    void Init(const std::string &vertex,
-              const std::string &fragment,
-              const std::string &geometry);
 };
 
 

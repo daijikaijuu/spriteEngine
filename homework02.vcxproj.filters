@@ -57,6 +57,12 @@
     <ClInclude Include="Texture.h">
       <Filter>Заголовочные файлы\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="VertexBufferObject.h">
+      <Filter>Заголовочные файлы\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexArrayObject.h">
+      <Filter>Заголовочные файлы\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="homework02.cpp">
@@ -84,6 +90,12 @@
       <Filter>Файлы исходного кода\Actors</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
+      <Filter>Файлы исходного кода\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBufferObject.cpp">
+      <Filter>Файлы исходного кода\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexArrayObject.cpp">
       <Filter>Файлы исходного кода\Renderer</Filter>
     </ClCompile>
   </ItemGroup>

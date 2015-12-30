@@ -16,7 +16,7 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
 {
     CalculateHeights();
 
-    m_shader = new Shader("shaders/mountain");
+    m_shader->Load("shaders/mountain");
 
     std::vector<GLfloat> heights = CalculateHeights();
     const GLuint size = (GLuint)heights.size();
@@ -31,13 +31,9 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
     a[size-1].position = glm::vec3(m_x, m_y, m_z);
     a[size-1].color = glm::vec3(1, 0, 0);
 
-    glGenBuffers(1, &m_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * size, a, GL_STATIC_DRAW);
-
-    // Create VAO
-    glGenVertexArrays(1, &m_VAO);
-    glBindVertexArray(m_VAO);
+    m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
+    m_VAO->GetVBO()->AddData(a, sizeof(GLfloat) * 6 * size);
+    m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
     m_shader->Bind();
     m_shader->RegisterAttribute("pos");
@@ -45,14 +41,8 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
     m_shader->RegisterUniform("projection");
     m_shader->RegisterUniform("windowHeight");
 
-    GLint posAttrib = m_shader->GetAttributeLocation("pos");
-    glEnableVertexAttribArray(posAttrib);
-    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
-
-    GLint colAttrib = m_shader->GetAttributeLocation("color");
-    glEnableVertexAttribArray(colAttrib);
-    glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-    
+    m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
+    m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
     GLint projection = m_shader->GetUniformLocation("projection");
     if (projection != -1)
     {

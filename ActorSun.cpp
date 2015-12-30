@@ -12,7 +12,7 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 {
     RecalcAngles(); 
 
-    m_shader = new Shader("shaders/sun");
+    m_shader->Load("shaders/sun");
 
     const GLuint numberOfSides = 32;
     const GLuint numberofVertices = numberOfSides + 2;
@@ -28,8 +28,10 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
                                   m_z);
         a[i].color = glm::vec3(1.0f, 1.0f, 0.0f);
     }
-    
-    glBufferData(GL_ARRAY_BUFFER, sizeof(a), a, GL_STATIC_DRAW);
+
+    m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
+    m_VAO->GetVBO()->AddData(a, sizeof(a));
+    m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
     m_shader->Bind();
     m_shader->RegisterAttribute("pos");
@@ -37,13 +39,8 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     m_shader->RegisterUniform("projection");
     m_shader->RegisterUniform("modelview");
 
-    GLint posAttrib = m_shader->GetAttributeLocation("pos");
-    glEnableVertexAttribArray(posAttrib);
-    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
-
-    GLint colAttrib = m_shader->GetAttributeLocation("color");
-    glEnableVertexAttribArray(colAttrib);
-    glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+    m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
+    m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
     GLint projection = m_shader->GetUniformLocation("projection");
     if (projection != -1)
@@ -119,6 +116,6 @@ void ActorSun::Move(GLfloat xShift, GLfloat yShift)
 
 void ActorSun::RecalcAngles()
 {
-    m_rotaryStartAngle = m_angle * PI / 180;
-    m_rotaryEndAngle = (m_angle + 360) * PI / 180;
+    m_rotaryStartAngle = GLfloat(m_angle * PI / 180);
+    m_rotaryEndAngle = GLfloat((m_angle + 360) * PI / 180);
 }
