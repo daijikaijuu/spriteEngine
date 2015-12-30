@@ -1,5 +1,6 @@
 #include "GenericScene.h"
 #include "GenericActor.h"
+#include "helpers.h"
 
 GenericScene::~GenericScene()
 {
@@ -8,22 +9,22 @@ GenericScene::~GenericScene()
         delete it.second;
     }
     m_actors.clear();
-    m_actorsIndex.clear();
 }
 
 void GenericScene::Draw()
 {
-    for (auto &it : m_actorsIndex)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+
+    for (auto &it : m_actors)
     {
-        GenericActor *actor = m_actors[it];
-        actor->Animate();
+        it.second->Animate();
     }
 }
 
 void GenericScene::AddActor(std::string name, GenericActor *actor)
 {
     m_actors.insert(std::pair<std::string, GenericActor*>(name, actor));
-    m_actorsIndex.push_back(name);
 }
 
 GenericActor* GenericScene::GetActor(std::string name)
@@ -34,7 +35,7 @@ GenericActor* GenericScene::GetActor(std::string name)
     return it->second;
 }
 
-void GenericScene::ResizeScene(double width, double height)
+void GenericScene::ResizeScene(GLuint width, GLuint height)
 {
     m_sceneWidth = width;
     m_sceneHeight = height;

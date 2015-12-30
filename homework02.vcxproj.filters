@@ -11,7 +11,19 @@
     </Filter>
     <Filter Include="Файлы ресурсов">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms;glsl</Extensions>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Renderer">
+      <UniqueIdentifier>{a1be5c9d-8a06-4ed3-b0ac-13be2ab51348}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Renderer">
+      <UniqueIdentifier>{bb51b1ba-f903-486b-aa37-5be40ed10107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Actors">
+      <UniqueIdentifier>{567e151a-9fcf-4ba5-b60f-9940d9f06f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Actors">
+      <UniqueIdentifier>{34b94193-14b6-4d98-8bb3-ebba4559aabf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -21,29 +33,29 @@
     <ClInclude Include="GenericScene.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="GenericActor.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="ActorHouse.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="ActorSun.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="ActorSnowman.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="helpers.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="ActorCloud.h">
-      <Filter>Заголовочные файлы</Filter>
+    <ClInclude Include="Shader.h">
+      <Filter>Заголовочные файлы\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="ActorBackgroundMountain.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Заголовочные файлы\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorCloud.h">
+      <Filter>Заголовочные файлы\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorSun.h">
+      <Filter>Заголовочные файлы\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericActor.h">
+      <Filter>Заголовочные файлы\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Заголовочные файлы\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -53,29 +65,47 @@
     <ClCompile Include="GenericScene.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="ActorHouse.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="ActorSun.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="ActorSnowman.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="helpers.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="ActorCloud.cpp">
-      <Filter>Файлы исходного кода</Filter>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Файлы исходного кода\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="ActorBackgroundMountain.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Файлы исходного кода\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorCloud.cpp">
+      <Filter>Файлы исходного кода\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorSun.cpp">
+      <Filter>Файлы исходного кода\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Файлы исходного кода\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="shaders\sun.vert.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="shaders\sun.frag.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="shaders\mountain.vert.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="shaders\mountain.frag.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="shaders\cloud.frag.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="shaders\cloud.vert.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
   </ItemGroup>
 </Project>

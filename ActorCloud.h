@@ -1,25 +1,29 @@
 #pragma once
+#include "homework02.h"
 #include "GenericActor.h"
+
+class Texture;
 
 class ActorCloud :
     public GenericActor
 {
 public:
-    ActorCloud(double x, double y, double width, double height, int octave = 4);
+    ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat z, int octave = 4);
     ~ActorCloud();
 
     virtual void Draw();
-    virtual void Animate();
 
 private:
-    double m_width, m_height;
-    double m_map32[32 * 32];
-    double m_map256[256 * 256];
-    char m_texture[256][256][4];
+    GLfloat m_width, m_height;
+    GLfloat m_map32[32 * 32];
+    GLfloat m_map256[256 * 256];
+    char m_textureArray[256][256][4];
     int m_octave;
+    Texture *m_texture;
 
     void SetNoise();
     void OverlapOctaves();
-    double Interpolate(double x, double y, double *map);
+    GLfloat noise(int x, int y, int random);
+    GLfloat Interpolate(GLfloat x, GLfloat y, GLfloat *map);
 };
 

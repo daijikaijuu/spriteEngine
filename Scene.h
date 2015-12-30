@@ -8,7 +8,7 @@ class Scene :
     public GenericScene
 {
 public:
-    Scene(double width, double height);
+    Scene(GLuint width, GLuint height);
     virtual ~Scene();
 
     virtual void Draw();

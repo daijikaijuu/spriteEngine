@@ -218,3 +218,5 @@ homework02.depend
 *.exe
 *.bmarks
 homework02.layout
+*.cbTemp
+*.opendb

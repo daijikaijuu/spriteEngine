@@ -1,9 +1,9 @@
 #pragma once
 
 #include <map>
-#include <vector>
 #include <string>
 #include <assert.h>
+#include <GL\glew.h>
 
 class GenericActor;
 
@@ -11,11 +11,10 @@ class GenericScene
 {
 	using actorsMap = std::map<std::string, GenericActor*>;
 public:
-	GenericScene(double width, double height) :
+	GenericScene(GLuint width, GLuint height) :
 		m_sceneWidth(width),
 		m_sceneHeight(height),
-		m_actors(),
-		m_actorsIndex()
+		m_actors()
 	{}
 
     virtual ~GenericScene();
@@ -25,10 +24,9 @@ public:
     void AddActor(std::string name, GenericActor *actor);
     virtual GenericActor* GetActor(std::string name);
 
-    void ResizeScene(double width, double height);
+    void ResizeScene(GLuint width, GLuint height);
 
 protected:
-	double    m_sceneWidth, m_sceneHeight;
+    GLuint    m_sceneWidth, m_sceneHeight;
 	actorsMap m_actors;
-	std::vector<std::string> m_actorsIndex;
 };

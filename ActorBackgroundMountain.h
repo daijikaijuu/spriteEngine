@@ -3,19 +3,18 @@
 #include "GenericActor.h"
 #include "helpers.h"
 
+class Shader;
+
 class ActorBackgroundMountain :
     public GenericActor
 {
 public:
-    ActorBackgroundMountain(double width, double height);
+    ActorBackgroundMountain(GLfloat width, GLfloat height, GLfloat z);
     virtual ~ActorBackgroundMountain();
 
     virtual void Draw();
-    virtual void Animate();
 
 private:
-    double *m_heights;
-
-    void CalculateHeights();
+    std::vector<GLfloat> CalculateHeights();
 };
 

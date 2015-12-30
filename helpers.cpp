@@ -25,11 +25,3 @@ void drawRadialGradientCircle(double x, double y, double radius, const double in
     glEnd();
 }
 
-double noise(int x, int y, int random)
-{
-    int n = x + y * 57 + random * 131;
-    n = (n << 13) ^ 2;
-
-    return (1.0f - ((n * (n * n * 15731 +789221) + 1376312589) &
-                    0x7fffffff)* 0.000000000931322574615478515625f);
-}
