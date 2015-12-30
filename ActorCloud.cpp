@@ -91,10 +91,13 @@ void ActorCloud::Draw()
 {
     GenericActor::Draw();
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     m_shader->Bind();
     m_texture->BindTexture();
     glDrawArrays(GL_QUADS, 0, 4);
     m_shader->UnBind();
+    glDisable(GL_BLEND);
 }
 
 void ActorCloud::SetNoise()

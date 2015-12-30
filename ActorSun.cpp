@@ -62,9 +62,12 @@ void ActorSun::Draw()
 {
     GenericActor::Draw();
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_DST_ALPHA, GL_ONE); 
     m_shader->Bind();
     glDrawArrays(GL_TRIANGLE_FAN, 0, 34);
     m_shader->UnBind();
+    glDisable(GL_BLEND);
     //double radius = m_size / 3;
     //double innerColor[] = { 0.6f, 0.6f, 0.0f };
     //double outterColor[] = { 1.0f, 1.0f, 0.0f };

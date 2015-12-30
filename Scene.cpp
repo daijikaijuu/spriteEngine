@@ -8,9 +8,8 @@ Scene::Scene(GLuint width, GLuint height) :
     GenericScene(width, height),
     m_sun(NULL)
 {
-    AddActor("sun", new ActorSun(100.0f, 100.0f, -0.2f, 100.0f));
+    AddActor("sun", new ActorSun(100.0f, 100.0f, -0.19f, 100.0f));
     AddActor("cloud01", new ActorCloud(0, 0, (GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight / 1.5f, -0.2f));
-    AddActor("cloud02", new ActorCloud(-100, 0, (GLfloat)m_sceneWidth + 100, (GLfloat)m_sceneHeight, -0.2f, 16));
     AddActor("background_mountain", new ActorBackgroundMountain((GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight, -0.1f));
 }
 
