@@ -14,7 +14,7 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
     m_octave(octave),
     m_texture(NULL)
 {
-    m_shader = new Shader("shaders/cloud");
+    m_shader->Load("shaders/cloud");
     m_texture = new Texture();
 
     SetNoise();
@@ -49,7 +49,9 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
         glm::vec3(m_x + m_width, m_y, m_z),            glm::vec2(1, 0), glm::vec3(1, 1, 1),
     };
 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quad), quad, GL_STATIC_DRAW);
+    m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
+    m_VAO->GetVBO()->AddData(quad, sizeof(quad));
+    m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
     m_shader->Bind();
     m_shader->RegisterAttribute("inPosition");
@@ -57,13 +59,8 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
     m_shader->RegisterUniform("projectionMatrix");
     m_shader->RegisterUniform("gSampler");
 
-    GLint posAttrib = m_shader->GetAttributeLocation("inPosition");
-    glEnableVertexAttribArray(posAttrib);
-    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 0);
-
-    GLint texAttrib = m_shader->GetAttributeLocation("inCoord");
-    glEnableVertexAttribArray(texAttrib);
-    glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+    m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 0);
+    m_VAO->Generate(m_shader->GetAttributeLocation("inCoord"), 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
     GLint projection = m_shader->GetUniformLocation("projectionMatrix");
     if (projection != -1)

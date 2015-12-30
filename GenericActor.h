@@ -2,6 +2,8 @@
 
 #include <GL\glew.h>
 #include "Shader.h"
+#include "VertexArrayObject.h"
+#include "VertexBufferObject.h"
 
 class GenericActor
 {
@@ -11,15 +13,11 @@ public:
 		m_y(y),
         m_z(z),
 		m_animated(animated),
-        m_VBO(0),
-        m_VAO(0),
-        m_shader(NULL)
+        m_shader(NULL),
+        m_VAO(NULL)
     {
-        glGenBuffers(1, &m_VBO);
-        glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-
-        glGenVertexArrays(1, &m_VAO);
-        glBindVertexArray(m_VAO);
+        m_VAO = new VertexArrayObject();
+        m_shader = new Shader();
     }
 
 	virtual ~GenericActor()
@@ -29,13 +27,17 @@ public:
             delete m_shader;
             m_shader = NULL;
         }
-        glDeleteVertexArrays(1, &m_VAO);
-        glDeleteBuffers(1, &m_VBO);
+
+        if (m_VAO)
+        {
+            delete m_VAO;
+            m_VAO = NULL;
+        }
     }
 
     virtual void Draw()
     {
-        glBindVertexArray(m_VAO);
+        m_VAO->Bind();
     }
     virtual void Animate() { Draw(); }
 
@@ -53,7 +55,6 @@ protected:
     GLfloat m_x, m_y, m_z;
 	bool   m_animated;
 
-    GLuint m_VBO;
-    GLuint m_VAO;
     Shader *m_shader;
+    VertexArrayObject *m_VAO;
 };

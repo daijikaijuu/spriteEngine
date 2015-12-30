@@ -3,21 +3,16 @@
 #include <fstream>
 #include <streambuf>
 
-Shader::Shader(const std::string &filename)
+Shader::Shader() :
+    m_program(0)
 {
-    std::string vertex, fragment, geometry;
-    vertex = loadFromFile(VERTEX_SHADER, filename + ".vert.glsl");
-    fragment = loadFromFile(FRAGMENT_SHADER, filename + ".frag.glsl");
-    geometry = loadFromFile(GEOMETRY_SHADER, filename + ".geom.glsl");
-
-    Init(vertex, fragment, geometry);
-}
-
-Shader::Shader(const std::string & vertex,
-               const std::string & fragment,
-               const std::string & geometry)
-{
-    Init(vertex, fragment, geometry);
+    m_program = glCreateProgram();
+    m_attribList.clear();
+    m_uniforms.clear();
+    for (size_t i = 0; i < NUM_SHADER_TYPES; i++)
+    {
+        m_shaders[i] = 0;
+    }
 }
 
 Shader::~Shader()
@@ -28,6 +23,39 @@ Shader::~Shader()
         glDeleteShader(m_shaders[i]);
     }
     glDeleteProgram(m_program);
+}
+
+void Shader::Load(const std::string &fileName)
+{
+    std::string vertex, fragment, geometry;
+    vertex = loadFromFile(VERTEX_SHADER, fileName + ".vert.glsl");
+    fragment = loadFromFile(FRAGMENT_SHADER, fileName + ".frag.glsl");
+    geometry = loadFromFile(GEOMETRY_SHADER, fileName + ".geom.glsl");
+
+    Load(vertex, fragment, geometry);
+}
+
+void Shader::Load(const std::string & vertex, const std::string & fragment, const std::string & geometry)
+{
+    if (!vertex.empty())
+        m_shaders[VERTEX_SHADER] = loadFromText(VERTEX_SHADER, vertex);
+    if (!fragment.empty())
+        m_shaders[FRAGMENT_SHADER] = loadFromText(FRAGMENT_SHADER, fragment);
+    if (!geometry.empty())
+        m_shaders[GEOMETRY_SHADER] = loadFromText(GEOMETRY_SHADER, geometry);
+
+    if (m_shaders[VERTEX_SHADER] != 0)
+        glAttachShader(m_program, m_shaders[VERTEX_SHADER]);
+    if (m_shaders[FRAGMENT_SHADER] != 0)
+        glAttachShader(m_program, m_shaders[FRAGMENT_SHADER]);
+    if (m_shaders[GEOMETRY_SHADER] != 0)
+        glAttachShader(m_program, m_shaders[GEOMETRY_SHADER]);
+
+    glLinkProgram(m_program);
+    CheckShaderError(m_program, GL_LINK_STATUS, true, "ERROR LNK shader program");
+
+    glValidateProgram(m_program);
+    CheckShaderError(m_program, GL_LINK_STATUS, true, "ERROR INV shader program");
 }
 
 GLuint Shader::GetProgramID() const
@@ -126,35 +154,4 @@ void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const 
 
         std::cout << msg << " : " << error << " " << std::endl;
     }
-}
-
-void Shader::Init(const std::string & vertex, const std::string & fragment, const std::string & geometry)
-{
-    m_program = glCreateProgram();
-    m_attribList.clear();
-    m_uniforms.clear();
-    for (size_t i = 0; i < NUM_SHADER_TYPES; i++)
-    {
-        m_shaders[i] = 0;
-    }
-
-    if (!vertex.empty())
-        m_shaders[VERTEX_SHADER] = loadFromText(VERTEX_SHADER, vertex);
-    if (!fragment.empty())
-        m_shaders[FRAGMENT_SHADER] = loadFromText(FRAGMENT_SHADER, fragment);
-    if (!geometry.empty())
-        m_shaders[GEOMETRY_SHADER] = loadFromText(GEOMETRY_SHADER, geometry);
-
-    if (m_shaders[VERTEX_SHADER] != 0)
-        glAttachShader(m_program, m_shaders[VERTEX_SHADER]);
-    if (m_shaders[FRAGMENT_SHADER] != 0)
-        glAttachShader(m_program, m_shaders[FRAGMENT_SHADER]);
-    if (m_shaders[GEOMETRY_SHADER] != 0)
-        glAttachShader(m_program, m_shaders[GEOMETRY_SHADER]);
-
-    glLinkProgram(m_program);
-    CheckShaderError(m_program, GL_LINK_STATUS, true, "ERROR LNK shader program");
-
-    glValidateProgram(m_program);
-    CheckShaderError(m_program, GL_LINK_STATUS, true, "ERROR INV shader program");
 }
