@@ -154,40 +154,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ActorBackgroundMountain.cpp" />
-    <ClCompile Include="ActorCloud.cpp" />
-    <ClCompile Include="ActorSun.cpp" />
+    <ClCompile Include="Actors\ActorBackgroundMountain.cpp" />
+    <ClCompile Include="Actors\ActorCloud.cpp" />
+    <ClCompile Include="Actors\ActorSun.cpp" />
     <ClCompile Include="GenericScene.cpp" />
     <ClCompile Include="helpers.cpp" />
     <ClCompile Include="homework02.cpp" />
+    <ClCompile Include="Render\Shader.cpp" />
+    <ClCompile Include="Render\Texture.cpp" />
+    <ClCompile Include="Render\VertexArrayObject.cpp" />
+    <ClCompile Include="Render\VertexBufferObject.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="VertexArrayObject.cpp" />
-    <ClCompile Include="VertexBufferObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActorBackgroundMountain.h" />
-    <ClInclude Include="ActorCloud.h" />
-    <ClInclude Include="ActorSun.h" />
-    <ClInclude Include="GenericActor.h" />
+    <ClInclude Include="Actors\ActorBackgroundMountain.h" />
+    <ClInclude Include="Actors\ActorCloud.h" />
+    <ClInclude Include="Actors\ActorSun.h" />
+    <ClInclude Include="Actors\GenericActor.h" />
     <ClInclude Include="GenericScene.h" />
     <ClInclude Include="helpers.h" />
     <ClInclude Include="homework02.h" />
+    <ClInclude Include="Render\Shader.h" />
+    <ClInclude Include="Render\Texture.h" />
+    <ClInclude Include="Render\VertexArrayObject.h" />
+    <ClInclude Include="Render\VertexBufferObject.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="VertexArrayObject.h" />
-    <ClInclude Include="VertexBufferObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="shaders\cloud.frag.glsl" />
-    <None Include="shaders\cloud.vert.glsl" />
-    <None Include="shaders\mountain.frag.glsl" />
-    <None Include="shaders\mountain.vert.glsl" />
-    <None Include="shaders\sun.frag.glsl" />
-    <None Include="shaders\sun.vert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

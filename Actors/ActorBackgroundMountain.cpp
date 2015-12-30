@@ -1,7 +1,7 @@
 #include <time.h>
-#include "homework02.h"
+#include "../homework02.h"
 #include "ActorBackgroundMountain.h"
-#include "Shader.h"
+#include "../Render/Shader.h"
 
 #define IBUFSIZE (1<<16)
 #define OCTAVEN 6
@@ -16,7 +16,7 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
 {
     CalculateHeights();
 
-    m_shader->Load("shaders/mountain");
+    m_shader->Load("Data/Shaders/mountain");
 
     std::vector<GLfloat> heights = CalculateHeights();
     const GLuint size = (GLuint)heights.size();

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <GL\glew.h>
-#include "Shader.h"
-#include "VertexArrayObject.h"
-#include "VertexBufferObject.h"
+#include <GL/glew.h>
+#include "../Render/Shader.h"
+#include "../Render/VertexArrayObject.h"
+#include "../Render/VertexBufferObject.h"
 
 class GenericActor
 {

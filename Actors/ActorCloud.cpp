@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <math.h>
-#include "homework02.h"
+#include "../homework02.h"
+#include "../helpers.h"
+#include "../Render/Texture.h"
 #include "ActorCloud.h"
-#include "helpers.h"
-#include "Texture.h"
 
 ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat z, int octave) :
     GenericActor(x, y, z),
@@ -14,7 +14,7 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
     m_octave(octave),
     m_texture(NULL)
 {
-    m_shader->Load("shaders/cloud");
+    m_shader->Load("Data/Shaders/cloud");
     m_texture = new Texture();
 
     SetNoise();

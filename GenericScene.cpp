@@ -1,5 +1,5 @@
 #include "GenericScene.h"
-#include "GenericActor.h"
+#include "Actors\GenericActor.h"
 #include "helpers.h"
 
 GenericScene::~GenericScene()

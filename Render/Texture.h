@@ -1,6 +1,6 @@
 #pragma once
 
-#include "homework02.h"
+#include "..\homework02.h"
 
 class Texture
 {

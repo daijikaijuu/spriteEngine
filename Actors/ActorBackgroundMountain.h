@@ -1,7 +1,7 @@
 #pragma once
 
+#include "../helpers.h"
 #include "GenericActor.h"
-#include "helpers.h"
 
 class Shader;
 

@@ -1,7 +1,7 @@
-#include "homework02.h"
+#include "../homework02.h"
+#include "../helpers.h"
+#include "../Render/Shader.h"
 #include "ActorSun.h"
-#include "helpers.h"
-#include "Shader.h"
 
 ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     GenericActor(x, y, z),
@@ -12,7 +12,7 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 {
     RecalcAngles(); 
 
-    m_shader->Load("shaders/sun");
+    m_shader->Load("Data/Shaders/sun");
 
     const GLuint numberOfSides = 32;
     const GLuint numberofVertices = numberOfSides + 2;
