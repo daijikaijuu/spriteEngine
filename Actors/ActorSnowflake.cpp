@@ -9,7 +9,9 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     m_modelview(0),
     m_size(size),
     m_sceneWidth(sceneWidth),
-    m_sceneHeight(sceneHeight)
+    m_sceneHeight(sceneHeight),
+    m_speed(0),
+    m_deltaX(0)
 {
     m_shader->Load("Data/Shaders/snowflake");
     m_texture = TextureManager::get_instance()->GetTexture("Data/Textures/snowflake.png");
@@ -50,6 +52,11 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     Move(0, 0);
 
     m_shader->UnBind();
+
+    m_speed = (GLfloat)rand() / (RAND_MAX + 1);
+    m_deltaX = (GLfloat)rand() / (RAND_MAX + 1);
+    if (rand() % 2 > 1)
+        m_deltaX *= -1;
 }
 
 ActorSnowflake::~ActorSnowflake()
@@ -78,7 +85,18 @@ void ActorSnowflake::Animate()
 {
     GenericActor::Animate();
 
-    Move(0.0f, 0.01f);
+    Move(0.0f + m_deltaX / 10, 0.0001f + m_speed / 5);
+    if (m_y > m_sceneHeight + m_size)
+    {
+        m_x = GLfloat(rand() % m_sceneWidth);
+        m_y = GLfloat(rand() % 50);
+        m_speed = (GLfloat)rand() / (RAND_MAX + 1);
+        m_deltaX = (GLfloat)rand() / (RAND_MAX + 1);
+        if (rand() % 2 > 1)
+            m_deltaX *= -1;
+    }
+    if ((m_x + m_size / 2 > m_sceneWidth) || (m_x + m_size < 0))
+        m_deltaX *= -1;
 }
 
 void ActorSnowflake::Move(GLfloat xShift, GLfloat yShift)

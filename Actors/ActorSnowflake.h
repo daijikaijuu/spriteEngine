@@ -21,5 +21,6 @@ private:
     Texture *m_texture;
     GLuint m_modelview;
     GLfloat m_size;
+    GLfloat m_speed, m_deltaX;
     GLuint m_sceneWidth, m_sceneHeight;
 };
