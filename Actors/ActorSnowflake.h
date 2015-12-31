@@ -22,5 +22,6 @@ private:
     GLuint m_modelview;
     GLfloat m_size;
     GLfloat m_speed, m_deltaX;
+    GLfloat m_angle;
     GLuint m_sceneWidth, m_sceneHeight;
 };
