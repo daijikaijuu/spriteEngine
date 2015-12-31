@@ -12,6 +12,12 @@ Scene::Scene(GLuint width, GLuint height) :
     AddActor("sun", new ActorSun(100.0f, 100.0f, -0.19f, 100.0f));
     AddActor("cloud01", new ActorCloud(0, 0, (GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight / 1.5f, -0.2f));
     AddActor("background_mountain", new ActorBackgroundMountain((GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight, -0.1f));
+    for (size_t i = 0; i < 50; i++)
+    {
+        std::string name = "snowflake" + i;
+        AddActor(name, new ActorSnowflake(GLfloat(rand() % m_sceneWidth), GLfloat(rand() % m_sceneHeight / 2),
+                                          GLfloat(15 + rand() % 20), m_sceneWidth, m_sceneHeight, 0.2f));
+    }
 }
 
 

@@ -166,6 +166,7 @@
     <ClCompile Include="Render\VertexArrayObject.cpp" />
     <ClCompile Include="Render\VertexBufferObject.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Render\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actors\ActorSnowflake.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Render\VertexArrayObject.h" />
     <ClInclude Include="Render\VertexBufferObject.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Render\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\Shaders\cloud.frag.glsl" />

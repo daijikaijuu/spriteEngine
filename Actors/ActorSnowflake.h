@@ -9,10 +9,11 @@ class ActorSnowflake :
     public GenericActor
 {
 public:
-    ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLfloat z);
+    ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneWidth, GLuint sceneHeight, GLfloat z);
     virtual ~ActorSnowflake();
 
     virtual void Draw();
+    virtual void Animate();
 
     virtual void Move(GLfloat xShift, GLfloat yShift);
 
@@ -20,4 +21,5 @@ private:
     Texture *m_texture;
     GLuint m_modelview;
     GLfloat m_size;
+    GLuint m_sceneWidth, m_sceneHeight;
 };

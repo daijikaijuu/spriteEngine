@@ -1,16 +1,18 @@
 #include "../Render/Texture.h"
+#include "../Render/TextureManager.h"
 #include "../helpers.h"
 #include "ActorSnowflake.h"
 
-ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLfloat z) :
+ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneWidth, GLuint sceneHeight, GLfloat z) :
     GenericActor(x, y, z),
     m_texture(NULL),
     m_modelview(0),
-    m_size(size)
+    m_size(size),
+    m_sceneWidth(sceneWidth),
+    m_sceneHeight(sceneHeight)
 {
     m_shader->Load("Data/Shaders/snowflake");
-    m_texture = new Texture();
-    m_texture->LoadPNGTexture("Data/Textures/snowflake.png");
+    m_texture = TextureManager::get_instance()->GetTexture("Data/Textures/snowflake.png");
     m_texture->setFiltering();
 
     GLfloat Size = m_size / 2;
@@ -70,6 +72,13 @@ void ActorSnowflake::Draw()
     glDrawArrays(GL_QUADS, 0, 4);
     m_shader->UnBind();
     glDisable(GL_BLEND);
+}
+
+void ActorSnowflake::Animate()
+{
+    GenericActor::Animate();
+
+    Move(0.0f, 0.01f);
 }
 
 void ActorSnowflake::Move(GLfloat xShift, GLfloat yShift)

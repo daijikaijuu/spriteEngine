@@ -66,6 +66,9 @@
     <ClInclude Include="Actors\ActorSnowflake.h">
       <Filter>Заголовочные файлы\Actors</Filter>
     </ClInclude>
+    <ClInclude Include="Render\TextureManager.h">
+      <Filter>Заголовочные файлы\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="homework02.cpp">
@@ -103,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="Actors\ActorSnowflake.cpp">
       <Filter>Файлы исходного кода\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\TextureManager.cpp">
+      <Filter>Файлы исходного кода\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

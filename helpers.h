@@ -1,7 +1,7 @@
 #pragma once
 #include "homework02.h"
 
-#define GLSL(src) "#version 330\n" #src
+#define GLSL(src) "#version 400\n" #src
 
 struct Vertex
 {
@@ -15,7 +15,3 @@ struct TexturedVertex
     glm::vec2 texture;
     glm::vec3 color;
 };
-
-void drawCircle(double x, double y, double radius);
-void drawRadialGradientCircle(double x, double y, double radius, const double innerColor[], const double outterColor[]);
-
