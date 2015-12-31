@@ -63,6 +63,9 @@
     <ClInclude Include="Render\VertexBufferObject.h">
       <Filter>Заголовочные файлы\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Actors\ActorSnowflake.h">
+      <Filter>Заголовочные файлы\Actors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="homework02.cpp">
@@ -98,8 +101,35 @@
     <ClCompile Include="Render\VertexBufferObject.cpp">
       <Filter>Файлы исходного кода\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Actors\ActorSnowflake.cpp">
+      <Filter>Файлы исходного кода\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Data\Shaders\snowflake.frag.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\snowflake.vert.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\cloud.frag.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\cloud.vert.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\mountain.frag.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\mountain.vert.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\sun.frag.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\sun.vert.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,8 +1,9 @@
 #include "homework02.h"
 #include "Scene.h"
-#include "Actors\ActorSun.h"
-#include "Actors\ActorCloud.h"
-#include "Actors\ActorBackgroundMountain.h"
+#include "Actors/ActorSun.h"
+#include "Actors/ActorCloud.h"
+#include "Actors/ActorBackgroundMountain.h"
+#include "Actors/ActorSnowflake.h"
 
 Scene::Scene(GLuint width, GLuint height) :
     GenericScene(width, height),
