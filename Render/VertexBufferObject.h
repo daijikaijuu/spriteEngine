@@ -8,7 +8,7 @@ public:
     VertexBufferObject(GLuint size = 0);
     virtual ~VertexBufferObject();
 
-    void AddData(GLvoid *ptrData, GLuint dataSize);
+    void AddData(GLvoid *ptrData, GLsizeiptr dataSize);
     void UploadDataToGPU(GLenum drawingHint);
     GLvoid* MapBufferToMemory(GLenum usageHint);
     GLvoid* MapSubBufferToMemory(GLenum usageHint, GLuint offset, GLuint lenght);

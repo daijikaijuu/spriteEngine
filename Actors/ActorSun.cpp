@@ -1,5 +1,6 @@
 #include "../homework02.h"
 #include "../helpers.h"
+#include "../Render/Vertex.h"
 #include "../Render/Shader.h"
 #include "ActorSun.h"
 
@@ -14,23 +15,10 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 
     m_shader->Load("Data/Shaders/sun");
 
-    const GLuint numberOfSides = 32;
-    const GLuint numberofVertices = numberOfSides + 2;
-    GLfloat radius = size / 2;
-
-    Vertex a[numberofVertices];
-    a[0].position = glm::vec3(0.0f, 0.0f, m_z);
-    a[0].color = glm::vec3(1.0f, 1.0f, 1.0f);
-    for (size_t i = 1; i < numberofVertices; i++)
-    {
-        a[i].position = glm::vec3(radius * cos(i * PI * 2 / numberOfSides),
-                                  radius * sin(i * PI * 2 / numberOfSides),
-                                  m_z);
-        a[i].color = glm::vec3(1.0f, 1.0f, 0.0f);
-    }
+    ShapeData<Vertex> *vertexData = shapeGenerator::generateCircle(m_size / 2, m_z, glm::vec3(1.0f, 1.0f, 0.0f));
 
     m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
-    m_VAO->GetVBO()->AddData(a, sizeof(a));
+    m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
     m_shader->Bind();
@@ -39,8 +27,8 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     m_shader->RegisterUniform("projection");
     m_shader->RegisterUniform("modelview");
 
-    m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), nullptr);
-    m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+    m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(0));
+    m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(1));
 
     GLint projection = m_shader->GetUniformLocation("projection");
     if (projection != -1)
@@ -52,6 +40,8 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     Move(0, 0); // Update modelview
 
     m_shader->UnBind();
+
+    delete vertexData;
 }
 
 ActorSun::~ActorSun()

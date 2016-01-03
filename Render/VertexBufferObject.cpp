@@ -18,7 +18,7 @@ VertexBufferObject::~VertexBufferObject()
     m_data.clear();
 }
 
-void VertexBufferObject::AddData(GLvoid* ptrData, GLuint dataSize)
+void VertexBufferObject::AddData(GLvoid* ptrData, GLsizeiptr dataSize)
 {
     m_data.insert(m_data.end(), (GLbyte*)ptrData, (GLbyte*)ptrData + dataSize);
 }

@@ -181,6 +181,7 @@
     <ClInclude Include="homework02.h" />
     <ClInclude Include="Render\Shader.h" />
     <ClInclude Include="Render\Texture.h" />
+    <ClInclude Include="Render\Vertex.h" />
     <ClInclude Include="Render\VertexArrayObject.h" />
     <ClInclude Include="Render\VertexBufferObject.h" />
     <ClInclude Include="Scene.h" />

@@ -2,6 +2,7 @@
 #include "../homework02.h"
 #include "ActorBackgroundMountain.h"
 #include "../Render/Shader.h"
+#include "../Render/Vertex.h"
 
 #define IBUFSIZE (1<<16)
 #define OCTAVEN 6

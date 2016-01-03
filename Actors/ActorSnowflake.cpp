@@ -1,6 +1,6 @@
 #include "../Render/Texture.h"
 #include "../Render/TextureManager.h"
-#include "../helpers.h"
+#include "../Render/Vertex.h"
 #include "ActorSnowflake.h"
 
 ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneWidth, GLuint sceneHeight, GLfloat z) :
@@ -17,16 +17,10 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     m_shader->Load("Data/Shaders/snowflake");
     m_texture = TextureManager::get_instance()->GetTexture("Data/Textures/snowflake.png");
 
-    GLfloat Size = m_size / 2;
-    TexturedVertex quad[4] = {
-        glm::vec3(-Size, -Size, m_z), glm::vec2(0, 0),
-        glm::vec3(-Size, Size, m_z),  glm::vec2(0, 1),
-        glm::vec3(Size, Size, m_z),   glm::vec2(1, 1),
-        glm::vec3(Size, -Size, m_z),  glm::vec2(1, 0),
-    };
+    ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, m_size, m_size);
 
     m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
-    m_VAO->GetVBO()->AddData(quad, sizeof(quad));
+    m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
     m_shader->Bind();
@@ -36,8 +30,8 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     m_shader->RegisterUniform("modelview");
     m_shader->RegisterUniform("gSampler");
 
-    m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), 0);
-    m_VAO->Generate(m_shader->GetAttributeLocation("inCoord"), 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+    m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(0));
+    m_VAO->Generate(m_shader->GetAttributeLocation("inCoord"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(1));
 
     GLint projection = m_shader->GetUniformLocation("projectionMatrix");
     if (projection != -1)
@@ -57,6 +51,8 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     m_deltaX = (GLfloat)rand() / (RAND_MAX + 1);
     if (rand() % 2 > 1)
         m_deltaX *= -1;
+
+    delete vertexData;
 }
 
 ActorSnowflake::~ActorSnowflake()

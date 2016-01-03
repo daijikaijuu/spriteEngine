@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "../homework02.h"
-#include "../helpers.h"
+#include "../Render/Vertex.h"
 #include "../Render/Texture.h"
 #include "ActorCloud.h"
 
@@ -42,15 +42,10 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
         }
     }
 
-    TexturedVertex quad[4] = {
-        glm::vec3(m_x, m_y, m_z),                      glm::vec2(0, 0),
-        glm::vec3(m_x, m_y + m_height, m_z),           glm::vec2(0, 1),
-        glm::vec3(m_x + m_width, m_y + m_height, m_z), glm::vec2(1, 1),
-        glm::vec3(m_x + m_width, m_y, m_z),            glm::vec2(1, 0),
-    };
+    ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(m_width / 2, m_height / 2, m_z, m_width, m_height);
 
     m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
-    m_VAO->GetVBO()->AddData(quad, sizeof(quad));
+    m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
     m_shader->Bind();
@@ -59,8 +54,8 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
     m_shader->RegisterUniform("projectionMatrix");
     m_shader->RegisterUniform("gSampler");
 
-    m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), 0);
-    m_VAO->Generate(m_shader->GetAttributeLocation("inCoord"), 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+    m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(0));
+    m_VAO->Generate(m_shader->GetAttributeLocation("inCoord"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(1));
 
     GLint projection = m_shader->GetUniformLocation("projectionMatrix");
     if (projection != -1)
