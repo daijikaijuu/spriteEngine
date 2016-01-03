@@ -20,10 +20,10 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
 
     GLfloat Size = m_size / 2;
     TexturedVertex quad[4] = {
-        glm::vec3(-Size, -Size, m_z), glm::vec2(0, 0), glm::vec3(1, 1, 1),
-        glm::vec3(-Size, Size, m_z),  glm::vec2(0, 1), glm::vec3(1, 1, 1),
-        glm::vec3(Size, Size, m_z),   glm::vec2(1, 1), glm::vec3(1, 1, 1),
-        glm::vec3(Size, -Size, m_z),  glm::vec2(1, 0), glm::vec3(1, 1, 1),
+        glm::vec3(-Size, -Size, m_z), glm::vec2(0, 0),
+        glm::vec3(-Size, Size, m_z),  glm::vec2(0, 1),
+        glm::vec3(Size, Size, m_z),   glm::vec2(1, 1),
+        glm::vec3(Size, -Size, m_z),  glm::vec2(1, 0),
     };
 
     m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
@@ -37,8 +37,8 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     m_shader->RegisterUniform("modelview");
     m_shader->RegisterUniform("gSampler");
 
-    m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), 0);
-    m_VAO->Generate(m_shader->GetAttributeLocation("inCoord"), 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+    m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), 0);
+    m_VAO->Generate(m_shader->GetAttributeLocation("inCoord"), 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
     GLint projection = m_shader->GetUniformLocation("projectionMatrix");
     if (projection != -1)
