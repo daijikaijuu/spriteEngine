@@ -49,10 +49,8 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
     m_shader->Bind();
-    m_shader->RegisterAttribute("inPosition");
-    m_shader->RegisterAttribute("inCoord");
-    m_shader->RegisterUniform("projectionMatrix");
-    m_shader->RegisterUniform("gSampler");
+    m_shader->RegisterAttribute({ "inPosition", "inCoord" });
+    m_shader->RegisterUniform({ "projectionMatrix", "gSampler" });
 
     m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(0));
     m_VAO->Generate(m_shader->GetAttributeLocation("inCoord"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(1));

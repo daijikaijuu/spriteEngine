@@ -37,10 +37,8 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
     m_shader->Bind();
-    m_shader->RegisterAttribute("pos");
-    m_shader->RegisterAttribute("color");
-    m_shader->RegisterUniform("projection");
-    m_shader->RegisterUniform("windowHeight");
+    m_shader->RegisterAttribute({ "pos", "color" });
+    m_shader->RegisterUniform({ "projection", "windowHeight" });
 
     m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
     m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));

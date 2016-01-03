@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <string>
 #include <map>
+#include <initializer_list>
 
 #define NUM_SHADER_TYPES 3
 
@@ -14,11 +15,13 @@ public:
     void Load(const std::string &fileName);
     void Load(const std::string &vertex, const std::string &fragment, const std::string &geometry);
 
-    void RegisterAttribute(const char *attrib);
-    void RegisterUniform(const char *uniform);
+    void RegisterAttribute(std::string attrib);
+    void RegisterAttribute(std::initializer_list<std::string> a_args);
+    void RegisterUniform(std::string uniform);
+    void RegisterUniform(std::initializer_list<std::string> a_args);
     GLuint GetProgramID() const;
-    GLuint GetAttributeLocation(const char *attrib);
-    GLuint GetUniformLocation(const char *uniform);
+    GLuint GetAttributeLocation(std::string attrib);
+    GLuint GetUniformLocation(std::string uniform);
 
     void Bind();
     void UnBind();

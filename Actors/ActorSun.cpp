@@ -22,10 +22,8 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
     m_shader->Bind();
-    m_shader->RegisterAttribute("pos");
-    m_shader->RegisterAttribute("color");
-    m_shader->RegisterUniform("projection");
-    m_shader->RegisterUniform("modelview");
+    m_shader->RegisterAttribute({ "pos", "color" });
+    m_shader->RegisterUniform({ "projection", "modelview" });
 
     m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(0));
     m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(1));

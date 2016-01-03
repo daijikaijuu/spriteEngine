@@ -63,24 +63,40 @@ GLuint Shader::GetProgramID() const
     return m_program;
 }
 
-GLuint Shader::GetAttributeLocation(const char *attrib)
+GLuint Shader::GetAttributeLocation(std::string attrib)
 {
     return m_attribList[attrib];
 }
 
-GLuint Shader::GetUniformLocation(const char *uniform)
+GLuint Shader::GetUniformLocation(std::string uniform)
 {
     return m_uniforms[uniform];
 }
 
-void Shader::RegisterAttribute(const char *attrib)
+void Shader::RegisterAttribute(std::string attrib)
 {
-    m_attribList[attrib] = glGetAttribLocation(m_program, attrib);
+    m_attribList[attrib.c_str()] = glGetAttribLocation(m_program, attrib.c_str());
 }
 
-void Shader::RegisterUniform(const char *uniform)
+void Shader::RegisterAttribute(std::initializer_list<std::string> a_args)
 {
-    m_uniforms[uniform] = glGetUniformLocation(m_program, uniform);
+    for (auto i : a_args)
+    {
+        RegisterAttribute(i);
+    }
+}
+
+void Shader::RegisterUniform(std::string uniform)
+{
+    m_uniforms[uniform.c_str()] = glGetUniformLocation(m_program, uniform.c_str());
+}
+
+void Shader::RegisterUniform(std::initializer_list<std::string> a_args)
+{
+    for (auto i : a_args)
+    {
+        RegisterUniform(i);
+    }
 }
 
 std::string Shader::loadFromFile(ShaderType type, const std::string &fileName)
