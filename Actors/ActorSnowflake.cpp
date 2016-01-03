@@ -16,7 +16,6 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
 {
     m_shader->Load("Data/Shaders/snowflake");
     m_texture = TextureManager::get_instance()->GetTexture("Data/Textures/snowflake.png");
-    m_texture->setFiltering();
 
     GLfloat Size = m_size / 2;
     TexturedVertex quad[4] = {

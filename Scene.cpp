@@ -4,6 +4,7 @@
 #include "Actors/ActorCloud.h"
 #include "Actors/ActorBackgroundMountain.h"
 #include "Actors/ActorSnowflake.h"
+#include "Actors/ActorHouse.h"
 
 Scene::Scene(GLuint width, GLuint height) :
     GenericScene(width, height),
@@ -12,6 +13,7 @@ Scene::Scene(GLuint width, GLuint height) :
     AddActor("sun", new ActorSun(100.0f, 100.0f, -0.19f, 100.0f));
     AddActor("cloud01", new ActorCloud(0, 0, (GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight / 1.5f, -0.2f));
     AddActor("background_mountain", new ActorBackgroundMountain((GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight, -0.1f));
+    AddActor("house", new ActorHouse(200, (GLfloat)m_sceneHeight, 0.0f, 300));
     for (size_t i = 0; i < 50; i++)
     {
         std::string name = "snowflake" + i;

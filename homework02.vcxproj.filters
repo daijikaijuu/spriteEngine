@@ -69,6 +69,9 @@
     <ClInclude Include="Render\TextureManager.h">
       <Filter>Заголовочные файлы\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Actors\ActorHouse.h">
+      <Filter>Заголовочные файлы\Actors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="homework02.cpp">
@@ -110,6 +113,9 @@
     <ClCompile Include="Render\TextureManager.cpp">
       <Filter>Файлы исходного кода\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Actors\ActorHouse.cpp">
+      <Filter>Файлы исходного кода\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -135,6 +141,12 @@
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="Data\Shaders\sun.vert.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\house.frag.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\house.vert.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
   </ItemGroup>

@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actors\ActorHouse.cpp" />
     <ClCompile Include="Actors\ActorSnowflake.cpp" />
     <ClCompile Include="Actors\ActorBackgroundMountain.cpp" />
     <ClCompile Include="Actors\ActorCloud.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Render\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actors\ActorHouse.h" />
     <ClInclude Include="Actors\ActorSnowflake.h" />
     <ClInclude Include="Actors\ActorBackgroundMountain.h" />
     <ClInclude Include="Actors\ActorCloud.h" />
@@ -187,6 +189,8 @@
   <ItemGroup>
     <None Include="Data\Shaders\cloud.frag.glsl" />
     <None Include="Data\Shaders\cloud.vert.glsl" />
+    <None Include="Data\Shaders\house.frag.glsl" />
+    <None Include="Data\Shaders\house.vert.glsl" />
     <None Include="Data\Shaders\mountain.frag.glsl" />
     <None Include="Data\Shaders\mountain.vert.glsl" />
     <None Include="Data\Shaders\snowflake.frag.glsl" />

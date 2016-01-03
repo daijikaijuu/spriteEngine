@@ -109,6 +109,8 @@ bool Texture::LoadPNGTexture(const std::string filename)
 
     free(outData);
 
+    setFiltering();
+
     return true;
 }
 
