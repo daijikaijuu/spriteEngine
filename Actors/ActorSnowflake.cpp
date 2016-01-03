@@ -27,8 +27,8 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     m_shader->RegisterAttribute({ "inPosition", "inCoord" });
     m_shader->RegisterUniform({ "projectionMatrix", "modelview", "gSampler" });
 
-    m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(0));
-    m_VAO->Generate(m_shader->GetAttributeLocation("inCoord"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(1));
+    m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
+    m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
 
     GLint projection = m_shader->GetUniformLocation("projectionMatrix");
     if (projection != -1)

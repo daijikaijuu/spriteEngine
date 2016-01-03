@@ -25,8 +25,8 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     m_shader->RegisterAttribute({ "pos", "color" });
     m_shader->RegisterUniform({ "projection", "modelview" });
 
-    m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(0));
-    m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(1));
+    m_VAO->Generate<Vertex>(m_shader, vertexData, "pos", 0);
+    m_VAO->Generate<Vertex>(m_shader, vertexData, "color", 1);
 
     GLint projection = m_shader->GetUniformLocation("projection");
     if (projection != -1)
