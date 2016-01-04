@@ -141,7 +141,7 @@
       <Filter>Файлы исходного кода\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Actors\GenericActor.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Файлы исходного кода\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

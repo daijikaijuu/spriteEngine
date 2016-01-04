@@ -7,7 +7,6 @@
 
 ActorCampfire::ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     TexturedActor(x, y, size, z),
-    m_modelview(0),
     m_item(0),
     m_animationItem(0)
 {
@@ -78,17 +77,4 @@ void ActorCampfire::Animate(GLint elapsedTime)
     GLfloat x = 1.0f / 5.0f * m_animationItem;
 
     glUniform1f(m_item, x);
-}
-
-void ActorCampfire::Move(GLfloat xShift, GLfloat yShift)
-{
-    GenericActor::Move(xShift, yShift);
-
-    m_shader->Bind();
-    if (m_modelview != -1)
-    {
-        glm::mat4 p = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, 0.0f));
-        glUniformMatrix4fv(m_modelview, 1, GL_FALSE, glm::value_ptr(p));
-    }
-    m_shader->UnBind();
 }

@@ -10,8 +10,4 @@ public:
     virtual ~ActorHouse();
 
     virtual void Draw();
-
-    virtual void Move(GLfloat xShift, GLfloat yShift);
-private:
-    GLuint m_modelview;
 };

@@ -24,6 +24,7 @@ public:
 protected:
     GLfloat m_x, m_y, m_z;
     GLfloat m_size;
+    GLint m_modelview;
     GLint m_elapsedTime;
 
     Shader *m_shader;

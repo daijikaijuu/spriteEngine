@@ -5,8 +5,7 @@
 #include "ActorHouse.h"
 
 ActorHouse::ActorHouse(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
-    TexturedActor(x, y, size, z),
-    m_modelview(0)
+    TexturedActor(x, y, size, z)
 {
     m_shader->Load("Data/Shaders/house");
     m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/house.png");
@@ -51,18 +50,5 @@ void ActorHouse::Draw()
 
     m_shader->Bind();
     glDrawArrays(GL_QUADS, 0, 4);
-    m_shader->UnBind();
-}
-
-void ActorHouse::Move(GLfloat xShift, GLfloat yShift)
-{
-    GenericActor::Move(xShift, yShift);
-
-    m_shader->Bind();
-    if (m_modelview != -1)
-    {
-        glm::mat4 p = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, 0.0f));
-        glUniformMatrix4fv(m_modelview, 1, GL_FALSE, glm::value_ptr(p));
-    }
     m_shader->UnBind();
 }

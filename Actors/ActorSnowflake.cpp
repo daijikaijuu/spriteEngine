@@ -5,7 +5,6 @@
 
 ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneWidth, GLuint sceneHeight, GLfloat z) :
     TexturedActor(x, y, size, z),
-    m_modelview(0),
     m_sceneWidth(sceneWidth),
     m_sceneHeight(sceneHeight),
     m_speed(0),
@@ -82,19 +81,4 @@ void ActorSnowflake::Animate(GLint elapsedTime)
     }
     if ((m_x + m_size / 2 > m_sceneWidth) || (m_x - m_size / 2 < 0))
         m_deltaX *= -1;
-}
-
-void ActorSnowflake::Move(GLfloat xShift, GLfloat yShift)
-{
-    GenericActor::Move(xShift, yShift);
-
-    m_shader->Bind();
-    if (m_modelview != -1)
-    {
-        m_angle += m_deltaX / 10;
-        glm::mat4 p = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, 0.0f));
-        p = glm::rotate_slow(p, m_angle, glm::vec3(0, 0, 1));
-        glUniformMatrix4fv(m_modelview, 1, GL_FALSE, glm::value_ptr(p));
-    }
-    m_shader->UnBind();
 }

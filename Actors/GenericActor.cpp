@@ -5,6 +5,7 @@ GenericActor::GenericActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z) :
     m_y(y),
     m_z(z),
     m_size(size),
+    m_modelview(-1),
     m_shader(NULL),
     m_VAO(NULL),
     m_elapsedTime(0)
@@ -42,6 +43,14 @@ void GenericActor::Move(GLfloat xShift, GLfloat yShift)
 {
     m_x += xShift;
     m_y += yShift;
+
+    if (m_modelview != -1)
+    {
+        m_shader->Bind();
+        glm::mat4 p = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, 0.0f));
+        glUniformMatrix4fv(m_modelview, 1, GL_FALSE, glm::value_ptr(p));
+        m_shader->UnBind();
+    }
 }
 
 TexturedActor::TexturedActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z) :

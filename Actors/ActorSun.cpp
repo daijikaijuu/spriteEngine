@@ -10,8 +10,7 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     TexturedActor(x, y, size, z),
     m_angle(0),
     m_rotaryStartAngle(0),
-    m_rotaryEndAngle(0),
-    m_modelview(0)
+    m_rotaryEndAngle(0)
 {
     RecalcAngles(); 
 
@@ -88,19 +87,6 @@ void ActorSun::Animate(GLint elapsedTime)
 
     m_angle += 0.005f;
     RecalcAngles();
-}
-
-void ActorSun::Move(GLfloat xShift, GLfloat yShift)
-{
-    GenericActor::Move(xShift, yShift);
-
-    m_shader->Bind();
-    if (m_modelview != -1)
-    {
-        glm::mat4 p = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, 0.0f));
-        glUniformMatrix4fv(m_modelview, 1, GL_FALSE, glm::value_ptr(p));
-    }
-    m_shader->UnBind();
 }
 
 void ActorSun::RecalcAngles()

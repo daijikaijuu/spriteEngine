@@ -10,13 +10,10 @@ public:
     virtual void Draw();
     virtual void Animate(GLint elapsedTime);
 
-    virtual void Move(GLfloat xShift, GLfloat yShift);
-
 private:
     GLfloat m_angle;
     GLfloat m_rotaryStartAngle;
     GLfloat m_rotaryEndAngle;
-    GLint m_modelview;
 
     void RecalcAngles();
 };
