@@ -1,5 +1,6 @@
 #include "homework02.h"
 #include "Render/FrameBuffer.h"
+#include "Render/TextureManager.h"
 #include "Scene.h"
 #include "Actors/ActorSun.h"
 #include "Actors/ActorCloud.h"
@@ -27,7 +28,10 @@ Scene::Scene(GLuint width, GLuint height) :
 
 
 Scene::~Scene()
-{}
+{
+    FrameBuffer::Destroy();
+    TextureManager::Destroy();
+}
 
 void Scene::Draw()
 {
