@@ -14,7 +14,8 @@ public:
         m_z(z),
         m_size(size),
         m_shader(NULL),
-        m_VAO(NULL)
+        m_VAO(NULL),
+        m_elapsedTime(0)
     {
         m_VAO = new VertexArrayObject();
         m_shader = new Shader();
@@ -39,7 +40,10 @@ public:
     {
         m_VAO->Bind();
     }
-    virtual void Animate() { Draw(); }
+    virtual void Animate(GLint elapsedTime)
+    {
+        m_elapsedTime = elapsedTime;
+    }
 
 	virtual void Move(GLfloat xShift, GLfloat yShift)
 	{
@@ -54,6 +58,7 @@ public:
 protected:
     GLfloat m_x, m_y, m_z;
     GLfloat m_size;
+    GLint m_elapsedTime;
 
     Shader *m_shader;
     VertexArrayObject *m_VAO;

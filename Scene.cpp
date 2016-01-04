@@ -7,6 +7,7 @@
 #include "Actors/ActorBackgroundMountain.h"
 #include "Actors/ActorSnowflake.h"
 #include "Actors/ActorHouse.h"
+#include "Actors/ActorCampfire.h"
 
 Scene::Scene(GLuint width, GLuint height) :
     GenericScene(width, height),
@@ -18,6 +19,7 @@ Scene::Scene(GLuint width, GLuint height) :
     AddActor("cloud01", new ActorCloud(0, 0, (GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight / 1.5f, -0.2f));
     AddActor("background_mountain", new ActorBackgroundMountain((GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight, -0.1f));
     AddActor("house", new ActorHouse(200, (GLfloat)m_sceneHeight, 0.0f, 300));
+    AddActor("campfire", new ActorCampfire(500, (GLfloat)m_sceneHeight, 0.0f, 150));
     for (size_t i = 0; i < 50; i++)
     {
         std::string name = "snowflake" + i;
@@ -43,12 +45,17 @@ void Scene::Draw()
     GenericScene::Draw();
 
     fb->Render();
+}
+
+void Scene::Animate(GLint elapsedTime)
+{
+    GenericScene::Animate(elapsedTime);
 
     GenericActor *sun = GetActor("sun");
     double x = sun->X();
     if (x < m_sceneWidth - 100)
     {
-        sun->Move(0.01f, 0);
+        sun->Move(1.1f, 0);
     }
 }
 

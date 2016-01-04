@@ -73,11 +73,11 @@ void ActorSnowflake::Draw()
     glDisable(GL_BLEND);
 }
 
-void ActorSnowflake::Animate()
+void ActorSnowflake::Animate(GLint elapsedTime)
 {
-    GenericActor::Animate();
+    GenericActor::Animate(elapsedTime);
 
-    Move(0.0f + m_deltaX / 10, 0.0001f + m_speed / 5);
+    Move(m_deltaX, m_speed * 8);
     if (m_y > m_sceneHeight + m_size)
     {
         m_x = GLfloat(rand() % m_sceneWidth);
@@ -98,7 +98,7 @@ void ActorSnowflake::Move(GLfloat xShift, GLfloat yShift)
     m_shader->Bind();
     if (m_modelview != -1)
     {
-        m_angle += m_deltaX / 1000;
+        m_angle += m_deltaX / 10;
         glm::mat4 p = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, 0.0f));
         p = glm::rotate_slow(p, m_angle, glm::vec3(0, 0, 1));
         glUniformMatrix4fv(m_modelview, 1, GL_FALSE, glm::value_ptr(p));

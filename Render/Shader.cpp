@@ -75,7 +75,7 @@ GLuint Shader::GetUniformLocation(std::string uniform)
 
 void Shader::RegisterAttribute(std::string attrib)
 {
-    m_attribList[attrib.c_str()] = glGetAttribLocation(m_program, attrib.c_str());
+    m_attribList[attrib] = glGetAttribLocation(m_program, attrib.c_str());
 }
 
 void Shader::RegisterAttribute(std::initializer_list<std::string> a_args)
@@ -88,7 +88,7 @@ void Shader::RegisterAttribute(std::initializer_list<std::string> a_args)
 
 void Shader::RegisterUniform(std::string uniform)
 {
-    m_uniforms[uniform.c_str()] = glGetUniformLocation(m_program, uniform.c_str());
+    m_uniforms[uniform] = glGetUniformLocation(m_program, uniform.c_str());
 }
 
 void Shader::RegisterUniform(std::initializer_list<std::string> a_args)

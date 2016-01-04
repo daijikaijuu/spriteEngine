@@ -13,7 +13,7 @@ public:
     virtual ~ActorSnowflake();
 
     virtual void Draw();
-    virtual void Animate();
+    virtual void Animate(GLint elapsedTime);
 
     virtual void Move(GLfloat xShift, GLfloat yShift);
 

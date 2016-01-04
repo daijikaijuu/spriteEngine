@@ -16,6 +16,16 @@ void renderScene()
     glutSwapBuffers();
 }
 
+void onTimer(int value)
+{
+    glutTimerFunc(33, onTimer, 0);
+
+    int elapsedTime = glutGet(GLUT_ELAPSED_TIME);
+    scene->Animate(elapsedTime);
+
+    glutPostRedisplay();
+}
+
 void reshape(GLsizei width, GLsizei height)
 {
     if (height == 0)
@@ -41,7 +51,7 @@ int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowPosition(000, 000);
+    glutInitWindowPosition(100, 100);
     glutInitWindowSize(800, 600);
     glutCreateWindow("Homework OpegnGL window");
 
@@ -68,7 +78,7 @@ int main(int argc, char **argv)
     glEnable(GL_DEPTH_TEST);
 
     glutDisplayFunc(renderScene);
-    glutIdleFunc(renderScene);
+    glutTimerFunc(33, onTimer, 0);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(processNormalKeys);
 

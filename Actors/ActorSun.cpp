@@ -89,9 +89,9 @@ void ActorSun::Draw()
     //}
 }
 
-void ActorSun::Animate()
+void ActorSun::Animate(GLint elapsedTime)
 {
-    Draw();
+    GenericActor::Animate(elapsedTime);
 
     m_angle += 0.005f;
     RecalcAngles();

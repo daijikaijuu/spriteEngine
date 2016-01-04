@@ -5,7 +5,7 @@
 class Texture
 {
 public:
-    Texture();
+    Texture(GLsizei items = 1);
     virtual ~Texture();
 
     void LoadTexture(GLuint width, GLuint height, const GLvoid *imageData);
@@ -15,9 +15,11 @@ public:
     void setFiltering();
 
     GLuint GetID() const;
+    GLsizei GetItems() const;
 
 private:
     GLuint m_textureID;
     GLuint m_Sampler;
+    GLsizei m_items;
 };
 

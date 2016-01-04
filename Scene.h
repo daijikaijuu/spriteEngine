@@ -12,6 +12,7 @@ public:
     virtual ~Scene();
 
     virtual void Draw();
+    virtual void Animate(GLint elapsedTime);
 
     virtual GenericActor* GetActor(std::string name);
 

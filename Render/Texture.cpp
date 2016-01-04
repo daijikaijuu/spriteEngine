@@ -1,8 +1,9 @@
 #include <png.h>
 #include "Texture.h"
 
-Texture::Texture() :
-    m_textureID(0)
+Texture::Texture(GLsizei items) :
+    m_textureID(0),
+    m_items(items)
 {
     glGenTextures(1, &m_textureID);
     glBindTexture(GL_TEXTURE_2D, m_textureID);
@@ -132,4 +133,9 @@ void Texture::setFiltering()
 GLuint Texture::GetID() const
 {
     return GLuint(m_textureID);
+}
+
+GLsizei Texture::GetItems() const
+{
+    return GLsizei(m_items);
 }

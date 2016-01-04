@@ -14,12 +14,14 @@ public:
 	GenericScene(GLuint width, GLuint height) :
 		m_sceneWidth(width),
 		m_sceneHeight(height),
-		m_actors()
+		m_actors(),
+        m_elapsedTime(0)
 	{}
 
     virtual ~GenericScene();
 
     virtual void Draw();
+    virtual void Animate(GLint elapsedTime);
 
     void AddActor(std::string name, GenericActor *actor);
     virtual GenericActor* GetActor(std::string name);
@@ -29,4 +31,5 @@ public:
 protected:
     GLuint    m_sceneWidth, m_sceneHeight;
 	actorsMap m_actors;
+    GLint m_elapsedTime;
 };

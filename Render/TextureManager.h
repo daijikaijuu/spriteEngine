@@ -19,7 +19,7 @@ private:
     ~TextureManager();
 
 public:
-    Texture* GetTexture(std::string filename);
+    Texture* GetTexture(std::string filename, GLsizei items = 1);
 
 private:
     texturesMap m_textures;

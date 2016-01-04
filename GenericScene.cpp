@@ -16,7 +16,17 @@ void GenericScene::Draw()
 {
     for (auto &it : m_actors)
     {
-        it.second->Animate();
+        it.second->Draw();
+    }
+}
+
+void GenericScene::Animate(GLint elapsedTime)
+{
+    m_elapsedTime = elapsedTime;
+
+    for (auto &it : m_actors)
+    {
+        it.second->Animate(m_elapsedTime);
     }
 }
 
