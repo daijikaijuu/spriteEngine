@@ -6,13 +6,12 @@
 #include "ActorCloud.h"
 
 ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat z, int octave) :
-    GenericActor(x, y, 0, z),
+    TexturedActor(x, y, 0, z),
     m_width(width),
     m_height(height),
     m_map32(),
     m_textureArray(),
-    m_octave(octave),
-    m_texture(NULL)
+    m_octave(octave)
 {
     m_shader->Load("Data/Shaders/cloud");
     m_texture = new Texture();
@@ -73,21 +72,15 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
 
 ActorCloud::~ActorCloud()
 {
-    if (m_texture)
-    {
-        delete m_texture;
-        m_texture = 0;
-    }
 }
 
 void ActorCloud::Draw()
 {
-    GenericActor::Draw();
+    TexturedActor::Draw();
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     m_shader->Bind();
-    m_texture->BindTexture();
     glDrawArrays(GL_QUADS, 0, 4);
     m_shader->UnBind();
     glDisable(GL_BLEND);

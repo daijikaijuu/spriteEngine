@@ -4,8 +4,7 @@
 #include "ActorSnowflake.h"
 
 ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneWidth, GLuint sceneHeight, GLfloat z) :
-    GenericActor(x, y, size, z),
-    m_texture(NULL),
+    TexturedActor(x, y, size, z),
     m_modelview(0),
     m_sceneWidth(sceneWidth),
     m_sceneHeight(sceneHeight),
@@ -53,21 +52,15 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
 
 ActorSnowflake::~ActorSnowflake()
 {
-    if (m_texture)
-    {
-        delete m_texture;
-        m_texture = NULL;
-    }
 }
 
 void ActorSnowflake::Draw()
 {
-    GenericActor::Draw();
+    TexturedActor::Draw();
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     m_shader->Bind();
-    m_texture->BindTexture();
     glDrawArrays(GL_QUADS, 0, 4);
     m_shader->UnBind();
     glDisable(GL_BLEND);

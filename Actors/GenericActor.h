@@ -1,59 +1,25 @@
 #pragma once
 
-#include <GL/glew.h>
+#include "../homework02.h"
 #include "../Render/Shader.h"
+#include "../Render/Texture.h"
 #include "../Render/VertexArrayObject.h"
 #include "../Render/VertexBufferObject.h"
 
 class GenericActor
 {
 public:
-	GenericActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z = 0.0f) :
-		m_x(x),
-		m_y(y),
-        m_z(z),
-        m_size(size),
-        m_shader(NULL),
-        m_VAO(NULL),
-        m_elapsedTime(0)
-    {
-        m_VAO = new VertexArrayObject();
-        m_shader = new Shader();
-    }
+    GenericActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z = 0.0f);
+    virtual ~GenericActor();
 
-	virtual ~GenericActor()
-    {
-        if (m_shader)
-        {
-            delete m_shader;
-            m_shader = NULL;
-        }
+    virtual void Draw();
+    virtual void Animate(GLint elapsedTime);
 
-        if (m_VAO)
-        {
-            delete m_VAO;
-            m_VAO = NULL;
-        }
-    }
+    virtual void Move(GLfloat xShift, GLfloat yShift);
 
-    virtual void Draw()
-    {
-        m_VAO->Bind();
-    }
-    virtual void Animate(GLint elapsedTime)
-    {
-        m_elapsedTime = elapsedTime;
-    }
-
-	virtual void Move(GLfloat xShift, GLfloat yShift)
-	{
-		m_x += xShift;
-		m_y += yShift;
-	}
-
-    GLfloat X() { return m_x; }
-    GLfloat Y() { return m_y; }
-    GLfloat Z() { return m_z; }
+    inline GLfloat X() { return m_x; }
+    inline GLfloat Y() { return m_y; }
+    inline GLfloat Z() { return m_z; }
 
 protected:
     GLfloat m_x, m_y, m_z;
@@ -62,4 +28,16 @@ protected:
 
     Shader *m_shader;
     VertexArrayObject *m_VAO;
+};
+
+class TexturedActor : public GenericActor
+{
+public:
+    TexturedActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z = 0.0f);
+    virtual ~TexturedActor();
+
+    virtual void Draw();
+
+protected:
+    Texture *m_texture;
 };

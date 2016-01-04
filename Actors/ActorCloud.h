@@ -2,10 +2,7 @@
 #include "../homework02.h"
 #include "GenericActor.h"
 
-class Texture;
-
-class ActorCloud :
-    public GenericActor
+class ActorCloud : public TexturedActor
 {
 public:
     ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat z, int octave = 4);
@@ -19,7 +16,6 @@ private:
     GLfloat m_map256[256 * 256];
     char m_textureArray[256][256][4];
     int m_octave;
-    Texture *m_texture;
 
     void SetNoise();
     void OverlapOctaves();

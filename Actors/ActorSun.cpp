@@ -7,17 +7,16 @@
 #include "ActorSun.h"
 
 ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
-    GenericActor(x, y, size, z),
+    TexturedActor(x, y, size, z),
     m_angle(0),
     m_rotaryStartAngle(0),
     m_rotaryEndAngle(0),
-    m_modelview(0),
-    m_lightTexture(NULL)
+    m_modelview(0)
 {
     RecalcAngles(); 
 
     m_shader->Load("Data/Shaders/sun");
-    m_lightTexture = TextureManager::GetInstance()->GetTexture("Data/Textures/light.png");
+    m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/light.png");
 
     ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, m_size, m_size);
 
@@ -50,21 +49,15 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 
 ActorSun::~ActorSun()
 {
-    if (m_lightTexture)
-    {
-        delete m_lightTexture;
-        m_lightTexture = NULL;
-    }
 }
 
 void ActorSun::Draw()
 {
-    GenericActor::Draw();
+    TexturedActor::Draw();
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_DST_ALPHA, GL_ONE); 
     m_shader->Bind();
-    m_lightTexture->BindTexture();
     glDrawArrays(GL_QUADS, 0, 4);
     m_shader->UnBind();
     glDisable(GL_BLEND);

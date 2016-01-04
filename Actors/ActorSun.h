@@ -1,10 +1,7 @@
 #pragma once
 #include "GenericActor.h"
 
-class Texture;
-
-class ActorSun :
-    public GenericActor
+class ActorSun : public TexturedActor
 {
 public:
     ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size = 200);
@@ -20,7 +17,6 @@ private:
     GLfloat m_rotaryStartAngle;
     GLfloat m_rotaryEndAngle;
     GLint m_modelview;
-    Texture *m_lightTexture;
 
     void RecalcAngles();
 };

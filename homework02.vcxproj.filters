@@ -84,6 +84,9 @@
     <ClInclude Include="Data\Shaders\campfire.frag.glsl">
       <Filter>Файлы ресурсов</Filter>
     </ClInclude>
+    <ClInclude Include="Actors\ActorAmbientLight.h">
+      <Filter>Заголовочные файлы\Actors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="homework02.cpp">
@@ -133,6 +136,12 @@
     </ClCompile>
     <ClCompile Include="Actors\ActorCampfire.cpp">
       <Filter>Файлы исходного кода\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actors\ActorAmbientLight.cpp">
+      <Filter>Файлы исходного кода\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Actors\GenericActor.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

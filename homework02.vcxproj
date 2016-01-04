@@ -154,12 +154,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actors\ActorAmbientLight.cpp" />
     <ClCompile Include="Actors\ActorCampfire.cpp" />
     <ClCompile Include="Actors\ActorHouse.cpp" />
     <ClCompile Include="Actors\ActorSnowflake.cpp" />
     <ClCompile Include="Actors\ActorBackgroundMountain.cpp" />
     <ClCompile Include="Actors\ActorCloud.cpp" />
     <ClCompile Include="Actors\ActorSun.cpp" />
+    <ClCompile Include="Actors\GenericActor.cpp" />
     <ClCompile Include="Render\FrameBuffer.cpp" />
     <ClCompile Include="GenericScene.cpp" />
     <ClCompile Include="helpers.cpp" />
@@ -172,6 +174,7 @@
     <ClCompile Include="Render\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actors\ActorAmbientLight.h" />
     <ClInclude Include="Actors\ActorCampfire.h" />
     <ClInclude Include="Actors\ActorHouse.h" />
     <ClInclude Include="Actors\ActorSnowflake.h" />

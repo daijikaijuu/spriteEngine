@@ -1,9 +1,7 @@
 #pragma once
 #include "GenericActor.h"
 
-class Texture;
-
-class ActorCampfire : public GenericActor
+class ActorCampfire : public TexturedActor
 {
 public:
     ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size);
@@ -15,7 +13,6 @@ public:
     virtual void Move(GLfloat xShift, GLfloat yShift);
 
 private:
-    Texture *m_texCapmfire;
     GLuint m_modelview;
     GLuint m_item, m_animationItem;
 };

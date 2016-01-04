@@ -6,17 +6,16 @@
 #include <time.h>
 
 ActorCampfire::ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
-    GenericActor(x, y, size, z),
-    m_texCapmfire(NULL),
+    TexturedActor(x, y, size, z),
     m_modelview(0),
     m_item(0),
     m_animationItem(0)
 {
     m_shader->Load("Data/Shaders/campfire");
 
-    m_texCapmfire = new Texture(5);
-    m_texCapmfire = TextureManager::GetInstance()->GetTexture("Data/Textures/campfire.png", 5);
-    m_texCapmfire->setFiltering();
+    m_texture = new Texture(5);
+    m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/campfire.png", 5);
+    m_texture->setFiltering();
 
     ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, -size / 2, m_z, size, size);
 
@@ -26,7 +25,7 @@ ActorCampfire::ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 
     m_shader->Bind();
     m_shader->RegisterAttribute({ "inPosition", "inCoord" });
-    m_shader->RegisterUniform({ "projectionMatrix", "modelview", "texture", "items", "g_Time" });
+    m_shader->RegisterUniform({ "projectionMatrix", "modelview", "texture", "spriteCount", "texShift" });
 
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
@@ -39,10 +38,10 @@ ActorCampfire::ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     }
     GLuint samplerLoc = m_shader->GetUniformLocation("texture");
     glUniform1i(samplerLoc, 0);
-    samplerLoc = m_shader->GetUniformLocation("items");
-    glUniform1i(samplerLoc, m_texCapmfire->GetItems());
+    samplerLoc = m_shader->GetUniformLocation("spriteCount");
+    glUniform1i(samplerLoc, m_texture->GetItems());
     m_modelview = m_shader->GetUniformLocation("modelview");
-    m_item = m_shader->GetUniformLocation("g_Time");
+    m_item = m_shader->GetUniformLocation("texShift");
 
     Move(0, 0);
 
@@ -53,19 +52,13 @@ ActorCampfire::ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 
 ActorCampfire::~ActorCampfire()
 {
-    if (m_texCapmfire)
-    {
-        delete m_texCapmfire;
-        m_texCapmfire = NULL;
-    }
 }
 
 void ActorCampfire::Draw()
 {
-    GenericActor::Draw();
+    TexturedActor::Draw();
 
     m_shader->Bind();
-    m_texCapmfire->BindTexture();
     glDrawArrays(GL_QUADS, 0, 4);
     m_shader->UnBind();
 }
@@ -75,7 +68,7 @@ void ActorCampfire::Animate(GLint elapsedTime)
     GenericActor::Animate(elapsedTime);
 
     m_animationItem++;
-    if (m_animationItem > m_texCapmfire->GetItems())
+    if (m_animationItem > (GLuint)m_texture->GetItems())
     {
         m_animationItem = 0;
     }
