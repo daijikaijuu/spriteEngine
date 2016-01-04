@@ -154,11 +154,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actors\ActorCampfire.cpp" />
     <ClCompile Include="Actors\ActorHouse.cpp" />
     <ClCompile Include="Actors\ActorSnowflake.cpp" />
     <ClCompile Include="Actors\ActorBackgroundMountain.cpp" />
     <ClCompile Include="Actors\ActorCloud.cpp" />
     <ClCompile Include="Actors\ActorSun.cpp" />
+    <ClCompile Include="Render\FrameBuffer.cpp" />
     <ClCompile Include="GenericScene.cpp" />
     <ClCompile Include="helpers.cpp" />
     <ClCompile Include="homework02.cpp" />
@@ -170,12 +172,15 @@
     <ClCompile Include="Render\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actors\ActorCampfire.h" />
     <ClInclude Include="Actors\ActorHouse.h" />
     <ClInclude Include="Actors\ActorSnowflake.h" />
     <ClInclude Include="Actors\ActorBackgroundMountain.h" />
     <ClInclude Include="Actors\ActorCloud.h" />
     <ClInclude Include="Actors\ActorSun.h" />
     <ClInclude Include="Actors\GenericActor.h" />
+    <ClInclude Include="Data\Shaders\campfire.frag.glsl" />
+    <ClInclude Include="Render\FrameBuffer.h" />
     <ClInclude Include="GenericScene.h" />
     <ClInclude Include="helpers.h" />
     <ClInclude Include="homework02.h" />
@@ -188,6 +193,7 @@
     <ClInclude Include="Render\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\Shaders\campfire.vert.glsl" />
     <None Include="Data\Shaders\cloud.frag.glsl" />
     <None Include="Data\Shaders\cloud.vert.glsl" />
     <None Include="Data\Shaders\house.frag.glsl" />

@@ -14,6 +14,8 @@ public:
     void BindTexture(GLuint textureUnit = 0);
     void setFiltering();
 
+    GLuint GetID() const;
+
 private:
     GLuint m_textureID;
     GLuint m_Sampler;

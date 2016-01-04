@@ -8,11 +8,11 @@
 class GenericActor
 {
 public:
-	GenericActor(GLfloat x, GLfloat y, GLfloat z = 0.0f, bool animated = true) :
+	GenericActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z = 0.0f) :
 		m_x(x),
 		m_y(y),
         m_z(z),
-		m_animated(animated),
+        m_size(size),
         m_shader(NULL),
         m_VAO(NULL)
     {
@@ -53,7 +53,7 @@ public:
 
 protected:
     GLfloat m_x, m_y, m_z;
-	bool   m_animated;
+    GLfloat m_size;
 
     Shader *m_shader;
     VertexArrayObject *m_VAO;

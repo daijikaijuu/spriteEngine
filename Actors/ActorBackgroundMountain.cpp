@@ -13,7 +13,7 @@ GLfloat fsc(GLfloat i)
 }
 
 ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, GLfloat z) :
-    GenericActor(width, height, z)
+    GenericActor(width, height, 0, z)
 {
     CalculateHeights();
 
@@ -21,7 +21,7 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
 
     std::vector<GLfloat> heights = CalculateHeights();
     const GLuint size = (GLuint)heights.size();
-    Vertex *a = new Vertex[size];
+    VertexColored *a = new VertexColored[size];
     a[0].position = glm::vec3(0, m_y, m_z);
     a[0].color = glm::vec3(1, 0, 0);
     for (size_t i = 1; i < size; i++)

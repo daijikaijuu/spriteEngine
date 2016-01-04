@@ -1,4 +1,5 @@
 #include "homework02.h"
+#include "Render/FrameBuffer.h"
 #include "Scene.h"
 #include "Actors/ActorSun.h"
 #include "Actors/ActorCloud.h"
@@ -10,6 +11,8 @@ Scene::Scene(GLuint width, GLuint height) :
     GenericScene(width, height),
     m_sun(NULL)
 {
+    FrameBuffer::GetInstance()->Resize(width, height);
+
     AddActor("sun", new ActorSun(100.0f, 100.0f, -0.19f, 100.0f));
     AddActor("cloud01", new ActorCloud(0, 0, (GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight / 1.5f, -0.2f));
     AddActor("background_mountain", new ActorBackgroundMountain((GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight, -0.1f));
@@ -28,9 +31,14 @@ Scene::~Scene()
 
 void Scene::Draw()
 {
+    static FrameBuffer *fb = FrameBuffer::GetInstance();
+    fb->Bind();
     RecalcBackground();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     GenericScene::Draw();
+
+    fb->Render();
 
     GenericActor *sun = GetActor("sun");
     double x = sun->X();

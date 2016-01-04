@@ -5,13 +5,12 @@
 #include "ActorHouse.h"
 
 ActorHouse::ActorHouse(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
-    GenericActor(x, y, z),
-    m_size(size),
+    GenericActor(x, y, size, z),
     m_modelview(0),
     m_texBrick(NULL)
 {
     m_shader->Load("Data/Shaders/house");
-    m_texBrick = TextureManager::get_instance()->GetTexture("Data/Textures/house.png");
+    m_texBrick = TextureManager::GetInstance()->GetTexture("Data/Textures/house.png");
 
     ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, -m_size / 2, m_z, m_size, m_size);
 

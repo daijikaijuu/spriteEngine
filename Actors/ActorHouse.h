@@ -15,7 +15,6 @@ public:
 
     virtual void Move(GLfloat xShift, GLfloat yShift);
 private:
-    GLfloat m_size;
     GLuint m_modelview;
     Texture *m_texBrick,
             *m_texWindow;

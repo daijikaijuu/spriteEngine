@@ -128,3 +128,8 @@ void Texture::setFiltering()
     glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
+
+GLuint Texture::GetID() const
+{
+    return GLuint(m_textureID);
+}

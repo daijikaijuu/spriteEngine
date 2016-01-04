@@ -75,6 +75,15 @@
     <ClInclude Include="Render\Vertex.h">
       <Filter>Заголовочные файлы\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Render\FrameBuffer.h">
+      <Filter>Заголовочные файлы\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Actors\ActorCampfire.h">
+      <Filter>Заголовочные файлы\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Shaders\campfire.frag.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="homework02.cpp">
@@ -119,6 +128,12 @@
     <ClCompile Include="Actors\ActorHouse.cpp">
       <Filter>Файлы исходного кода\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Render\FrameBuffer.cpp">
+      <Filter>Файлы исходного кода\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Actors\ActorCampfire.cpp">
+      <Filter>Файлы исходного кода\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -150,6 +165,9 @@
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="Data\Shaders\house.vert.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\campfire.vert.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
   </ItemGroup>

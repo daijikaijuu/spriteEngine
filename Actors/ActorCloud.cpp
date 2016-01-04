@@ -6,7 +6,7 @@
 #include "ActorCloud.h"
 
 ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat z, int octave) :
-    GenericActor(x, y, z),
+    GenericActor(x, y, 0, z),
     m_width(width),
     m_height(height),
     m_map32(),

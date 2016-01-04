@@ -1,8 +1,6 @@
 #include "Texture.h"
 #include "TextureManager.h"
 
-TextureManager * TextureManager::m_instance = NULL;
-
 TextureManager::~TextureManager()
 {
     for (auto &it : m_textures)
@@ -11,7 +9,6 @@ TextureManager::~TextureManager()
     }
     m_textures.clear();
 }
-
 
 Texture* TextureManager::GetTexture(std::string filename)
 {

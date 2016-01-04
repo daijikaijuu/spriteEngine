@@ -4,10 +4,9 @@
 #include "ActorSnowflake.h"
 
 ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneWidth, GLuint sceneHeight, GLfloat z) :
-    GenericActor(x, y, z),
+    GenericActor(x, y, size, z),
     m_texture(NULL),
     m_modelview(0),
-    m_size(size),
     m_sceneWidth(sceneWidth),
     m_sceneHeight(sceneHeight),
     m_speed(0),
@@ -15,7 +14,7 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     m_angle(0)
 {
     m_shader->Load("Data/Shaders/snowflake");
-    m_texture = TextureManager::get_instance()->GetTexture("Data/Textures/snowflake.png");
+    m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/snowflake.png");
 
     ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, m_size, m_size);
 

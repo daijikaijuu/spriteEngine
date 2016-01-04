@@ -2,7 +2,9 @@
 
 #include "../homework02.h"
 
-struct Vertex
+typedef glm::vec3 Vertex;
+
+struct VertexColored
 {
     glm::vec3 position;
     glm::vec3 color;
@@ -54,13 +56,13 @@ struct ShapeData
 class shapeGenerator
 {
 public:
-    static ShapeData<Vertex>* generateQuad(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height, glm::vec3 color)
+    static ShapeData<VertexColored>* generateQuad(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height, glm::vec3 color)
     {
         const GLuint size = 4;
 
-        ShapeData<Vertex> *ret = new ShapeData<Vertex>();
+        ShapeData<VertexColored> *ret = new ShapeData<VertexColored>();
 
-        Vertex data[size] = {
+        VertexColored data[size] = {
             glm::vec3(x - width / 2, y - height / 2, z), color,
             glm::vec3(x - width / 2, y + height / 2, z), color,
             glm::vec3(x + width / 2, y + height / 2, z), color,
@@ -68,7 +70,7 @@ public:
         };
 
         ret->numVertices = size;
-        ret->vertices = new Vertex[ret->numVertices];
+        ret->vertices = new VertexColored[ret->numVertices];
         memcpy(ret->vertices, data, sizeof(data));
 
         return ret;
@@ -94,14 +96,14 @@ public:
         return ret;
     }
 
-    static ShapeData<Vertex>* generateCircle(GLfloat radius, GLfloat z, glm::vec3 color)
+    static ShapeData<VertexColored>* generateCircle(GLfloat radius, GLfloat z, glm::vec3 color)
     {
-        ShapeData<Vertex> *ret = new ShapeData<Vertex>();
+        ShapeData<VertexColored> *ret = new ShapeData<VertexColored>();
 
         const GLuint numberOfSides = 32;
         const GLuint numberofVertices = numberOfSides + 2;
 
-        Vertex data[numberofVertices];
+        VertexColored data[numberofVertices];
         data[0].position = glm::vec3(0.0f, 0.0f, z);
         data[0].color = color;
         for (size_t i = 1; i < numberofVertices; i++)
@@ -113,7 +115,7 @@ public:
         }
 
         ret->numVertices = numberofVertices;
-        ret->vertices = new Vertex[ret->numVertices];
+        ret->vertices = new VertexColored[ret->numVertices];
         memcpy(ret->vertices, data, sizeof(data));
 
         return ret;

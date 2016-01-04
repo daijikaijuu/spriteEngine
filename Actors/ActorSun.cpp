@@ -5,8 +5,7 @@
 #include "ActorSun.h"
 
 ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
-    GenericActor(x, y, z),
-    m_size(size),
+    GenericActor(x, y, size, z),
     m_angle(0),
     m_rotaryStartAngle(0),
     m_rotaryEndAngle(0)
@@ -15,7 +14,7 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 
     m_shader->Load("Data/Shaders/sun");
 
-    ShapeData<Vertex> *vertexData = shapeGenerator::generateCircle(m_size / 2, m_z, glm::vec3(1.0f, 1.0f, 0.0f));
+    ShapeData<VertexColored> *vertexData = shapeGenerator::generateCircle(m_size / 2, m_z, glm::vec3(1.0f, 1.0f, 0.0f));
 
     m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
     m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
@@ -25,8 +24,8 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     m_shader->RegisterAttribute({ "pos", "color" });
     m_shader->RegisterUniform({ "projection", "modelview" });
 
-    m_VAO->Generate<Vertex>(m_shader, vertexData, "pos", 0);
-    m_VAO->Generate<Vertex>(m_shader, vertexData, "color", 1);
+    m_VAO->Generate<VertexColored>(m_shader, vertexData, "pos", 0);
+    m_VAO->Generate<VertexColored>(m_shader, vertexData, "color", 1);
 
     GLint projection = m_shader->GetUniformLocation("projection");
     if (projection != -1)
@@ -85,11 +84,8 @@ void ActorSun::Animate()
 {
     Draw();
 
-    if (m_animated)
-    {
-        m_angle += 0.005f;
-        RecalcAngles();
-    }
+    m_angle += 0.005f;
+    RecalcAngles();
 }
 
 void ActorSun::Move(GLfloat xShift, GLfloat yShift)

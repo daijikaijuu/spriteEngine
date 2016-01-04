@@ -16,7 +16,6 @@ public:
     virtual void Move(GLfloat xShift, GLfloat yShift);
 
 private:
-    GLfloat m_size;
     GLfloat m_angle;
     GLfloat m_rotaryStartAngle;
     GLfloat m_rotaryEndAngle;
