@@ -1,5 +1,6 @@
 #include "GenericScene.h"
-#include "Actors\GenericActor.h"
+#include "Actors/GenericActor.h"
+#include "Render/FrameBuffer.h"
 #include "helpers.h"
 
 GenericScene::~GenericScene()
@@ -13,9 +14,6 @@ GenericScene::~GenericScene()
 
 void GenericScene::Draw()
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-
     for (auto &it : m_actors)
     {
         it.second->Animate();
@@ -39,6 +37,8 @@ void GenericScene::ResizeScene(GLuint width, GLuint height)
 {
     m_sceneWidth = width;
     m_sceneHeight = height;
+
+    FrameBuffer::GetInstance()->Resize(width, height);
 
     Draw();
 }

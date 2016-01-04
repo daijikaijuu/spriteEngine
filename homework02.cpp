@@ -22,6 +22,7 @@ void reshape(GLsizei width, GLsizei height)
         height = 1;
 
     glViewport(0, 0, width, height);
+    scene->ResizeScene(width, height);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();

@@ -14,6 +14,7 @@ public:
     virtual void Draw();
 
     virtual GenericActor* GetActor(std::string name);
+
 private:
     GenericActor *m_sun;
 

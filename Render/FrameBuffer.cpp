@@ -79,6 +79,8 @@ FrameBuffer::~FrameBuffer()
 
 void FrameBuffer::Resize(GLsizei width, GLsizei height)
 {
+    Bind();
+    
     m_texture->LoadTexture(width, height, NULL);
     m_texture->setFiltering();
 
