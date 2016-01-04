@@ -2,30 +2,35 @@
 #include "../helpers.h"
 #include "../Render/Vertex.h"
 #include "../Render/Shader.h"
+#include "../Render/Texture.h"
+#include "../Render/TextureManager.h"
 #include "ActorSun.h"
 
 ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     GenericActor(x, y, size, z),
     m_angle(0),
     m_rotaryStartAngle(0),
-    m_rotaryEndAngle(0)
+    m_rotaryEndAngle(0),
+    m_modelview(0),
+    m_lightTexture(NULL)
 {
     RecalcAngles(); 
 
     m_shader->Load("Data/Shaders/sun");
+    m_lightTexture = TextureManager::GetInstance()->GetTexture("Data/Textures/light.png");
 
-    ShapeData<VertexColored> *vertexData = shapeGenerator::generateCircle(m_size / 2, m_z, glm::vec3(1.0f, 1.0f, 0.0f));
+    ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, m_size, m_size);
 
     m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
     m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
     m_shader->Bind();
-    m_shader->RegisterAttribute({ "pos", "color" });
-    m_shader->RegisterUniform({ "projection", "modelview" });
+    m_shader->RegisterAttribute({ "inPosition", "inCoord" });
+    m_shader->RegisterUniform({ "projection", "modelview", "gSampler" });
 
-    m_VAO->Generate<VertexColored>(m_shader, vertexData, "pos", 0);
-    m_VAO->Generate<VertexColored>(m_shader, vertexData, "color", 1);
+    m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
+    m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
 
     GLint projection = m_shader->GetUniformLocation("projection");
     if (projection != -1)
@@ -33,6 +38,8 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
         glm::mat4 p = glm::ortho(0.0f, 1.0f * 800, 1.0f * 600, 0.0f);
         glUniformMatrix4fv(projection, 1, GL_FALSE, glm::value_ptr(p));
     }
+    GLuint sampler = m_shader->GetUniformLocation("gSampler");
+    glUniform1i(sampler, 0);
     m_modelview = m_shader->GetUniformLocation("modelview");
     Move(0, 0); // Update modelview
 
@@ -43,6 +50,11 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 
 ActorSun::~ActorSun()
 {
+    if (m_lightTexture)
+    {
+        delete m_lightTexture;
+        m_lightTexture = NULL;
+    }
 }
 
 void ActorSun::Draw()
@@ -52,13 +64,10 @@ void ActorSun::Draw()
     glEnable(GL_BLEND);
     glBlendFunc(GL_DST_ALPHA, GL_ONE); 
     m_shader->Bind();
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 34);
+    m_lightTexture->BindTexture();
+    glDrawArrays(GL_QUADS, 0, 4);
     m_shader->UnBind();
     glDisable(GL_BLEND);
-    //double radius = m_size / 3;
-    //double innerColor[] = { 0.6f, 0.6f, 0.0f };
-    //double outterColor[] = { 1.0f, 1.0f, 0.0f };
-    //drawRadialGradientCircle(m_x, m_y, radius, outterColor, innerColor);
 
     //double length = radius;
     //double rays = 16;

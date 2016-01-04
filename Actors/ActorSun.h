@@ -1,7 +1,7 @@
 #pragma once
 #include "GenericActor.h"
 
-class Shader;
+class Texture;
 
 class ActorSun :
     public GenericActor
@@ -20,7 +20,7 @@ private:
     GLfloat m_rotaryStartAngle;
     GLfloat m_rotaryEndAngle;
     GLint m_modelview;
+    Texture *m_lightTexture;
 
     void RecalcAngles();
 };
-

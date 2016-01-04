@@ -1,9 +1,11 @@
 #version 400
 
-in vec3 fColor;
+in vec2 texCoord;
 
 out vec4 outColor;
 
+uniform sampler2D gSampler;
+
 void main() {
-	outColor = vec4(fColor, 1.0);
+	outColor = texture2D(gSampler, texCoord) * vec4(1, 1, 0, 1);
 }
