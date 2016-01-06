@@ -8,6 +8,7 @@
 #include "Actors/ActorSnowflake.h"
 #include "Actors/ActorHouse.h"
 #include "Actors/ActorCampfire.h"
+#include "Actors/ActorAmbientLight.h"
 
 Scene::Scene(GLuint width, GLuint height) :
     GenericScene(width, height),
@@ -20,6 +21,7 @@ Scene::Scene(GLuint width, GLuint height) :
     AddActor("background_mountain", new ActorBackgroundMountain((GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight, -0.1f));
     AddActor("house", new ActorHouse(200, (GLfloat)m_sceneHeight, 0.0f, 300));
     AddActor("campfire", new ActorCampfire(500, (GLfloat)m_sceneHeight, 0.0f, 150));
+    //AddActor("sunlight", new ActorAmbientLight(100.0f, 100.0f, -0.18f, 200, glm::vec3(1, 1, 0)));
     for (size_t i = 0; i < 50; i++)
     {
         std::string name = "snowflake" + i;

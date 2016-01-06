@@ -179,5 +179,11 @@
     <None Include="Data\Shaders\campfire.vert.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
+    <None Include="Data\Shaders\light.vert.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\light.frag.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
   </ItemGroup>
 </Project>

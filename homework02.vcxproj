@@ -201,6 +201,8 @@
     <None Include="Data\Shaders\cloud.vert.glsl" />
     <None Include="Data\Shaders\house.frag.glsl" />
     <None Include="Data\Shaders\house.vert.glsl" />
+    <None Include="Data\Shaders\light.frag.glsl" />
+    <None Include="Data\Shaders\light.vert.glsl" />
     <None Include="Data\Shaders\mountain.frag.glsl" />
     <None Include="Data\Shaders\mountain.vert.glsl" />
     <None Include="Data\Shaders\snowflake.frag.glsl" />
