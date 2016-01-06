@@ -29,12 +29,7 @@ ActorCampfire::ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
 
-    GLint projection = m_shader->GetUniformLocation("projectionMatrix");
-    if (projection != -1)
-    {
-        glm::mat4 p = glm::ortho(0.0f, 1.0f * 800, 1.0f * 600, 0.0f);
-        glUniformMatrix4fv(projection, 1, GL_FALSE, glm::value_ptr(p));
-    }
+    m_projection = m_shader->GetUniformLocation("projectionMatrix");
     GLuint samplerLoc = m_shader->GetUniformLocation("texture");
     glUniform1i(samplerLoc, 0);
     samplerLoc = m_shader->GetUniformLocation("spriteCount");

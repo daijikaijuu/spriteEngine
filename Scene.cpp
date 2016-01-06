@@ -28,13 +28,13 @@ Scene::Scene(GLuint width, GLuint height) :
         AddActor(name, new ActorSnowflake(GLfloat(rand() % m_sceneWidth), GLfloat(rand() % m_sceneHeight / 2),
                                           GLfloat(15 + rand() % 20), m_sceneWidth, m_sceneHeight, 0.2f));
     }
+
+    ResizeScene(m_sceneWidth, m_sceneHeight);
 }
 
 
 Scene::~Scene()
 {
-    FrameBuffer::Destroy();
-    TextureManager::Destroy();
 }
 
 void Scene::Draw()
@@ -58,6 +58,10 @@ void Scene::Animate(GLint elapsedTime)
     if (x < m_sceneWidth - 100)
     {
         sun->Move(1.1f, 0);
+    }
+    else // In case of window resize
+    {        
+        sun->MoveTo((GLfloat)m_sceneWidth - 100, sun->Y());
     }
 }
 

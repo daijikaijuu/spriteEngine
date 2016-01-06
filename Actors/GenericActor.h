@@ -16,14 +16,21 @@ public:
     virtual void Animate(GLint elapsedTime);
 
     virtual void Move(GLfloat xShift, GLfloat yShift);
+    virtual void MoveTo(GLfloat x, GLfloat y);
+    virtual void ResizeScene(GLsizei width, GLsizei height);
 
     inline GLfloat X() { return m_x; }
     inline GLfloat Y() { return m_y; }
     inline GLfloat Z() { return m_z; }
 
+private:
+    void UpdateModelView();
+
 protected:
     GLfloat m_x, m_y, m_z;
+    GLsizei m_sceneWidth, m_sceneHeight;
     GLfloat m_size;
+    GLint m_projection;
     GLint m_modelview;
     GLint m_elapsedTime;
 

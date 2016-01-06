@@ -1,6 +1,7 @@
 #include "GenericScene.h"
 #include "Actors/GenericActor.h"
 #include "Render/FrameBuffer.h"
+#include "Render/TextureManager.h"
 #include "helpers.h"
 
 GenericScene::~GenericScene()
@@ -10,6 +11,9 @@ GenericScene::~GenericScene()
         delete it.second;
     }
     m_actors.clear();
+
+    FrameBuffer::Destroy();
+    TextureManager::Destroy();
 }
 
 void GenericScene::Draw()
@@ -43,10 +47,13 @@ GenericActor* GenericScene::GetActor(std::string name)
     return it->second;
 }
 
-void GenericScene::ResizeScene(GLuint width, GLuint height)
+void GenericScene::ResizeScene(GLsizei width, GLsizei height)
 {
     m_sceneWidth = width;
     m_sceneHeight = height;
+
+    for (auto &it : m_actors)
+        it.second->ResizeScene(width, height);
 
     FrameBuffer::GetInstance()->Resize(width, height);
 

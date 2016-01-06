@@ -42,15 +42,8 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
 
     m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
     m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-    GLint projection = m_shader->GetUniformLocation("projection");
-    if (projection != -1)
-    {
-        glm::mat4 p = glm::ortho(0.0f, 1.0f * 800, 1.0f * 600, 0.0f);
-        glUniformMatrix4fv(projection, 1, GL_FALSE, glm::value_ptr(p));
-    }
-    GLint windowHeight = m_shader->GetUniformLocation("windowHeight");
-    if (windowHeight != -1)
-        glUniform1i(windowHeight, (GLuint)m_y);
+    m_projection = m_shader->GetUniformLocation("projection");
+
     m_shader->UnBind();
 
     delete a;
@@ -68,6 +61,19 @@ void ActorBackgroundMountain::Draw()
     m_shader->Bind();
     glDrawArrays(GL_POLYGON, 0, 800);
     m_shader->UnBind();
+}
+
+void ActorBackgroundMountain::ResizeScene(GLsizei width, GLsizei height)
+{
+    GenericActor::ResizeScene(width, height);
+
+    GLint windowHeight = m_shader->GetUniformLocation("windowHeight");
+    if (windowHeight != -1)
+    {
+        m_shader->Bind();
+        glUniform1i(windowHeight, (GLsizei)height);
+        m_shader->UnBind();
+    }
 }
 
 std::vector<GLfloat> ActorBackgroundMountain::CalculateHeights()

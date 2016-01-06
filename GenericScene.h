@@ -11,7 +11,7 @@ class GenericScene
 {
 	using actorsMap = std::map<std::string, GenericActor*>;
 public:
-	GenericScene(GLuint width, GLuint height) :
+	GenericScene(GLsizei width, GLsizei height) :
 		m_sceneWidth(width),
 		m_sceneHeight(height),
 		m_actors(),
@@ -26,7 +26,7 @@ public:
     void AddActor(std::string name, GenericActor *actor);
     virtual GenericActor* GetActor(std::string name);
 
-    void ResizeScene(GLuint width, GLuint height);
+    void ResizeScene(GLsizei width, GLsizei height);
 
 protected:
     GLuint    m_sceneWidth, m_sceneHeight;
