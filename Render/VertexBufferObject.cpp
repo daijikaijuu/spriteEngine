@@ -66,5 +66,5 @@ GLvoid* VertexBufferObject::GetDataPointer() const
 {
     if (m_dataUploaded)
         return nullptr;
-    return (GLvoid*)m_data[0];
+    return (GLvoid*)(intptr_t)m_data[0];
 }
