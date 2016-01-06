@@ -53,5 +53,5 @@ public:
 protected:
     Texture *m_texture;
 
-    virtual void UpdateMVP();
+    virtual void BindShaderAttributesAndUniforms();
 };

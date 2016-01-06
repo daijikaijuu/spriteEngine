@@ -42,7 +42,4 @@ void ActorHouse::BindShaderAttributesAndUniforms()
     TexturedActor::BindShaderAttributesAndUniforms();
 
     m_shader->RegisterAttribute({ "inPosition", "inCoord" });
-    m_shader->RegisterUniform("gSampler");
-
-    glUniform1i(m_shader->GetUniformLocation("gSampler"), 0);
 }

@@ -24,8 +24,6 @@ ActorAmbientLight::ActorAmbientLight(GLfloat x, GLfloat y, GLfloat z, GLfloat si
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
 
-    UpdateMVP();
-
     delete vertexData;
 }
 
@@ -47,12 +45,6 @@ void ActorAmbientLight::ResizeScene(GLsizei width, GLsizei height)
 {
     TexturedActor::ResizeScene(width, height);
 
-    GLint projection = m_shader->GetUniformLocation("projection");
-    if (projection != -1)
-    {
-        glm::mat4 p = glm::ortho(0.0f, 1.0f * width, 1.0f * height, 0.0f);
-        glUniformMatrix4fv(projection, 1, GL_FALSE, glm::value_ptr(p));
-    }
     glUniform2fv(m_shader->GetUniformLocation("resolution"), 1, glm::value_ptr(glm::vec2(width, height)));
 }
 
@@ -61,9 +53,8 @@ void ActorAmbientLight::BindShaderAttributesAndUniforms()
     TexturedActor::BindShaderAttributesAndUniforms();
 
     m_shader->RegisterAttribute({ "inPosition", "inCoord" });
-    m_shader->RegisterUniform({ "gSampler", "lightColor", "lightmap", "resolution" });
+    m_shader->RegisterUniform({ "lightColor", "lightmap", "resolution" });
 
-    glUniform1i(m_shader->GetUniformLocation("gSampler"), 1);
     glUniform3fv(m_shader->GetUniformLocation("lightColor"), 1, glm::value_ptr(m_color));
-    glUniform1i(m_shader->GetUniformLocation("lightmap"), 0);
+    glUniform1i(m_shader->GetUniformLocation("lightmap"), 1);
 }

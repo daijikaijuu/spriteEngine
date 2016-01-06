@@ -27,8 +27,6 @@ ActorCampfire::ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
 
-    UpdateMVP();
-
     delete vertexData;
 }
 
@@ -67,9 +65,8 @@ void ActorCampfire::BindShaderAttributesAndUniforms()
     TexturedActor::BindShaderAttributesAndUniforms();
 
     m_shader->RegisterAttribute({ "inPosition", "inCoord" });
-    m_shader->RegisterUniform({ "texture", "spriteCount", "texShift" });
+    m_shader->RegisterUniform({ "spriteCount", "texShift" });
 
-    glUniform1i(m_shader->GetUniformLocation("texture"), 0);
     glUniform1i(m_shader->GetUniformLocation("spriteCount"), m_texture->GetItems());
     m_item = m_shader->GetUniformLocation("texShift");
 }

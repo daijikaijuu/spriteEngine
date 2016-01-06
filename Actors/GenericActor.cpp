@@ -116,7 +116,9 @@ void TexturedActor::Draw()
     m_texture->BindTexture();
 }
 
-void TexturedActor::UpdateMVP()
+void TexturedActor::BindShaderAttributesAndUniforms()
 {
-    GenericActor::UpdateMVP();
+    GenericActor::BindShaderAttributesAndUniforms();
+
+    glUniform1i(m_shader->GetUniformLocation("gSampler"), 0);
 }

@@ -25,8 +25,6 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
 
-    UpdateMVP();
-
     m_speed = (GLfloat)rand() / (RAND_MAX + 1);
     m_deltaX = (GLfloat)rand() / (RAND_MAX + 1);
     if (rand() % 2 > 1)
@@ -74,7 +72,4 @@ void ActorSnowflake::BindShaderAttributesAndUniforms()
     TexturedActor::BindShaderAttributesAndUniforms();
 
     m_shader->RegisterAttribute({ "inPosition", "inCoord" });
-    m_shader->RegisterUniform("gSampler");
-
-    glUniform1i(m_shader->GetUniformLocation("gSampler"), 0);
 }
