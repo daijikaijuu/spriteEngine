@@ -22,6 +22,8 @@ public:
 
     void AttachTexture(Texture *texture);
 
+    Texture* GetTexture() const;
+
 private:
     GLuint m_ID, m_depthBuffer;
     GLuint m_width, m_height;

@@ -130,3 +130,8 @@ void FrameBuffer::AttachTexture(Texture *texture)
 #endif // DEBUG
 
 }
+
+Texture* FrameBuffer::GetTexture() const
+{
+    return m_texture;
+}
