@@ -2,8 +2,8 @@
 
 #include "..\homework02.h"
 #include "Vertex.h"
+#include "Shader.h"
 
-class Shader;
 class VertexBufferObject;
 
 class VertexArrayObject
