@@ -81,7 +81,7 @@ void GenericActor::UpdateMVP()
     {
         m_shader->Bind();
         m_view = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, 0.0f));
-        glm::mat4 MVPmatrix = m_projection * m_view;
+        glm::mat4 MVPmatrix = m_projection * m_view * m_model;
         glUniformMatrix4fv(m_MVP, 1, GL_FALSE, glm::value_ptr(MVPmatrix));
         m_shader->UnBind();
     }

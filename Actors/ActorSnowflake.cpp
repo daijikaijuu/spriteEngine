@@ -65,6 +65,8 @@ void ActorSnowflake::Animate(GLint elapsedTime)
     }
     if ((m_x + m_size / 2 > m_sceneWidth) || (m_x - m_size / 2 < 0))
         m_deltaX *= -1;
+
+    m_model = glm::rotate_slow(m_model, m_deltaX / 10, glm::vec3(0, 0, 1));
 }
 
 void ActorSnowflake::BindShaderAttributesAndUniforms()
