@@ -55,7 +55,7 @@ void GenericScene::ResizeScene(GLsizei width, GLsizei height)
     for (auto &it : m_actors)
         it.second->ResizeScene(width, height);
 
-    FrameBuffer::GetInstance()->Resize(width, height);
+    FrameBuffer::GetInstance()->ResizeScene(width, height);
 
     Draw();
 }

@@ -12,6 +12,9 @@ public:
     virtual void Draw();
     virtual void Animate(GLint elapsedTime);
 
+protected:
+    virtual void BindShaderAttributesAndUniforms();
+
 private:
     GLfloat m_speed, m_deltaX;
     GLfloat m_angle;

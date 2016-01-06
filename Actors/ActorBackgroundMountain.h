@@ -14,6 +14,9 @@ public:
     virtual void Draw();
     virtual void ResizeScene(GLsizei width, GLsizei height);
 
+protected:
+    virtual void BindShaderAttributesAndUniforms();
+
 private:
     std::vector<GLfloat> CalculateHeights();
 };

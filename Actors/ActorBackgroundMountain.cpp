@@ -13,7 +13,7 @@ GLfloat fsc(GLfloat i)
 }
 
 ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, GLfloat z) :
-    GenericActor(width, height, 0, z)
+    GenericActor(0, 0, 0, z)
 {
     CalculateHeights();
 
@@ -22,29 +22,24 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
     std::vector<GLfloat> heights = CalculateHeights();
     const GLuint size = (GLuint)heights.size();
     VertexColored *a = new VertexColored[size];
-    a[0].position = glm::vec3(0, m_y, m_z);
+    a[0].position = glm::vec3(0, 600, m_z);
     a[0].color = glm::vec3(1, 0, 0);
     for (size_t i = 1; i < size; i++)
     {
         a[i].position = glm::vec3(i, 100 + heights[i] * 100, m_z);
         a[i].color = glm::vec3(1.0f, 1.0f, 1.0f);
     }
-    a[size-1].position = glm::vec3(m_x, m_y, m_z);
+    a[size-1].position = glm::vec3(800, 600, m_z);
     a[size-1].color = glm::vec3(1, 0, 0);
 
     m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
     m_VAO->GetVBO()->AddData(a, sizeof(GLfloat) * 6 * size);
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
-    m_shader->Bind();
-    m_shader->RegisterAttribute({ "pos", "color" });
-    m_shader->RegisterUniform({ "projection", "windowHeight" });
+    BindShaderAttributesAndUniforms();
 
     m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
     m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-    m_projection = m_shader->GetUniformLocation("projection");
-
-    m_shader->UnBind();
 
     delete a;
 }
@@ -76,9 +71,20 @@ void ActorBackgroundMountain::ResizeScene(GLsizei width, GLsizei height)
     }
 }
 
+void ActorBackgroundMountain::BindShaderAttributesAndUniforms()
+{
+    GenericActor::BindShaderAttributesAndUniforms();
+
+    m_shader->RegisterAttribute({ "pos", "color" });
+    m_shader->RegisterUniform("windowHeight");
+
+    m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
+    m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+}
+
 std::vector<GLfloat> ActorBackgroundMountain::CalculateHeights()
 {
-    const int step = int(m_x);
+    const int step = int(800);
     srand((unsigned)time(NULL));
 
     GLfloat buffer[4096];
@@ -97,7 +103,7 @@ std::vector<GLfloat> ActorBackgroundMountain::CalculateHeights()
     
     for (int i = 0; i < step; i++)
     {
-        GLfloat x = i / m_x;
+        GLfloat x = i / 800.0f;
 
         if (x < 0) x = -x;
         GLfloat r = 0;

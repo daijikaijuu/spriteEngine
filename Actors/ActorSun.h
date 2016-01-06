@@ -10,6 +10,9 @@ public:
     virtual void Draw();
     virtual void Animate(GLint elapsedTime);
 
+protected:
+    virtual void BindShaderAttributesAndUniforms();
+
 private:
     GLfloat m_angle;
     GLfloat m_rotaryStartAngle;

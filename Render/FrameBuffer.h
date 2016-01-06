@@ -2,33 +2,33 @@
 
 #include "../homework02.h"
 #include "../helpers.h"
+#include "../Actors/GenericActor.h"
 
 class Texture;
 class VertexArrayObject;
 class Shader;
 
-class FrameBuffer : public Singleton<FrameBuffer>
+class FrameBuffer : public Singleton<FrameBuffer>, public TexturedActor
 {
     friend Singleton<FrameBuffer>;
 public:
     FrameBuffer();
     virtual ~FrameBuffer();
 
-    void Resize(GLsizei width, GLsizei height);
+    virtual void ResizeScene(GLsizei width, GLsizei height);
 
-    void Bind();
-    void UnBind();
-    void Render();
-
-    void AttachTexture(Texture *texture);
+    void BindFrameBuffer();
+    void UnbindFrameBuffer();
+    virtual void Draw();
 
     Texture* GetTexture() const;
 
+protected:
+    virtual void BindShaderAttributesAndUniforms();
+
 private:
     GLuint m_ID, m_depthBuffer;
-    GLuint m_width, m_height;
-    Texture *m_texture;
-    VertexArrayObject *m_VAO;
-    Shader *m_shader;
+
+    void AttachTexture();
 };
 

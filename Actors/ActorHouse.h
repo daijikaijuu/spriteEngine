@@ -10,4 +10,7 @@ public:
     virtual ~ActorHouse();
 
     virtual void Draw();
+
+protected:
+    virtual void BindShaderAttributesAndUniforms();
 };

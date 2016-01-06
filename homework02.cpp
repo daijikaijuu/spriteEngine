@@ -34,11 +34,11 @@ void reshape(GLsizei width, GLsizei height)
     glViewport(0, 0, width, height);
     scene->ResizeScene(width, height);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    //glMatrixMode(GL_PROJECTION);
+    //glLoadIdentity();
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    //glMatrixMode(GL_MODELVIEW);
+    //glLoadIdentity();
 }
 
 void processNormalKeys(unsigned char key, int x, int y)

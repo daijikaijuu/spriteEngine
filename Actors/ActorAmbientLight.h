@@ -10,6 +10,10 @@ public:
     virtual ~ActorAmbientLight();
 
     virtual void Draw();
+    virtual void ResizeScene(GLsizei width, GLsizei height);
+
+protected:
+    virtual void BindShaderAttributesAndUniforms();
 
 private:
     glm::vec3 m_color;

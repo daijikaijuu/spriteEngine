@@ -22,24 +22,12 @@ ActorCampfire::ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
-    m_shader->Bind();
-    m_shader->RegisterAttribute({ "inPosition", "inCoord" });
-    m_shader->RegisterUniform({ "projectionMatrix", "modelview", "texture", "spriteCount", "texShift" });
+    BindShaderAttributesAndUniforms();
 
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
 
-    m_projection = m_shader->GetUniformLocation("projectionMatrix");
-    GLuint samplerLoc = m_shader->GetUniformLocation("texture");
-    glUniform1i(samplerLoc, 0);
-    samplerLoc = m_shader->GetUniformLocation("spriteCount");
-    glUniform1i(samplerLoc, m_texture->GetItems());
-    m_modelview = m_shader->GetUniformLocation("modelview");
-    m_item = m_shader->GetUniformLocation("texShift");
-
-    Move(0, 0);
-
-    m_shader->UnBind();
+    UpdateMVP();
 
     delete vertexData;
 }
@@ -72,4 +60,16 @@ void ActorCampfire::Animate(GLint elapsedTime)
     GLfloat x = 1.0f / 5.0f * m_animationItem;
 
     glUniform1f(m_item, x);
+}
+
+void ActorCampfire::BindShaderAttributesAndUniforms()
+{
+    TexturedActor::BindShaderAttributesAndUniforms();
+
+    m_shader->RegisterAttribute({ "inPosition", "inCoord" });
+    m_shader->RegisterUniform({ "texture", "spriteCount", "texShift" });
+
+    glUniform1i(m_shader->GetUniformLocation("texture"), 0);
+    glUniform1i(m_shader->GetUniformLocation("spriteCount"), m_texture->GetItems());
+    m_item = m_shader->GetUniformLocation("texShift");
 }

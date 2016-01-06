@@ -10,6 +10,9 @@ public:
     virtual void Draw();
     virtual void Animate(GLint elapsedTime);
 
+protected:
+    virtual void BindShaderAttributesAndUniforms();
+
 private:
     GLuint m_item, m_animationItem;
 };

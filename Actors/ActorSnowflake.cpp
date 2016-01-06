@@ -20,21 +20,12 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
-    m_shader->Bind();
-    m_shader->RegisterAttribute({ "inPosition", "inCoord" });
-    m_shader->RegisterUniform({ "projectionMatrix", "modelview", "gSampler" });
+    BindShaderAttributesAndUniforms();
 
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
 
-    m_projection = m_shader->GetUniformLocation("projectionMatrix");
-    m_modelview = m_shader->GetUniformLocation("modelview");
-    GLuint samplerLoc = m_shader->GetUniformLocation("gSampler");
-    glUniform1i(samplerLoc, 0);
-
-    Move(0, 0);
-
-    m_shader->UnBind();
+    UpdateMVP();
 
     m_speed = (GLfloat)rand() / (RAND_MAX + 1);
     m_deltaX = (GLfloat)rand() / (RAND_MAX + 1);
@@ -76,4 +67,14 @@ void ActorSnowflake::Animate(GLint elapsedTime)
     }
     if ((m_x + m_size / 2 > m_sceneWidth) || (m_x - m_size / 2 < 0))
         m_deltaX *= -1;
+}
+
+void ActorSnowflake::BindShaderAttributesAndUniforms()
+{
+    TexturedActor::BindShaderAttributesAndUniforms();
+
+    m_shader->RegisterAttribute({ "inPosition", "inCoord" });
+    m_shader->RegisterUniform("gSampler");
+
+    glUniform1i(m_shader->GetUniformLocation("gSampler"), 0);
 }

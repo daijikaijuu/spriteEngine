@@ -19,27 +19,12 @@ ActorAmbientLight::ActorAmbientLight(GLfloat x, GLfloat y, GLfloat z, GLfloat si
     m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
-    m_shader->Bind();
-    m_shader->RegisterAttribute({ "inPosition", "inCoord" });
-    m_shader->RegisterUniform({ "projection", "modelview", "gSampler", "lightColor", "lightmap", "resolution" });
+    BindShaderAttributesAndUniforms();
 
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
 
-    GLint projection = m_shader->GetUniformLocation("projection");
-    if (projection != -1)
-    {
-        glm::mat4 p = glm::ortho(0.0f, 1.0f * 800, 1.0f * 600, 0.0f);
-        glUniformMatrix4fv(projection, 1, GL_FALSE, glm::value_ptr(p));
-    }
-    glUniform1i(m_shader->GetUniformLocation("gSampler"), 1);
-    m_modelview = m_shader->GetUniformLocation("modelview");
-    glUniform3fv(m_shader->GetUniformLocation("lightColor"), 1, glm::value_ptr(m_color));
-    glUniform2fv(m_shader->GetUniformLocation("resolution"), 1, glm::value_ptr(glm::vec2(800.0f, 600.0f)));
-    glUniform1i(m_shader->GetUniformLocation("lightmap"), 0);
-    Move(0, 0); // Update modelview
-
-    m_shader->UnBind();
+    UpdateMVP();
 
     delete vertexData;
 }
@@ -56,4 +41,29 @@ void ActorAmbientLight::Draw()
     m_shader->Bind();
     glDrawArrays(GL_QUADS, 0, 4);
     m_shader->UnBind();
+}
+
+void ActorAmbientLight::ResizeScene(GLsizei width, GLsizei height)
+{
+    TexturedActor::ResizeScene(width, height);
+
+    GLint projection = m_shader->GetUniformLocation("projection");
+    if (projection != -1)
+    {
+        glm::mat4 p = glm::ortho(0.0f, 1.0f * width, 1.0f * height, 0.0f);
+        glUniformMatrix4fv(projection, 1, GL_FALSE, glm::value_ptr(p));
+    }
+    glUniform2fv(m_shader->GetUniformLocation("resolution"), 1, glm::value_ptr(glm::vec2(width, height)));
+}
+
+void ActorAmbientLight::BindShaderAttributesAndUniforms()
+{
+    TexturedActor::BindShaderAttributesAndUniforms();
+
+    m_shader->RegisterAttribute({ "inPosition", "inCoord" });
+    m_shader->RegisterUniform({ "gSampler", "lightColor", "lightmap", "resolution" });
+
+    glUniform1i(m_shader->GetUniformLocation("gSampler"), 1);
+    glUniform3fv(m_shader->GetUniformLocation("lightColor"), 1, glm::value_ptr(m_color));
+    glUniform1i(m_shader->GetUniformLocation("lightmap"), 0);
 }

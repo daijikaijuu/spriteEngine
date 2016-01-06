@@ -7,8 +7,10 @@ GenericActor::GenericActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z) :
     m_size(size),
     m_sceneWidth(0),
     m_sceneHeight(0),
-    m_projection(-1),
-    m_modelview(-1),
+    m_MVP(-1),
+    m_model(glm::mat4(1.0f)),
+    m_view(glm::mat4(1.0f)),
+    m_projection(glm::mat4(1.0f)),
     m_shader(NULL),
     m_VAO(NULL),
     m_elapsedTime(0)
@@ -47,7 +49,7 @@ void GenericActor::Move(GLfloat xShift, GLfloat yShift)
     m_x += xShift;
     m_y += yShift;
 
-    UpdateModelView();
+    UpdateMVP();
 }
 
 void GenericActor::MoveTo(GLfloat x, GLfloat y)
@@ -55,7 +57,7 @@ void GenericActor::MoveTo(GLfloat x, GLfloat y)
     m_x = x;
     m_y = y;
 
-    UpdateModelView();
+    UpdateMVP();
 }
 
 void GenericActor::ResizeScene(GLsizei width, GLsizei height)
@@ -63,24 +65,34 @@ void GenericActor::ResizeScene(GLsizei width, GLsizei height)
     m_sceneWidth = width;
     m_sceneHeight = height;
 
-    if (m_projection != -1)
+    m_projection = glm::ortho(0.0f, 1.0f * width, 1.0f * height, 0.0f);
+
+    UpdateMVP();
+}
+
+void GenericActor::Initialize()
+{
+    BindShaderAttributesAndUniforms();
+}
+
+void GenericActor::UpdateMVP()
+{
+    if (m_MVP != -1)
     {
         m_shader->Bind();
-        glm::mat4 p = glm::ortho(0.0f, 1.0f * width, 1.0f * height, 0.0f);
-        glUniformMatrix4fv(m_projection, 1, GL_FALSE, glm::value_ptr(p));
+        m_view = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, 0.0f));
+        glm::mat4 MVPmatrix = m_projection * m_view;
+        glUniformMatrix4fv(m_MVP, 1, GL_FALSE, glm::value_ptr(MVPmatrix));
         m_shader->UnBind();
     }
 }
 
-void GenericActor::UpdateModelView()
+void GenericActor::BindShaderAttributesAndUniforms()
 {
-    if (m_modelview != -1)
-    {
-        m_shader->Bind();
-        glm::mat4 p = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, 0.0f));
-        glUniformMatrix4fv(m_modelview, 1, GL_FALSE, glm::value_ptr(p));
-        m_shader->UnBind();
-    }
+    m_shader->Bind();
+
+    m_shader->RegisterUniform("MVP");
+    m_MVP = m_shader->GetUniformLocation("MVP");
 }
 
 TexturedActor::TexturedActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z) :
@@ -102,4 +114,9 @@ void TexturedActor::Draw()
 {
     GenericActor::Draw();
     m_texture->BindTexture();
+}
+
+void TexturedActor::UpdateMVP()
+{
+    GenericActor::UpdateMVP();
 }

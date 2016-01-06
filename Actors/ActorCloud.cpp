@@ -47,22 +47,13 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
     m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
 
-    m_shader->Bind();
-    m_shader->RegisterAttribute({ "inPosition", "inCoord" });
-    m_shader->RegisterUniform({ "projectionMatrix", "gSampler" });
+    BindShaderAttributesAndUniforms();
 
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
     m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
 
-    m_projection = m_shader->GetUniformLocation("projectionMatrix");
-    
-    GLuint samplerLoc = m_shader->GetUniformLocation("gSampler");
-    glUniform1i(samplerLoc, 0);
-
     m_texture->LoadTexture(256, 256, m_textureArray);
     m_texture->setFiltering();
-
-    m_shader->UnBind();
 }
 
 ActorCloud::~ActorCloud()
@@ -79,6 +70,16 @@ void ActorCloud::Draw()
     glDrawArrays(GL_QUADS, 0, 4);
     m_shader->UnBind();
     glDisable(GL_BLEND);
+}
+
+void ActorCloud::BindShaderAttributesAndUniforms()
+{
+    TexturedActor::BindShaderAttributesAndUniforms();
+
+    m_shader->RegisterAttribute({ "inPosition", "inCoord" });
+    m_shader->RegisterUniform("gSampler");
+
+    glUniform1i(m_shader->GetUniformLocation("gSampler"), 0);
 }
 
 void ActorCloud::SetNoise()

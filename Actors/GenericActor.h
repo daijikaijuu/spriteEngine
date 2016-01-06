@@ -23,19 +23,23 @@ public:
     inline GLfloat Y() { return m_y; }
     inline GLfloat Z() { return m_z; }
 
-private:
-    void UpdateModelView();
-
 protected:
     GLfloat m_x, m_y, m_z;
     GLsizei m_sceneWidth, m_sceneHeight;
     GLfloat m_size;
-    GLint m_projection;
-    GLint m_modelview;
     GLint m_elapsedTime;
+
+    GLint m_MVP;
+    glm::mat4 m_model;
+    glm::mat4 m_view;
+    glm::mat4 m_projection;
 
     Shader *m_shader;
     VertexArrayObject *m_VAO;
+
+    void Initialize();
+    virtual void UpdateMVP();
+    virtual void BindShaderAttributesAndUniforms();
 };
 
 class TexturedActor : public GenericActor
@@ -48,4 +52,6 @@ public:
 
 protected:
     Texture *m_texture;
+
+    virtual void UpdateMVP();
 };

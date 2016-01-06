@@ -10,6 +10,9 @@ public:
 
     virtual void Draw();
 
+protected:
+    virtual void BindShaderAttributesAndUniforms();
+
 private:
     GLfloat m_width, m_height;
     GLfloat m_map32[32 * 32];
