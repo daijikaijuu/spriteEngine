@@ -1,5 +1,3 @@
-#version 400
-
 in vec3 pos;
 
 in vec3 color;

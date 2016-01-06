@@ -1,5 +1,3 @@
-#version 400
-
 in vec2 vTexCoord;
 
 uniform sampler2D texture;

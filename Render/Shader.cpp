@@ -131,6 +131,8 @@ GLuint Shader::loadFromText(ShaderType type, std::string text)
         break;
     }
 
+    text = std::string(SHADER_VERSION) + text;
+
     GLuint shader = glCreateShader(st);
     const char *cstr = text.c_str();
     glShaderSource(shader, 1, &cstr, nullptr);

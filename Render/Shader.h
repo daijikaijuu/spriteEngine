@@ -5,6 +5,7 @@
 #include <initializer_list>
 
 #define NUM_SHADER_TYPES 3
+#define SHADER_VERSION "#version 130\n"
 
 class Shader
 {

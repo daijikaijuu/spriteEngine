@@ -1,5 +1,3 @@
-#version 400
-
 in vec2 texCoord;
 out vec4 outColor;
 
