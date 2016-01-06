@@ -4,6 +4,9 @@
 #include "helpers.h"
 #include <GL/glut.h>
 
+const int WIDTH = 800;
+const int HEIGHT = 600;
+
 Scene *scene = NULL;
 
 void renderScene()
@@ -28,17 +31,7 @@ void onTimer(int value)
 
 void reshape(GLsizei width, GLsizei height)
 {
-    if (height == 0)
-        height = 1;
-
-    glViewport(0, 0, width, height);
-    scene->ResizeScene(width, height);
-
-    //glMatrixMode(GL_PROJECTION);
-    //glLoadIdentity();
-
-    //glMatrixMode(GL_MODELVIEW);
-    //glLoadIdentity();
+    glutReshapeWindow(WIDTH, HEIGHT);
 }
 
 void processNormalKeys(unsigned char key, int x, int y)
@@ -52,7 +45,7 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100, 100);
-    glutInitWindowSize(800, 600);
+    glutInitWindowSize(WIDTH, HEIGHT);
     glutCreateWindow("Homework OpegnGL window");
 
     glewExperimental = GL_TRUE;
@@ -75,7 +68,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    scene = new Scene(800, 600);
+    scene = new Scene(WIDTH, HEIGHT);
 
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     glShadeModel(GL_SMOOTH);
