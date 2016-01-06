@@ -153,6 +153,7 @@ void Shader::UnBind()
     glUseProgram(0);
 }
 
+#ifdef _DEBUG
 void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const char* msg)
 {
     GLint success = 0;
@@ -173,3 +174,7 @@ void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const 
         std::cout << msg << " : " << error << " " << std::endl;
     }
 }
+#else
+void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const char* msg) {}
+#endif // _DEBUG
+

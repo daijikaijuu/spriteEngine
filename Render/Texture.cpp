@@ -23,7 +23,7 @@ void Texture::LoadTexture(GLuint width, GLuint height, const GLvoid *imageData)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 }
 
-bool Texture::LoadPNGTexture(const std::string filename)
+void Texture::LoadPNGTexture(const std::string filename)
 {
     png_structp ptrPNG;
     png_infop ptrInfo;
@@ -32,13 +32,13 @@ bool Texture::LoadPNGTexture(const std::string filename)
 
     FILE *fp;
     if ((fp = fopen(filename.c_str(), "rb")) == NULL)
-        return false;
+        throw 1;
 
     ptrPNG = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     if (ptrPNG == NULL)
     {
         fclose(fp);
-        return false;
+        throw 2;
     }
 
     ptrInfo = png_create_info_struct(ptrPNG);
@@ -46,14 +46,14 @@ bool Texture::LoadPNGTexture(const std::string filename)
     {
         fclose(fp);
         png_destroy_read_struct(&ptrPNG, NULL, NULL);
-        return false;
+        throw 2;
     }
 
     if (setjmp(png_jmpbuf(ptrPNG)))
     {
         png_destroy_read_struct(&ptrPNG, NULL, NULL);
         fclose(fp);
-        return false;
+        throw 2;
     }
 
     png_init_io(ptrPNG, fp);
@@ -71,10 +71,12 @@ bool Texture::LoadPNGTexture(const std::string filename)
     png_byte *outData = (png_byte *)malloc(row_bytes * height * sizeof(png_byte) + 15);
     if (outData == NULL)
     {
-        fprintf(stderr, "error: could not allocate memory for PNG image data\n");
+#ifdef _DEBUG
+        std::cout << "Error: could not allocate memory for PNG image data" << std::endl;
+#endif // _DEBUG
         png_destroy_read_struct(&ptrPNG, &ptrInfo, NULL);
         fclose(fp);
-        return 0;
+        throw 2;
     }
     png_bytepp row_pointers = png_get_rows(ptrPNG, ptrInfo);
 
@@ -97,8 +99,10 @@ bool Texture::LoadPNGTexture(const std::string filename)
         format = GL_RGBA;
         break;
     default:
-        fprintf(stderr, "%s: Unknown libpng color type %d.\n", filename.c_str(), color_type);
-        return 0;
+#ifdef _DEBUG
+        std::cout << filename.c_str() << "Unknown libpng color type " << color_type << std::endl;
+#endif // _DEBUG
+        throw 2;
     }
 
 #ifdef _DEBUG
@@ -111,8 +115,6 @@ bool Texture::LoadPNGTexture(const std::string filename)
     free(outData);
 
     setFiltering();
-
-    return true;
 }
 
 void Texture::BindTexture(GLuint textureUnit)

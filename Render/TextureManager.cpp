@@ -17,10 +17,23 @@ Texture* TextureManager::GetTexture(std::string filename, GLsizei items)
     if (it == m_textures.end())
     {
         result = new Texture(items);
-        if (!result->LoadPNGTexture(filename))
+        try
         {
-            delete result;
-            return NULL;
+            result->LoadPNGTexture(filename);
+        }
+        catch (int e)
+        {
+#ifdef _DEBUG
+            switch (e)
+            {
+            case 1:
+                std::cout << "Failed to open file: " << filename.c_str() << std::endl;
+                break;
+            default:
+                std::cout << "Exception #" << e << std::endl;
+                break;
+            }
+#endif // _DEBUG
         }
         m_textures.insert(std::pair<std::string, Texture*>(filename, result));
     }

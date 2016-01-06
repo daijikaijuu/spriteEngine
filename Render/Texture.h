@@ -9,7 +9,7 @@ public:
     virtual ~Texture();
 
     void LoadTexture(GLuint width, GLuint height, const GLvoid *imageData);
-    bool LoadPNGTexture(const std::string filename);
+    void LoadPNGTexture(const std::string filename);
 
     void BindTexture(GLuint textureUnit = 0);
     void setFiltering();
