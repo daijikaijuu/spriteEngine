@@ -14,6 +14,7 @@ public:
     virtual ~Shader();
 
     void Load(const std::string &fileName);
+    void Load(const std::string &vertexFilename, const std::string &fragmentFilename);
     void Load(const std::string &vertex, const std::string &fragment, const std::string &geometry);
 
     void RegisterAttribute(std::string attrib);

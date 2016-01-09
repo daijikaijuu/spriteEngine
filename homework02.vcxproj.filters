@@ -149,31 +149,16 @@
     <None Include="Data\Shaders\snowflake.frag.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
-    <None Include="Data\Shaders\snowflake.vert.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
     <None Include="Data\Shaders\cloud.frag.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Data\Shaders\cloud.vert.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="Data\Shaders\mountain.frag.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
-    <None Include="Data\Shaders\mountain.vert.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
     <None Include="Data\Shaders\sun.frag.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
-    <None Include="Data\Shaders\sun.vert.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
     <None Include="Data\Shaders\house.frag.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Data\Shaders\house.vert.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="Data\Shaders\campfire.vert.glsl">
@@ -183,6 +168,9 @@
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="Data\Shaders\light.frag.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\basic.vert.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
   </ItemGroup>

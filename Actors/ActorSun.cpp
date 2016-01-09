@@ -14,7 +14,7 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 {
     RecalcAngles(); 
 
-    m_shader->Load("Data/Shaders/sun");
+    m_shader->Load("Data/Shaders/basic", "Data/Shaders/sun");
     m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/light.png");
 
     ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, m_size, m_size);

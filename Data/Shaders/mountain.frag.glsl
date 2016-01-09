@@ -1,7 +1,6 @@
-in vec3 fColor;
+in vec3 fragColor;
 uniform int windowHeight;
 
-out vec4 outColor;
 
 void main() {
    float shade = (gl_FragCoord.y / windowHeight);

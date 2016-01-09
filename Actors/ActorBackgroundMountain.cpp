@@ -17,7 +17,7 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
 {
     CalculateHeights();
 
-    m_shader->Load("Data/Shaders/mountain");
+    m_shader->Load("Data/Shaders/basic", "Data/Shaders/mountain");
 
     std::vector<GLfloat> heights = CalculateHeights();
     const GLuint size = (GLuint)heights.size();
@@ -38,8 +38,8 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
 
     BindShaderAttributesAndUniforms();
 
-    m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
-    m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+    m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
+    m_VAO->Generate(m_shader->GetAttributeLocation("inCoord"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
     delete a;
 }
@@ -75,11 +75,11 @@ void ActorBackgroundMountain::BindShaderAttributesAndUniforms()
 {
     GenericActor::BindShaderAttributesAndUniforms();
 
-    m_shader->RegisterAttribute({ "pos", "color" });
+    m_shader->RegisterAttribute({ "inPosition", "inColor" });
     m_shader->RegisterUniform("windowHeight");
 
-    m_VAO->Generate(m_shader->GetAttributeLocation("pos"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
-    m_VAO->Generate(m_shader->GetAttributeLocation("color"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+    m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
+    m_VAO->Generate(m_shader->GetAttributeLocation("inColor"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 }
 
 std::vector<GLfloat> ActorBackgroundMountain::CalculateHeights()

@@ -35,6 +35,13 @@ void Shader::Load(const std::string &fileName)
     Load(vertex, fragment, geometry);
 }
 
+void Shader::Load(const std::string & vertexFilename, const std::string & fragmentFilename)
+{
+    Load(loadFromFile(VERTEX_SHADER, vertexFilename + ".vert.glsl"),
+         loadFromFile(FRAGMENT_SHADER, fragmentFilename + ".frag.glsl"),
+         "");
+}
+
 void Shader::Load(const std::string & vertex, const std::string & fragment, const std::string & geometry)
 {
     if (!vertex.empty())
