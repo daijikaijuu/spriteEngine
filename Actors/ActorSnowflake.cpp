@@ -14,11 +14,8 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     m_shader->Load("Data/Shaders/basic", "Data/Shaders/snowflake");
     m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/snowflake.png");
 
-    ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, m_size, m_size);
-
-    m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
-    m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
-    m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
+    TexturedShape *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, m_size, m_size);
+    InitializeVBO<TexturedShape>(vertexData);
 
     BindShaderAttributesAndUniforms();
 

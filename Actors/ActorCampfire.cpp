@@ -12,15 +12,11 @@ ActorCampfire::ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 {
     m_shader->Load("Data/Shaders/campfire");
 
-    m_texture = new Texture(5);
     m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/campfire.png", 5);
     m_texture->setFiltering();
 
-    ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, -size / 2, m_z, size, size);
-
-    m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
-    m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
-    m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
+    TexturedShape *vertexData = shapeGenerator::generateTexturedQuad(0, -size / 2, m_z, size, size);
+    InitializeVBO<TexturedShape>(vertexData);
 
     BindShaderAttributesAndUniforms();
 

@@ -17,7 +17,7 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
 {
     CalculateHeights();
 
-    m_shader->Load("Data/Shaders/basic", "Data/Shaders/mountain");
+    InitializeShader("Data/Shaders/basic", "Data/Shaders/mountain");
 
     std::vector<GLfloat> heights = CalculateHeights();
     const GLuint size = (GLuint)heights.size();

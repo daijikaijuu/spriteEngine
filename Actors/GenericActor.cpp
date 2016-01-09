@@ -70,11 +70,6 @@ void GenericActor::ResizeScene(GLsizei width, GLsizei height)
     UpdateMVP();
 }
 
-void GenericActor::Initialize()
-{
-    BindShaderAttributesAndUniforms();
-}
-
 void GenericActor::UpdateMVP()
 {
     if (m_MVP != -1)
@@ -93,6 +88,11 @@ void GenericActor::BindShaderAttributesAndUniforms()
 
     m_shader->RegisterUniform("MVP");
     m_MVP = m_shader->GetUniformLocation("MVP");
+}
+
+void GenericActor::InitializeShader(const std::string & vertexFilename, const std::string & fragmentFilename)
+{
+    m_shader->Load(vertexFilename, fragmentFilename);
 }
 
 TexturedActor::TexturedActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z) :

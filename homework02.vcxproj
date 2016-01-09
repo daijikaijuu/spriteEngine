@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActorSnowman.cpp" />
     <ClCompile Include="Actors\ActorAmbientLight.cpp" />
     <ClCompile Include="Actors\ActorCampfire.cpp" />
     <ClCompile Include="Actors\ActorHouse.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="Render\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActorSnowman.h" />
     <ClInclude Include="Actors\ActorAmbientLight.h" />
     <ClInclude Include="Actors\ActorCampfire.h" />
     <ClInclude Include="Actors\ActorHouse.h" />

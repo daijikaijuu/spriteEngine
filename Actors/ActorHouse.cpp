@@ -7,14 +7,11 @@
 ActorHouse::ActorHouse(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     TexturedActor(x, y, size, z)
 {
-    m_shader->Load("Data/Shaders/basic", "Data/Shaders/house");
+    InitializeShader("Data/Shaders/basic", "Data/Shaders/house");
     m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/house.png");
 
-    ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, -m_size / 2, m_z, m_size, m_size);
-
-    m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
-    m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
-    m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
+    TexturedShape *vertexData = shapeGenerator::generateTexturedQuad(0, -m_size / 2, m_z, m_size, m_size);
+    InitializeVBO<TexturedShape>(vertexData);
 
     BindShaderAttributesAndUniforms();
 

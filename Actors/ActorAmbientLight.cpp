@@ -13,11 +13,8 @@ ActorAmbientLight::ActorAmbientLight(GLfloat x, GLfloat y, GLfloat z, GLfloat si
     m_shader->Load("Data/Shaders/light");
     m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/light.png");
 
-    ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, 400, 300);
-
-    m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
-    m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
-    m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
+    TexturedShape *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, 400, 300);
+    InitializeVBO<TexturedShape>(vertexData);
 
     BindShaderAttributesAndUniforms();
 

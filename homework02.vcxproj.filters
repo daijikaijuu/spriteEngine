@@ -87,6 +87,9 @@
     <ClInclude Include="Actors\ActorAmbientLight.h">
       <Filter>Заголовочные файлы\Actors</Filter>
     </ClInclude>
+    <ClInclude Include="ActorSnowman.h">
+      <Filter>Заголовочные файлы\Actors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="homework02.cpp">
@@ -141,6 +144,9 @@
       <Filter>Файлы исходного кода\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Actors\GenericActor.cpp">
+      <Filter>Файлы исходного кода\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorSnowman.cpp">
       <Filter>Файлы исходного кода\Actor</Filter>
     </ClCompile>
   </ItemGroup>

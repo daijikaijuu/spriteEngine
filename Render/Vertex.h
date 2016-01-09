@@ -2,7 +2,14 @@
 
 #include "../homework02.h"
 
+struct VertexColored;
+struct TexturedVertex;
+template<typename T> struct ShapeData;
+
 typedef glm::vec3 Vertex;
+typedef ShapeData<VertexColored> ColoredShape;
+typedef ShapeData<TexturedVertex> TexturedShape;
+
 
 struct VertexColored
 {

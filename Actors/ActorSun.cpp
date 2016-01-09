@@ -14,14 +14,11 @@ ActorSun::ActorSun(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 {
     RecalcAngles(); 
 
-    m_shader->Load("Data/Shaders/basic", "Data/Shaders/sun");
+    InitializeShader("Data/Shaders/basic", "Data/Shaders/sun");
     m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/light.png");
 
-    ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, m_size, m_size);
-
-    m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
-    m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
-    m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
+    TexturedShape *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, m_size, m_size);
+    InitializeVBO<TexturedShape>(vertexData);
 
     BindShaderAttributesAndUniforms();
 

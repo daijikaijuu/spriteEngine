@@ -13,7 +13,7 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
     m_textureArray(),
     m_octave(octave)
 {
-    m_shader->Load("Data/Shaders/basic", "Data/Shaders/cloud");
+    InitializeShader("Data/Shaders/basic", "Data/Shaders/cloud");
     m_texture = new Texture();
 
     SetNoise();
@@ -41,11 +41,8 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
         }
     }
 
-    ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(m_width / 2, m_height / 2, m_z, m_width, m_height);
-
-    m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
-    m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
-    m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
+    TexturedShape *vertexData = shapeGenerator::generateTexturedQuad(m_width / 2, m_height / 2, m_z, m_width, m_height);
+    InitializeVBO<TexturedShape>(vertexData);
 
     BindShaderAttributesAndUniforms();
 
