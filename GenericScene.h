@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 #include <assert.h>
-#include <GL\glew.h>
+#include <GL/glew.h>
 
 class GenericActor;
 

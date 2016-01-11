@@ -1,5 +1,7 @@
 // 2015 Domrachev Alexandr <Alexandr.Domrachev@gmail.com>
+#ifdef _WIN32
 #include <windows.h>
+#endif
 #include <stdio.h>
 #include <iostream>
 #include <stdlib.h>
