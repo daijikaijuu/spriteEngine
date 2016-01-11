@@ -1,3 +1,4 @@
+#include "../Logger.h"
 #include "Shader.h"
 #include <iostream>
 #include <fstream>
@@ -59,10 +60,10 @@ void Shader::Load(const std::string & vertex, const std::string & fragment, cons
         glAttachShader(m_program, m_shaders[GEOMETRY_SHADER]);
 
     glLinkProgram(m_program);
-    CheckShaderError(m_program, GL_LINK_STATUS, true, "ERROR LNK shader program");
+    CheckShaderError(m_program, GL_LINK_STATUS, true, Logger::LL_ERROR, "LNK shader program");
 
     glValidateProgram(m_program);
-    CheckShaderError(m_program, GL_LINK_STATUS, true, "ERROR INV shader program");
+    CheckShaderError(m_program, GL_LINK_STATUS, true, Logger::LL_ERROR, "INVALID shader program");
 }
 
 GLuint Shader::GetProgramID() const
@@ -116,6 +117,10 @@ std::string Shader::loadFromFile(ShaderType type, const std::string &fileName)
                            std::istreambuf_iterator<char>());
         return buffer;
     }
+    else
+    {
+        debugError("Failed to open shader file: ", fileName);
+    }
 
     return "";
 }
@@ -145,7 +150,7 @@ GLuint Shader::loadFromText(ShaderType type, std::string text)
     glShaderSource(shader, 1, &cstr, nullptr);
 
     glCompileShader(shader);
-    CheckShaderError(shader, GL_COMPILE_STATUS, false, "ERROR : Shader compilation failed");
+    CheckShaderError(shader, GL_COMPILE_STATUS, false, Logger::LL_ERROR, "Shader compilation failed");
 
     return shader;
 }
@@ -160,8 +165,7 @@ void Shader::UnBind()
     glUseProgram(0);
 }
 
-#ifdef _DEBUG
-void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const char* msg)
+void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string & messageType, const std::string & msg)
 {
     GLint success = 0;
     GLchar error[1024] = { 0 };
@@ -178,10 +182,6 @@ void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const 
         else
             glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
-        std::cout << msg << " : " << error << " " << std::endl;
+        Logger::GetInstance()->log(messageType, msg, ": ", error);
     }
 }
-#else
-void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const char* msg) {}
-#endif // _DEBUG
-

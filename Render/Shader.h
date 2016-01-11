@@ -46,7 +46,7 @@ private:
 
     std::string loadFromFile(ShaderType type, const std::string &fileName);
     GLuint loadFromText(ShaderType type, std::string text);
-    void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const char* msg);
+    void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string & messageType, const std::string & msg);
 };
 
 

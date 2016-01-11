@@ -1,3 +1,4 @@
+#include "../Logger.h"
 #include "Texture.h"
 #include "TextureManager.h"
 
@@ -23,17 +24,15 @@ Texture* TextureManager::GetTexture(std::string filename, GLsizei items)
         }
         catch (int e)
         {
-#ifdef _DEBUG
             switch (e)
             {
             case 1:
-                std::cout << "Failed to open file: " << filename.c_str() << std::endl;
+                debugError("Failed to open texture: ", filename.c_str());
                 break;
             default:
-                std::cout << "Exception #" << e << std::endl;
+                debugError("Unknown exception #", e);
                 break;
             }
-#endif // _DEBUG
         }
         m_textures.insert(std::pair<std::string, Texture*>(filename, result));
     }
