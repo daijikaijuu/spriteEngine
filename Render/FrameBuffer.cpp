@@ -19,11 +19,8 @@ FrameBuffer::FrameBuffer() :
 
     m_shader->Load("Data/Shaders/cloud");
 
-    ShapeData<TexturedVertex> *vertexData = shapeGenerator::generateTexturedQuad(400, 300, 0, 800, 600);
-
-    m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
-    m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
-    m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
+    TexturedShape *vertexData = shapeGenerator::generateTexturedQuad(400, 300, 0, 800, 600);
+    InitializeVBO<TexturedShape>(vertexData);
 
     BindShaderAttributesAndUniforms();
 
