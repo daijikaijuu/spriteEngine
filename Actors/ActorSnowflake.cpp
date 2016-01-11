@@ -19,8 +19,8 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
 
     BindShaderAttributesAndUniforms();
 
-    m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
-    m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
+    SetAttribute<TexturedShape>(m_shader, vertexData, "inPosition", 0);
+    SetAttribute<TexturedShape>(m_shader, vertexData, "inCoord", 1);
 
     m_speed = (GLfloat)rand() / (RAND_MAX + 1);
     m_deltaX = (GLfloat)rand() / (RAND_MAX + 1);

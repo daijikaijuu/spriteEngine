@@ -15,8 +15,8 @@ ActorHouse::ActorHouse(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 
     BindShaderAttributesAndUniforms();
 
-    m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inPosition", 0);
-    m_VAO->Generate<TexturedVertex>(m_shader, vertexData, "inCoord", 1);
+    SetAttribute<TexturedShape>(m_shader, vertexData, "inPosition", 0);
+    SetAttribute<TexturedShape>(m_shader, vertexData, "inCoord", 1);
 
     delete vertexData;
 }

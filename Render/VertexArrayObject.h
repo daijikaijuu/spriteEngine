@@ -14,7 +14,7 @@ public:
 
     void Generate(GLuint attribute, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid *pointer);
     template<typename T>
-    void Generate(Shader *shader, ShapeData<T> *vertexData, std::string attribute, GLuint position);
+    void Generate(Shader * shader, T * vertexData, std::string attribute, GLuint position);
 
     void Bind() const;
     void UnBind() const;
@@ -28,7 +28,7 @@ private:
 };
 
 template<typename T>
-void VertexArrayObject::Generate(Shader *shader, ShapeData<T> *vertexData, std::string attribute, GLuint position)
+void VertexArrayObject::Generate(Shader * shader, T * vertexData, std::string attribute, GLuint position)
 {
     Generate(shader->GetAttributeLocation(attribute), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(position));
 }

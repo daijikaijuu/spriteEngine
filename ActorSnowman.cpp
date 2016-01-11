@@ -6,8 +6,15 @@ ActorSnowman::ActorSnowman(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 {
     m_shader->Load("Data/Shaders/basic", "Data/Shaders/snowflake");
 
-    ShapeData<TexturedVertex> * vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, size, size);
+    TexturedShape * vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, size, size);
+    InitializeVBO<TexturedShape>(vertexData);
 
+    BindShaderAttributesAndUniforms();
+
+    SetAttribute<TexturedShape>(m_shader, vertexData, "inPosition", 0);
+    SetAttribute<TexturedShape>(m_shader, vertexData, "inCoord", 1);
+
+    delete vertexData;
 }
 
 ActorSnowman::~ActorSnowman()

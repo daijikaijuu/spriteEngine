@@ -42,6 +42,7 @@ protected:
 
     void InitializeShader(const std::string & vertexFilename, const std::string & fragmentFilename);
     template<typename T> void InitializeVBO(T * vertexData);
+    template<typename T> void SetAttribute(Shader * shader, T * vertexData, const std::string attribute, GLuint position);
 };
 
 class TexturedActor : public GenericActor
@@ -64,4 +65,10 @@ inline void GenericActor::InitializeVBO(T * vertexData)
     m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
     m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
     m_VAO->GetVBO()->UploadDataToGPU(GL_STATIC_DRAW);
+}
+
+template<typename T>
+inline void GenericActor::SetAttribute(Shader * shader, T * vertexData, const std::string attribute, GLuint position)
+{
+    m_VAO->Generate<T>(shader, vertexData, attribute, position);
 }
