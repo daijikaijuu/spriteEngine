@@ -20,8 +20,8 @@ ActorCampfire::ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
 
     BindShaderAttributesAndUniforms();
 
-    SetAttribute<TexturedShape>(m_shader, vertexData, "inPosition", 0);
-    SetAttribute<TexturedShape>(m_shader, vertexData, "inCoord", 1);
+    SetAttribute<TexturedShape>(vertexData, "inPosition", 0);
+    SetAttribute<TexturedShape>(vertexData, "inCoord", 1);
 
     delete vertexData;
 }

@@ -18,8 +18,8 @@ ActorAmbientLight::ActorAmbientLight(GLfloat x, GLfloat y, GLfloat z, GLfloat si
 
     BindShaderAttributesAndUniforms();
 
-    SetAttribute<TexturedShape>(m_shader, vertexData, "inPosition", 0);
-    SetAttribute<TexturedShape>(m_shader, vertexData, "inCoord", 1);
+    SetAttribute<TexturedShape>(vertexData, "inPosition", 0);
+    SetAttribute<TexturedShape>(vertexData, "inCoord", 1);
 
     delete vertexData;
 }

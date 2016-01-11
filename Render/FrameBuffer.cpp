@@ -27,8 +27,8 @@ FrameBuffer::FrameBuffer() :
 
     BindShaderAttributesAndUniforms();
 
-    SetAttribute<TexturedShape>(m_shader, vertexData, "inPosition", 0);
-    SetAttribute<TexturedShape>(m_shader, vertexData, "inCoord", 1);
+    SetAttribute<TexturedShape>(vertexData, "inPosition", 0);
+    SetAttribute<TexturedShape>(vertexData, "inCoord", 1);
 
     ResizeScene(800, 600);
 

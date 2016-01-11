@@ -46,8 +46,8 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
 
     BindShaderAttributesAndUniforms();
 
-    SetAttribute<TexturedShape>(m_shader, vertexData, "inPosition", 0);
-    SetAttribute<TexturedShape>(m_shader, vertexData, "inCoord", 1);
+    SetAttribute<TexturedShape>(vertexData, "inPosition", 0);
+    SetAttribute<TexturedShape>(vertexData, "inCoord", 1);
 
     m_texture->LoadTexture(256, 256, m_textureArray);
     m_texture->setFiltering();
