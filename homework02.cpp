@@ -2,6 +2,7 @@
 #include "homework02.h"
 #include "Scene.h"
 #include "helpers.h"
+#include "Logger.h"
 #include <GL/glut.h>
 
 const int WIDTH = 800;
@@ -52,19 +53,13 @@ int main(int argc, char **argv)
     GLenum glew_status = glewInit();
     if (glew_status != GLEW_OK)
     {
-#ifdef _DEBUG
-        std::cout << "Error: " << glewGetErrorString(glew_status) << std::endl;
-        std::cin.ignore();
-#endif // _DEBUG
+        debugError(glewGetErrorString(glew_status));
         return 1;
     }
 
     if (!GLEW_VERSION_4_0)
     {
-#ifdef _DEBUG
-        std::cout << "Error: your graphic card does not support OpenGL 4.0\n" << std::endl;
-        std::cin.ignore();
-#endif // _DEBUG
+        debugError("Error: your graphic card does not support OpenGL 4.0\n");
         return 1;
     }
 

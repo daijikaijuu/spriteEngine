@@ -90,6 +90,9 @@
     <ClInclude Include="ActorSnowman.h">
       <Filter>Заголовочные файлы\Actors</Filter>
     </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="homework02.cpp">
@@ -148,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="ActorSnowman.cpp">
       <Filter>Файлы исходного кода\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

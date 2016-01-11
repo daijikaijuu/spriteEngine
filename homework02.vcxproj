@@ -163,6 +163,7 @@
     <ClCompile Include="Actors\ActorCloud.cpp" />
     <ClCompile Include="Actors\ActorSun.cpp" />
     <ClCompile Include="Actors\GenericActor.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Render\FrameBuffer.cpp" />
     <ClCompile Include="GenericScene.cpp" />
     <ClCompile Include="helpers.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Actors\ActorSun.h" />
     <ClInclude Include="Actors\GenericActor.h" />
     <ClInclude Include="Data\Shaders\campfire.frag.glsl" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Render\FrameBuffer.h" />
     <ClInclude Include="GenericScene.h" />
     <ClInclude Include="helpers.h" />

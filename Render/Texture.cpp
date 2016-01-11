@@ -1,4 +1,5 @@
 #include <png.h>
+#include "../Logger.h"
 #include "Texture.h"
 
 Texture::Texture(GLsizei items) :
@@ -71,9 +72,8 @@ void Texture::LoadPNGTexture(const std::string filename)
     png_byte *outData = (png_byte *)malloc(row_bytes * height * sizeof(png_byte) + 15);
     if (outData == NULL)
     {
-#ifdef _DEBUG
-        std::cout << "Error: could not allocate memory for PNG image data" << std::endl;
-#endif // _DEBUG
+        debugError("Could not allocate memory for PNG image data. Texture: ", filename);
+
         png_destroy_read_struct(&ptrPNG, &ptrInfo, NULL);
         fclose(fp);
         throw 2;
@@ -99,15 +99,11 @@ void Texture::LoadPNGTexture(const std::string filename)
         format = GL_RGBA;
         break;
     default:
-#ifdef _DEBUG
-        std::cout << filename.c_str() << "Unknown libpng color type " << color_type << std::endl;
-#endif // _DEBUG
+        debugError(filename, ". Unknown libpng color type ", color_type);
         throw 2;
     }
 
-#ifdef _DEBUG
-    std::cout << "Texture: " << filename.c_str() << ". LOADED." << std::endl;
-#endif
+    debug("Texture: ", filename, ". LOADED.");
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, outData);
