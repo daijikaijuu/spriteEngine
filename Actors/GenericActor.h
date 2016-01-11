@@ -70,5 +70,5 @@ inline void GenericActor::InitializeVBO(T * vertexData)
 template<typename T>
 inline void GenericActor::SetAttribute(Shader * shader, T * vertexData, const std::string attribute, GLuint position)
 {
-    m_VAO->Generate<T>(shader, vertexData, attribute, position);
+    m_VAO->Generate(shader->GetAttributeLocation(attribute), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(position));
 }
