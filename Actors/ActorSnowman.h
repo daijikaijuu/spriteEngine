@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Actors\GenericActor.h"
+#include "GenericActor.h"
 
 class ActorSnowman : public TexturedActor
 {

@@ -1,4 +1,4 @@
-#include "Render/Vertex.h"
+#include "../Render/Vertex.h"
 #include "ActorSnowman.h"
 
 ActorSnowman::ActorSnowman(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :

@@ -8,9 +8,9 @@
 #include "homework02.h"
 #include "helpers.h"
 
-#define debug(message, ...) Logger::GetInstance()->log(Logger::LL_DEBUG, message, __VA_ARGS__)
-#define debugError(message, ...) Logger::GetInstance()->log(Logger::LL_ERROR, message, __VA_ARGS__)
-#define debugInfo(message, ...) Logger::GetInstance()->log(Logger::LL_INFO, message, __VA_ARGS__)
+#define debug(message, ...)      Logger::GetInstance()->log(Logger::LL_DEBUG, message, ##__VA_ARGS__)
+#define debugError(message, ...) Logger::GetInstance()->log(Logger::LL_ERROR, message, ##__VA_ARGS__)
+#define debugInfo(message, ...)  Logger::GetInstance()->log(Logger::LL_INFO,  message, ##__VA_ARGS__)
 
 class Logger : public Singleton<Logger>
 {

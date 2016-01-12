@@ -81,6 +81,8 @@
 		<Unit filename="Actors/ActorHouse.h" />
 		<Unit filename="Actors/ActorSnowflake.cpp" />
 		<Unit filename="Actors/ActorSnowflake.h" />
+		<Unit filename="Actors/ActorSnowman.cpp" />
+		<Unit filename="Actors/ActorSnowman.h" />
 		<Unit filename="Actors/ActorSun.cpp" />
 		<Unit filename="Actors/ActorSun.h" />
 		<Unit filename="Actors/GenericActor.cpp" />
@@ -99,6 +101,8 @@
 		<Unit filename="Data/Shaders/sun.vert.glsl" />
 		<Unit filename="GenericScene.cpp" />
 		<Unit filename="GenericScene.h" />
+		<Unit filename="Logger.cpp" />
+		<Unit filename="Logger.h" />
 		<Unit filename="Render/FrameBuffer.cpp" />
 		<Unit filename="Render/FrameBuffer.h" />
 		<Unit filename="Render/Shader.cpp" />

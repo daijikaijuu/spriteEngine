@@ -87,11 +87,11 @@
     <ClInclude Include="Actors\ActorAmbientLight.h">
       <Filter>Заголовочные файлы\Actors</Filter>
     </ClInclude>
-    <ClInclude Include="ActorSnowman.h">
-      <Filter>Заголовочные файлы\Actors</Filter>
-    </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Actors\ActorSnowman.h">
+      <Filter>Заголовочные файлы\Actors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -149,11 +149,11 @@
     <ClCompile Include="Actors\GenericActor.cpp">
       <Filter>Файлы исходного кода\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="ActorSnowman.cpp">
-      <Filter>Файлы исходного кода\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Logger.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Actors\ActorSnowman.cpp">
+      <Filter>Файлы исходного кода\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
