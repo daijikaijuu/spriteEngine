@@ -3,6 +3,7 @@
 #include "Render/FrameBuffer.h"
 #include "Render/TextureManager.h"
 #include "helpers.h"
+#include "Logger.h"
 
 GenericScene::~GenericScene()
 {
@@ -36,6 +37,7 @@ void GenericScene::Animate(GLint elapsedTime)
 
 void GenericScene::AddActor(std::string name, GenericActor *actor)
 {
+    debug("- GenericScene::AddActor. Adding actor: ", name);
     m_actors.insert(std::pair<std::string, GenericActor*>(name, actor));
 }
 
