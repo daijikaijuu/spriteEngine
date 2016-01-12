@@ -17,7 +17,7 @@ FrameBuffer::FrameBuffer() :
     glGenRenderbuffers(1, &m_depthBuffer);
     BindFrameBuffer();
 
-    m_shader->Load("Data/Shaders/cloud");
+    m_shader->Load("Data/Shaders/basic", "Data/Shaders/basic");
 
     TexturedShape *vertexData = shapeGenerator::generateTexturedQuad(400, 300, 0, 800, 600);
     InitializeVBO<TexturedShape>(vertexData);

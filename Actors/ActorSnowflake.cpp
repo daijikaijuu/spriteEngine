@@ -11,7 +11,7 @@ ActorSnowflake::ActorSnowflake(GLfloat x, GLfloat y, GLfloat size, GLuint sceneW
     m_deltaX(0),
     m_angle(0)
 {
-    m_shader->Load("Data/Shaders/basic", "Data/Shaders/snowflake");
+    m_shader->Load("Data/Shaders/basic", "Data/Shaders/basic");
     m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/snowflake.png");
 
     TexturedShape *vertexData = shapeGenerator::generateTexturedQuad(0, 0, m_z, m_size, m_size);
@@ -71,4 +71,6 @@ void ActorSnowflake::BindShaderAttributesAndUniforms()
     TexturedActor::BindShaderAttributesAndUniforms();
 
     m_shader->RegisterAttribute({ "inPosition", "inCoord" });
+
+    glUniform1f(m_shader->GetUniformLocation("alpha"), 0.7f);
 }

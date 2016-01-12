@@ -13,7 +13,7 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
     m_textureArray(),
     m_octave(octave)
 {
-    InitializeShader("Data/Shaders/basic", "Data/Shaders/cloud");
+    InitializeShader("Data/Shaders/basic", "Data/Shaders/basic");
     m_texture = new Texture();
 
     SetNoise();

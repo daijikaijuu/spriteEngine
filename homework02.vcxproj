@@ -185,7 +185,6 @@
     <ClInclude Include="Actors\ActorCloud.h" />
     <ClInclude Include="Actors\ActorSun.h" />
     <ClInclude Include="Actors\GenericActor.h" />
-    <ClInclude Include="Data\Shaders\campfire.frag.glsl" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Render\FrameBuffer.h" />
     <ClInclude Include="GenericScene.h" />
@@ -200,14 +199,12 @@
     <ClInclude Include="Render\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\Shaders\basic.frag.glsl" />
     <None Include="Data\Shaders\basic.vert.glsl" />
     <None Include="Data\Shaders\campfire.vert.glsl" />
-    <None Include="Data\Shaders\cloud.frag.glsl" />
-    <None Include="Data\Shaders\house.frag.glsl" />
     <None Include="Data\Shaders\light.frag.glsl" />
     <None Include="Data\Shaders\light.vert.glsl" />
     <None Include="Data\Shaders\mountain.frag.glsl" />
-    <None Include="Data\Shaders\snowflake.frag.glsl" />
     <None Include="Data\Shaders\sun.frag.glsl" />
     <None Include="packages.config" />
   </ItemGroup>

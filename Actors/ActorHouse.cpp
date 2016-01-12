@@ -7,7 +7,7 @@
 ActorHouse::ActorHouse(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     TexturedActor(x, y, size, z)
 {
-    InitializeShader("Data/Shaders/basic", "Data/Shaders/house");
+    InitializeShader("Data/Shaders/basic", "Data/Shaders/basic");
     m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/house.png");
 
     TexturedShape *vertexData = shapeGenerator::generateTexturedQuad(0, -m_size / 2, m_z, m_size, m_size);
@@ -39,4 +39,5 @@ void ActorHouse::BindShaderAttributesAndUniforms()
     TexturedActor::BindShaderAttributesAndUniforms();
 
     m_shader->RegisterAttribute({ "inPosition", "inCoord" });
+    glUniform1f(m_shader->GetUniformLocation("alpha"), 0.6f);
 }

@@ -81,9 +81,6 @@
     <ClInclude Include="Actors\ActorCampfire.h">
       <Filter>Заголовочные файлы\Actors</Filter>
     </ClInclude>
-    <ClInclude Include="Data\Shaders\campfire.frag.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </ClInclude>
     <ClInclude Include="Actors\ActorAmbientLight.h">
       <Filter>Заголовочные файлы\Actors</Filter>
     </ClInclude>
@@ -158,19 +155,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Data\Shaders\snowflake.frag.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Data\Shaders\cloud.frag.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
     <None Include="Data\Shaders\mountain.frag.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="Data\Shaders\sun.frag.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Data\Shaders\house.frag.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="Data\Shaders\campfire.vert.glsl">
@@ -183,6 +171,9 @@
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="Data\Shaders\basic.vert.glsl">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="Data\Shaders\basic.frag.glsl">
       <Filter>Файлы ресурсов</Filter>
     </None>
   </ItemGroup>

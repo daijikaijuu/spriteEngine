@@ -121,5 +121,8 @@ void TexturedActor::BindShaderAttributesAndUniforms()
 {
     GenericActor::BindShaderAttributesAndUniforms();
 
+    m_shader->RegisterUniform({ "gSampler", "alpha" });
+
     glUniform1i(m_shader->GetUniformLocation("gSampler"), 0);
+    glUniform1f(m_shader->GetUniformLocation("alpha"), 0.0f);
 }

@@ -10,7 +10,7 @@ ActorCampfire::ActorCampfire(GLfloat x, GLfloat y, GLfloat z, GLfloat size) :
     m_item(0),
     m_animationItem(0)
 {
-    m_shader->Load("Data/Shaders/campfire");
+    m_shader->Load("Data/Shaders/campfire", "Data/Shaders/basic");
 
     m_texture = TextureManager::GetInstance()->GetTexture("Data/Textures/campfire.png", 5);
     m_texture->setFiltering();
@@ -65,4 +65,6 @@ void ActorCampfire::BindShaderAttributesAndUniforms()
 
     glUniform1i(m_shader->GetUniformLocation("spriteCount"), m_texture->GetItems());
     m_item = m_shader->GetUniformLocation("texShift");
+
+    glUniform1f(m_shader->GetUniformLocation("alpha"), 0.99f);
 }
