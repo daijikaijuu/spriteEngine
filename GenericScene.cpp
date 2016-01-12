@@ -37,7 +37,7 @@ void GenericScene::Animate(GLint elapsedTime)
 void GenericScene::AddActor(std::string name, GenericActor *actor)
 {
     m_actors.insert(std::pair<std::string, GenericActor*>(name, actor));
-    Log(LogType::DEBUG, "Actor ", std::quoted(name), " added. TYPE: ", actor->class_type());
+    Debug("Actor ", name, " added. TYPE: ", actor->class_type());
 }
 
 GenericActor* GenericScene::GetActor(std::string name)

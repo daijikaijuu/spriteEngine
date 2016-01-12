@@ -87,7 +87,7 @@ void FrameBuffer::AttachTexture()
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture->GetID(), 0);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        Log(LogType::ERROR, "AtachTexture - Something went wrong!!!");
+        Error("AtachTexture - Something went wrong!!!");
 }
 
 Texture* FrameBuffer::GetTexture() const

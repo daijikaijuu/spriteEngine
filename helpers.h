@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <sstream>
+
 template<class T>
 class Singleton
 {
@@ -42,3 +45,14 @@ void Singleton<T>::Destroy()
 
 template<class T>
 T* Singleton<T>::m_instance = 0;
+
+namespace patch
+{
+    template<typename T>
+    std::string to_string(const T & n)
+    {
+        std::ostringstream stm;
+        stm << n;
+        return stm.str();
+    }
+}

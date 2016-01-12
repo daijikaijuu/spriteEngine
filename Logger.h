@@ -4,14 +4,15 @@
 #include <fstream>
 #endif // _DEBUG
 
+#include <iostream>
 #include <string>
 #include "helpers.h"
 
 enum LogType
 {
-    DEBUG,
-    INFO,
-    ERROR
+    LOGTYPE_DEBUG,
+    LOGTYPE_INFO,
+    LOGTYPE_ERROR
 };
 
 #define debug(message, ...)      LogManager::GetInstance()->Log(LogManager::LL_DEBUG, message, ##__VA_ARGS__)
@@ -55,6 +56,13 @@ protected:
     template<typename T, typename ...Params>
     void Log(LogType logType, T message, Params && ...args);
 
+    template<typename T, typename ...Params>
+    inline void Debug(T message, Params && ...args) { Log(LogType::LOGTYPE_DEBUG, message, args...); }
+    template<typename T, typename ...Params>
+    inline void Error(T message, Params && ...args) { Log(LogType::LOGTYPE_ERROR, message, args...); }
+    template<typename T, typename ...Params>
+    inline void Info(T message, Params && ...args) { Log(LogType::LOGTYPE_INFO, message, args...); }
+
 private:
     bool m_verbose;
 };
@@ -76,13 +84,13 @@ void LogManager::Log(LogType logType, T message, Params && ...args)
     std::string resultMessage;
     switch (logType)
     {
-    case DEBUG:
+    case LOGTYPE_DEBUG:
         resultMessage += LL_DEBUG;
         break;
-    case INFO:
+    case LOGTYPE_INFO:
         resultMessage += LL_INFO;
         break;
-    case ERROR:
+    case LOGTYPE_ERROR:
         resultMessage += LL_ERROR;
         break;
     default:

@@ -22,14 +22,13 @@ Scene::Scene(GLuint width, GLuint height) :
     //AddActor("sunlight", new ActorAmbientLight(100.0f, 100.0f, -0.18f, 200, glm::vec3(1, 1, 0)));
     for (size_t i = 0; i < 50; i++)
     {
-        std::string name = "snowflake" + std::to_string(i);
+        std::string name = "snowflake" + patch::to_string(i);
         AddActor(name, new ActorSnowflake(GLfloat(rand() % m_sceneWidth), GLfloat(rand() % m_sceneHeight / 2),
                                           GLfloat(15 + rand() % 20), m_sceneWidth, m_sceneHeight, 0.2f));
     }
 
     ResizeScene(m_sceneWidth, m_sceneHeight);
 }
-
 
 Scene::~Scene()
 {
@@ -58,7 +57,7 @@ void Scene::Animate(GLint elapsedTime)
         sun->Move(1.1f, 0);
     }
     else // In case of window resize
-    {        
+    {
         sun->MoveTo((GLfloat)m_sceneWidth - 100, sun->Y());
     }
 }
