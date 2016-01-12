@@ -1,12 +1,13 @@
 #pragma once
 
 #include "../homework02.h"
+#include "../Logger.h"
 #include "../Render/Shader.h"
 #include "../Render/Texture.h"
 #include "../Render/VertexArrayObject.h"
 #include "../Render/VertexBufferObject.h"
 
-class GenericActor
+class GenericActor : public Logger
 {
 public:
     GenericActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z = 0.0f);
@@ -22,6 +23,8 @@ public:
     inline GLfloat X() { return m_x; }
     inline GLfloat Y() { return m_y; }
     inline GLfloat Z() { return m_z; }
+
+    virtual std::string class_type() { return "GenericActor"; }
 
 protected:
     GLfloat m_x, m_y, m_z;
@@ -52,6 +55,8 @@ public:
     virtual ~TexturedActor();
 
     virtual void Draw();
+
+    virtual std::string class_type() { return "TexturedActor"; }
 
 protected:
     Texture *m_texture;

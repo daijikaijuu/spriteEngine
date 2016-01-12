@@ -1,5 +1,4 @@
 #pragma once
-#include "homework02.h"
 
 template<class T>
 class Singleton

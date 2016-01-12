@@ -2,6 +2,7 @@
 #include "VertexBufferObject.h"
 
 VertexArrayObject::VertexArrayObject() :
+    Logger(),
     m_VAO(0),
     m_VBO(NULL)
 {

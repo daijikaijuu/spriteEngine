@@ -1,12 +1,13 @@
 #pragma once
 
 #include "../homework02.h"
+#include "../Logger.h"
 #include "Vertex.h"
 #include "Shader.h"
 
 class VertexBufferObject;
 
-class VertexArrayObject
+class VertexArrayObject : public Logger
 {
 public:
     VertexArrayObject();
@@ -19,6 +20,8 @@ public:
 
     GLuint GetID() const;
     VertexBufferObject* GetVBO() const;
+
+    virtual std::string class_type() { return "VertexArrayObject"; }
 
 private:
     GLuint m_VAO;

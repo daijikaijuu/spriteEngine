@@ -1,6 +1,7 @@
 #include "VertexBufferObject.h"
 
 VertexBufferObject::VertexBufferObject(GLuint size) :
+    Logger(),
     m_buffer(0),
     m_size(size),
     m_dataUploaded(false),

@@ -10,6 +10,8 @@ public:
     virtual void Draw();
     virtual void Animate(GLint elapsedTime);
 
+    virtual std::string class_type() { return "ActorSun"; }
+
 protected:
     virtual void BindShaderAttributesAndUniforms();
 

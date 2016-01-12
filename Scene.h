@@ -16,6 +16,8 @@ public:
 
     virtual GenericActor* GetActor(std::string name);
 
+    virtual std::string class_type() { return "Scene"; }
+
 private:
     GenericActor *m_sun;
 

@@ -10,6 +10,8 @@ public:
 
     virtual void Draw();
 
+    virtual std::string class_type() { return "ActorCloud"; }
+
 protected:
     virtual void BindShaderAttributesAndUniforms();
 

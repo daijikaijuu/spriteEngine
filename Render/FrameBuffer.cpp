@@ -84,13 +84,10 @@ void FrameBuffer::Draw()
 
 void FrameBuffer::AttachTexture()
 {
-   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture->GetID(), 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture->GetID(), 0);
 
-#ifdef _DEBUG
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        std::cout << "Something went wrong with frame buffer" << std::endl;
-#endif // DEBUG
-
+        Log(LogType::ERROR, "AtachTexture - Something went wrong!!!");
 }
 
 Texture* FrameBuffer::GetTexture() const

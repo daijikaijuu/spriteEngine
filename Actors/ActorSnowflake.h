@@ -12,6 +12,8 @@ public:
     virtual void Draw();
     virtual void Animate(GLint elapsedTime);
 
+    virtual std::string class_type() { return "ActorSnowflake"; }
+
 protected:
     virtual void BindShaderAttributesAndUniforms();
 

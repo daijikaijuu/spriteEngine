@@ -1,9 +1,8 @@
+#include <iomanip>
 #include "GenericScene.h"
 #include "Actors/GenericActor.h"
 #include "Render/FrameBuffer.h"
 #include "Render/TextureManager.h"
-#include "helpers.h"
-#include "Logger.h"
 
 GenericScene::~GenericScene()
 {
@@ -37,8 +36,8 @@ void GenericScene::Animate(GLint elapsedTime)
 
 void GenericScene::AddActor(std::string name, GenericActor *actor)
 {
-    debug("- GenericScene::AddActor. Adding actor: ", name);
     m_actors.insert(std::pair<std::string, GenericActor*>(name, actor));
+    Log(LogType::DEBUG, "Actor ", std::quoted(name), " added. TYPE: ", actor->class_type());
 }
 
 GenericActor* GenericScene::GetActor(std::string name)

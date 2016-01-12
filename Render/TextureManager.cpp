@@ -27,10 +27,10 @@ Texture* TextureManager::GetTexture(std::string filename, GLsizei items)
             switch (e)
             {
             case 1:
-                debugError("Failed to open texture: ", filename.c_str());
+                Log(LogType::ERROR, "Failed to open texture: ", filename.c_str());
                 break;
             default:
-                debugError("Unknown exception #", e);
+                Log(LogType::ERROR, "Unknown exception #", e);
                 break;
             }
         }

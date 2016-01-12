@@ -23,6 +23,8 @@ public:
 
     Texture* GetTexture() const;
 
+    virtual std::string class_type() { return "FrameBuffer"; }
+
 protected:
     virtual void BindShaderAttributesAndUniforms();
 

@@ -3,11 +3,12 @@
 #include <string>
 #include <map>
 #include <initializer_list>
+#include "../Logger.h"
 
 #define NUM_SHADER_TYPES 3
-#define SHADER_VERSION "#version 130\n"
+#define SHADER_VERSION "#version 400\n"
 
-class Shader
+class Shader : public Logger
 {
 public:
     Shader();
@@ -31,6 +32,8 @@ public:
     Shader& operator=(const Shader &shader) = delete;
     Shader(const Shader &shader) = delete;
 
+    virtual std::string class_type() { return "Shader"; }
+
 private:
     enum ShaderType
     {
@@ -46,7 +49,7 @@ private:
 
     std::string loadFromFile(ShaderType type, const std::string &fileName);
     GLuint loadFromText(ShaderType type, std::string text);
-    void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string & messageType, const std::string & msg);
+    void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, LogType messageType, const std::string & msg);
 };
 
 

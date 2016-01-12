@@ -1,8 +1,9 @@
+#include <iomanip>
 #include <png.h>
-#include "../Logger.h"
 #include "Texture.h"
 
 Texture::Texture(GLsizei items) :
+    Logger(),
     m_textureID(0),
     m_items(items)
 {
@@ -24,7 +25,7 @@ void Texture::LoadTexture(GLuint width, GLuint height, const GLvoid *imageData)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 }
 
-void Texture::LoadPNGTexture(const std::string filename)
+void Texture::LoadPNGTexture(const std::string & filename)
 {
     png_structp ptrPNG;
     png_infop ptrInfo;
@@ -72,7 +73,7 @@ void Texture::LoadPNGTexture(const std::string filename)
     png_byte *outData = (png_byte *)malloc(row_bytes * height * sizeof(png_byte) + 15);
     if (outData == NULL)
     {
-        debugError("Could not allocate memory for PNG image data. Texture: ", filename);
+        Log(LogType::ERROR, "Could not allocate memory for PNG image data. Texture: ", filename);
 
         png_destroy_read_struct(&ptrPNG, &ptrInfo, NULL);
         fclose(fp);
@@ -99,11 +100,11 @@ void Texture::LoadPNGTexture(const std::string filename)
         format = GL_RGBA;
         break;
     default:
-        debugError(filename, ". Unknown libpng color type ", color_type);
+        Log(LogType::ERROR, filename, ". Unknown libpng color type ", color_type);
         throw 2;
     }
 
-    debug("Texture: ", filename, ". LOADED.");
+    Log(LogType::DEBUG, "Loaded ", std::quoted(filename));
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, outData);

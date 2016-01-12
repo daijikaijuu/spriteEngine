@@ -1,6 +1,7 @@
 #include "GenericActor.h"
 
 GenericActor::GenericActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z) :
+    Logger(),
     m_x(x),
     m_y(y),
     m_z(z),

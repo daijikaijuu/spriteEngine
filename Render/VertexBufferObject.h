@@ -1,8 +1,9 @@
 #pragma once
 
 #include "../homework02.h"
+#include "../Logger.h"
 
-class VertexBufferObject
+class VertexBufferObject : public Logger
 {
 public:
     VertexBufferObject(GLuint size = 0);
@@ -18,6 +19,8 @@ public:
 
     GLuint GetID() const;
     GLvoid* GetDataPointer() const;
+
+    virtual std::string class_type() { return "VertexBufferObject"; }
 
 private:
     GLuint m_buffer;
