@@ -76,7 +76,7 @@ void FrameBuffer::Draw()
     TexturedActor::Draw();
 
     glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     m_shader->Bind();
     glDrawArrays(GL_QUADS, 0, 4);
