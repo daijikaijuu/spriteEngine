@@ -155,26 +155,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Data\Shaders\mountain.frag.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Data\Shaders\sun.frag.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Data\Shaders\campfire.vert.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Data\Shaders\light.vert.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Data\Shaders\light.frag.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Data\Shaders\basic.vert.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Data\Shaders\basic.frag.glsl">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
   </ItemGroup>
 </Project>

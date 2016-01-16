@@ -3,13 +3,17 @@
 #include <fstream>
 #include <streambuf>
 
+const char* VERTEX_FILETYPE = ".vs";
+const char* FRAGMENT_FILETYPE = ".fs";
+const char* GEOMETRY_FILETYPE = ".gs";
+
 Shader::Shader() :
     Logger(),
-    m_program(0)
+    m_program(0),
+    m_attribList(),
+    m_uniforms()
 {
     m_program = glCreateProgram();
-    m_attribList.clear();
-    m_uniforms.clear();
     for (size_t i = 0; i < NUM_SHADER_TYPES; i++)
     {
         m_shaders[i] = 0;
@@ -29,17 +33,17 @@ Shader::~Shader()
 void Shader::Load(const std::string &fileName)
 {
     std::string vertex, fragment, geometry;
-    vertex = loadFromFile(VERTEX_SHADER, fileName + ".vert.glsl");
-    fragment = loadFromFile(FRAGMENT_SHADER, fileName + ".frag.glsl");
-    geometry = loadFromFile(GEOMETRY_SHADER, fileName + ".geom.glsl");
+    vertex = loadFromFile(VERTEX_SHADER, fileName + VERTEX_FILETYPE);
+    fragment = loadFromFile(FRAGMENT_SHADER, fileName + FRAGMENT_FILETYPE);
+    geometry = loadFromFile(GEOMETRY_SHADER, fileName + GEOMETRY_FILETYPE);
 
     Load(vertex, fragment, geometry);
 }
 
 void Shader::Load(const std::string & vertexFilename, const std::string & fragmentFilename)
 {
-    Load(loadFromFile(VERTEX_SHADER, vertexFilename + ".vert.glsl"),
-         loadFromFile(FRAGMENT_SHADER, fragmentFilename + ".frag.glsl"),
+    Load(loadFromFile(VERTEX_SHADER, vertexFilename + VERTEX_FILETYPE),
+         loadFromFile(FRAGMENT_SHADER, fragmentFilename + FRAGMENT_FILETYPE),
          "");
 }
 
