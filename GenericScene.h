@@ -36,5 +36,4 @@ protected:
     GLuint    m_sceneWidth, m_sceneHeight;
 	actorsMap m_actors;
     GLint     m_elapsedTime;
-
 };

@@ -6,7 +6,7 @@
 #include "../Logger.h"
 
 #define NUM_SHADER_TYPES 3
-#define SHADER_VERSION "#version 400\n"
+#define SHADER_VERSION "#version 330\n"
 
 class Shader : public Logger
 {

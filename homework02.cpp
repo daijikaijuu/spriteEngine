@@ -44,10 +44,12 @@ void processNormalKeys(unsigned char key, int x, int y)
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
+    debug("Glut initialized.");
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(WIDTH, HEIGHT);
-    glutCreateWindow("Homework OpegnGL window");
+    glutCreateWindow("Homework OpenGL window");
+    debug("Created window.");
 
     glewExperimental = GL_TRUE;
     GLenum glew_status = glewInit();
@@ -56,10 +58,19 @@ int main(int argc, char **argv)
         debugError(glewGetErrorString(glew_status));
         return 1;
     }
+    debug("Glew initialized.");
 
-    if (!GLEW_VERSION_4_0)
+    if (!GLEW_VERSION_3_3)
     {
-        debugError("Error: your graphic card does not support OpenGL 4.0\n");
+        debugError("Your graphic card does not support OpenGL 4.0\n");
+        return 1;
+    }
+
+    if (GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader)
+        debug("Vertex & fragment shaders supported.");
+    else
+    {
+        debugError("Vertex/fragment shaders not supported. Abort.");
         return 1;
     }
 
