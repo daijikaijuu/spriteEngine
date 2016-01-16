@@ -10,9 +10,10 @@
 #include "Actors/ActorCampfire.h"
 #include "Actors/ActorAmbientLight.h"
 
-Scene::Scene(GLuint width, GLuint height) :
+Scene::Scene(GLuint width, GLuint height, bool useFramebuffer) :
     GenericScene(width, height),
-    m_sun(NULL)
+    m_sun(NULL),
+    m_UseFramebuffer(useFramebuffer)
 {
     AddActor("sun", new ActorSun(100.0f, 100.0f, -0.19f, 170.0f));
     AddActor("cloud01", new ActorCloud(0, 0, (GLfloat)m_sceneWidth, (GLfloat)m_sceneHeight / 1.5f, -0.2f));
@@ -28,6 +29,12 @@ Scene::Scene(GLuint width, GLuint height) :
     }
 
     ResizeScene(m_sceneWidth, m_sceneHeight);
+
+    Debug("Created.");
+    if (m_UseFramebuffer)
+        Debug("Framebuffer enabled");
+    else
+        Debug("Framebuffer disabled.");
 }
 
 Scene::~Scene()
@@ -37,13 +44,20 @@ Scene::~Scene()
 void Scene::Draw()
 {
     static FrameBuffer *fb = FrameBuffer::GetInstance();
-    fb->BindFrameBuffer();
+    if (m_UseFramebuffer)
+    {
+        fb->BindFrameBuffer();
+    }
+
     RecalcBackground();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     GenericScene::Draw();
-    fb->UnbindFrameBuffer();
 
-    fb->Draw();
+    if (m_UseFramebuffer)
+    {
+        fb->UnbindFrameBuffer();
+        fb->Draw();
+    }
 }
 
 void Scene::Animate(GLint elapsedTime)

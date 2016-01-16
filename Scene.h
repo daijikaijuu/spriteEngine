@@ -4,11 +4,10 @@
 
 class GenericActor;
 
-class Scene :
-    public GenericScene
+class Scene : public GenericScene
 {
 public:
-    Scene(GLuint width, GLuint height);
+    Scene(GLuint width, GLuint height, bool useFramebuffer = true);
     virtual ~Scene();
 
     virtual void Draw();
@@ -20,6 +19,7 @@ public:
 
 private:
     GenericActor *m_sun;
+    bool m_UseFramebuffer;
 
     void RecalcBackground();
 };
