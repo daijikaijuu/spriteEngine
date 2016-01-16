@@ -38,9 +38,6 @@ ActorBackgroundMountain::ActorBackgroundMountain(GLfloat width, GLfloat height, 
 
     BindShaderAttributesAndUniforms();
 
-    m_VAO->Generate(m_shader->GetAttributeLocation("inPosition"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
-    m_VAO->Generate(m_shader->GetAttributeLocation("inCoord"), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-
     delete a;
 }
 
@@ -100,12 +97,13 @@ std::vector<GLfloat> ActorBackgroundMountain::CalculateHeights()
         wtb[i] = (unsigned char)(255 * fsc(i / 256.0f));
 
     std::vector<GLfloat> result;
-    
+
     for (int i = 0; i < step; i++)
     {
         GLfloat x = i / 800.0f;
 
         if (x < 0) x = -x;
+
         GLfloat r = 0;
         GLfloat ampl = 0.6f;
         int xi = (int)x;
@@ -115,10 +113,12 @@ std::vector<GLfloat> ActorBackgroundMountain::CalculateHeights()
         {
             GLfloat n1;
             n1 = buffer[xi & 4095];
-            n1 += fsc(xf)*(buffer[(xi + 1) & 4095] - n1);
-            r += n1*ampl;
+            n1 += fsc(xf) * (buffer[(xi + 1) & 4095] - n1);
+            r += n1 * ampl;
             ampl *= 0.9f;
-            xi <<= 1; xf *= 2;
+            xi <<= 1;
+            xf *= 2;
+
             if (xf >= 1.0f) xi++, xf -= 1.0f;
         }
 
