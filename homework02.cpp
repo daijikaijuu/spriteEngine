@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 
     if (!GLEW_VERSION_3_3)
     {
-        debugError("Your graphic card does not support OpenGL 4.0\n");
+        debugError("Your graphic card does not support OpenGL 3.3\n");
         return 1;
     }
 
