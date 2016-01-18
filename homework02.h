@@ -1,7 +1,6 @@
 // 2015 Domrachev Alexandr <Alexandr.Domrachev@gmail.com>
-#ifdef WIN32
+#pragma once
 #include <windows.h>
-#endif
 #include <stdio.h>
 #include <iostream>
 #include <stdlib.h>
@@ -12,5 +11,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#ifdef _MSC_VER
+#pragma comment(lib, "opengl32.lib")
+#pragma comment(lib, "glu32.lib")
+#pragma comment(lib, "glew32.lib")
+#endif // _MSC_VER
 
 #define PI 3.1415926535897932384626433832795
