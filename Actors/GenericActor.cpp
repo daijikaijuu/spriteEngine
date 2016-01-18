@@ -104,11 +104,6 @@ TexturedActor::TexturedActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z) :
 
 TexturedActor::~TexturedActor()
 {
-    if (m_texture)
-    {
-        delete m_texture;
-        m_texture = NULL;
-    }
 }
 
 void TexturedActor::Draw()

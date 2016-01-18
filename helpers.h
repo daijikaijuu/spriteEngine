@@ -56,3 +56,5 @@ namespace patch
         return stm.str();
     }
 }
+
+std::string quoteStr(const std::string &str);

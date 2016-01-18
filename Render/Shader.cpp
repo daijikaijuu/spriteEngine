@@ -123,7 +123,7 @@ std::string Shader::loadFromFile(ShaderType type, const std::string &fileName)
     }
     else
     {
-        Error("Failed to open shader file: ", fileName);
+        Error("Failed to open shader file: ", quoteStr(fileName));
     }
 
     return "";

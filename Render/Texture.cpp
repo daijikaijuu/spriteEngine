@@ -73,7 +73,7 @@ void Texture::LoadPNGTexture(const std::string & filename)
     png_byte *outData = (png_byte *)malloc(row_bytes * height * sizeof(png_byte) + 15);
     if (outData == NULL)
     {
-        Error("Could not allocate memory for PNG image data. Texture: ", filename);
+        Error("Could not allocate memory for PNG image data. Texture: ", quoteStr(filename));
 
         png_destroy_read_struct(&ptrPNG, &ptrInfo, NULL);
         fclose(fp);
@@ -100,11 +100,11 @@ void Texture::LoadPNGTexture(const std::string & filename)
         format = GL_RGBA;
         break;
     default:
-        Error("Unknown libpng color type ", color_type, " in file: ", filename);
+        Error("Unknown libpng color type ", color_type, " in file: ", quoteStr(filename));
         throw 2;
     }
 
-    Debug("Loaded ", filename);
+    Debug("Loaded ", quoteStr(filename));
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, outData);

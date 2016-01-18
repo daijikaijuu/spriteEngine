@@ -22,6 +22,7 @@ private:
 
 public:
     Texture* GetTexture(std::string filename, GLsizei items = 1);
+    Texture* GenerateTexture(const std::string& textureName);
 
     virtual std::string class_type() { return "TextureManager"; }
 

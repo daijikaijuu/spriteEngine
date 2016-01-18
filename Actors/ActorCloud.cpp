@@ -3,6 +3,7 @@
 #include "../homework02.h"
 #include "../Render/Vertex.h"
 #include "../Render/Texture.h"
+#include "../Render/TextureManager.h"
 #include "ActorCloud.h"
 
 ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfloat z, int octave) :
@@ -14,7 +15,7 @@ ActorCloud::ActorCloud(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLfl
     m_octave(octave)
 {
     InitializeShader("Data/Shaders/basic", "Data/Shaders/basic");
-    m_texture = new Texture();
+    m_texture = TextureManager::GetInstance()->GenerateTexture("cloud");
 
     SetNoise();
     OverlapOctaves();
