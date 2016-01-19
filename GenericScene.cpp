@@ -34,13 +34,13 @@ void GenericScene::Animate(GLint elapsedTime)
     }
 }
 
-void GenericScene::AddActor(std::string name, GenericActor *actor)
+void GenericScene::AddActor(string name, GenericActor *actor)
 {
-    m_actors.insert(std::pair<std::string, GenericActor*>(name, actor));
+    m_actors.insert(std::pair<string, GenericActor*>(name, actor));
     Debug("Actor ", quoteStr(name), " added. TYPE: ", quoteStr(actor->class_type()));
 }
 
-GenericActor* GenericScene::GetActor(std::string name)
+GenericActor* GenericScene::GetActor(string name)
 {
     actorsMap::iterator it = m_actors.find(name);
     assert(it != m_actors.end());
@@ -58,5 +58,25 @@ void GenericScene::ResizeScene(GLsizei width, GLsizei height)
 
     FrameBuffer::GetInstance()->ResizeScene(width, height);
 
+    DEBUG_OK();
+
     Draw();
+}
+
+bool GenericScene::DEBUG_OK() const
+{
+    HW_ASSERT(m_sceneWidth > 0);
+    HW_ASSERT(m_sceneHeight > 0);
+
+    return true;
+}
+
+string GenericScene::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << endl << " CLASS: " << GenericScene::class_type() << endl;
+    result << DUMP_VAR(m_sceneWidth) << DUMP_VAR(m_sceneHeight) << endl;
+    result << DUMP_VAR(m_actors.size()) << endl;
+    result << DUMP_VAR(m_elapsedTime) << endl;
+    return result.str();
 }

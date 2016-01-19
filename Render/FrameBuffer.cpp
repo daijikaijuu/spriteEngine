@@ -56,12 +56,17 @@ void FrameBuffer::ResizeScene(GLsizei width, GLsizei height)
     UnbindFrameBuffer();
 }
 
-void FrameBuffer::BindFrameBuffer()
+bool FrameBuffer::BindFrameBuffer()
 {
+    if (!DEBUG_OK())
+        return false;
+
     glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
     glBindRenderbuffer(GL_RENDERBUFFER, m_depthBuffer);
     m_texture->BindTexture();
     m_shader->Bind();
+
+    return true;
 }
 
 void FrameBuffer::UnbindFrameBuffer()
@@ -93,6 +98,23 @@ void FrameBuffer::AttachTexture()
 Texture* FrameBuffer::GetTexture() const
 {
     return m_texture;
+}
+
+bool FrameBuffer::DEBUG_OK() const
+{
+    HW_ASSERT(m_ID > 0);
+    HW_ASSERT(m_depthBuffer > 0);
+
+    return true;
+}
+
+string FrameBuffer::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << GenericActor::DEBUG_DUMP();
+    result << " CLASS: " << FrameBuffer::class_type() << endl;
+    result << DUMP_VAR(m_ID) << DUMP_VAR(m_depthBuffer) << endl;
+    return result.str();
 }
 
 void FrameBuffer::BindShaderAttributesAndUniforms()

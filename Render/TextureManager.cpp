@@ -12,7 +12,7 @@ TextureManager::~TextureManager()
     m_textures.clear();
 }
 
-Texture* TextureManager::GetTexture(std::string filename, GLsizei items)
+Texture* TextureManager::GetTexture(string filename, GLsizei items)
 {
     Texture *result = NULL;
     texturesMap::iterator it = m_textures.find(filename);
@@ -35,7 +35,7 @@ Texture* TextureManager::GetTexture(std::string filename, GLsizei items)
                 break;
             }
         }
-        m_textures.insert(std::pair<std::string, Texture*>(filename, result));
+        m_textures.insert(std::pair<string, Texture*>(filename, result));
     }
     else
         result = it->second;
@@ -43,14 +43,14 @@ Texture* TextureManager::GetTexture(std::string filename, GLsizei items)
     return result;
 }
 
-Texture* TextureManager::GenerateTexture(const std::string &textureName)
+Texture* TextureManager::GenerateTexture(const string &textureName)
 {
     Texture *result = NULL;
     texturesMap::iterator it = m_textures.find(textureName);
     if (it == m_textures.end())
     {
         result = new Texture();
-        m_textures.insert(std::pair<std::string, Texture*>(textureName, result));
+        m_textures.insert(std::pair<string, Texture*>(textureName, result));
     }
     else
         result = it->second;

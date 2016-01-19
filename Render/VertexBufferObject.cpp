@@ -55,6 +55,10 @@ void VertexBufferObject::UnmapBuffer()
 void VertexBufferObject::Bind(GLenum bufferType)
 {
     m_bufferType = bufferType;
+
+    if (!DEBUG_OK())
+        CriticalError();
+
     glBindBuffer(m_bufferType, m_buffer);
 }
 
@@ -68,4 +72,19 @@ GLvoid* VertexBufferObject::GetDataPointer() const
     if (m_dataUploaded)
         return nullptr;
     return (GLvoid*)(intptr_t)m_data[0];
+}
+
+bool VertexBufferObject::DEBUG_OK() const
+{
+    HW_ASSERT(m_buffer > 0);
+    
+    return true;
+}
+
+string VertexBufferObject::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << endl;
+    result << DUMP_VAR(m_buffer) << DUMP_VAR(m_size) << DUMP_VAR(m_bufferType) << endl;
+    return result.str();
 }

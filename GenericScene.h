@@ -10,7 +10,7 @@ class GenericActor;
 
 class GenericScene : public Logger
 {
-	using actorsMap = std::map<std::string, GenericActor*>;
+	using actorsMap = std::map<string, GenericActor*>;
 public:
 	GenericScene(GLsizei width, GLsizei height) :
         Logger(),
@@ -25,12 +25,14 @@ public:
     virtual void Draw();
     virtual void Animate(GLint elapsedTime);
 
-    void AddActor(std::string name, GenericActor *actor);
-    virtual GenericActor* GetActor(std::string name);
+    void AddActor(string name, GenericActor *actor);
+    virtual GenericActor* GetActor(string name);
 
     void ResizeScene(GLsizei width, GLsizei height);
 
-    virtual std::string class_type() { return "GenericScene"; }
+    virtual string class_type() const { return "GenericScene"; }
+    virtual bool DEBUG_OK() const;
+    virtual string DEBUG_DUMP() const;
 
 protected:
     GLuint    m_sceneWidth, m_sceneHeight;

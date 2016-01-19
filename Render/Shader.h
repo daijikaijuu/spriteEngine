@@ -14,17 +14,17 @@ public:
     Shader();
     virtual ~Shader();
 
-    void Load(const std::string &fileName);
-    void Load(const std::string &vertexFilename, const std::string &fragmentFilename);
-    void Load(const std::string &vertex, const std::string &fragment, const std::string &geometry);
+    void Load(const string &fileName);
+    void Load(const string &vertexFilename, const string &fragmentFilename);
+    void Load(const string &vertex, const string &fragment, const string &geometry);
 
-    void RegisterAttribute(std::string attrib);
-    void RegisterAttribute(std::initializer_list<std::string> a_args);
-    void RegisterUniform(std::string uniform);
-    void RegisterUniform(std::initializer_list<std::string> a_args);
+    void RegisterAttribute(string attrib);
+    void RegisterAttribute(std::initializer_list<string> a_args);
+    void RegisterUniform(string uniform);
+    void RegisterUniform(std::initializer_list<string> a_args);
     GLuint GetProgramID() const;
-    GLuint GetAttributeLocation(std::string attrib);
-    GLuint GetUniformLocation(std::string uniform);
+    GLuint GetAttributeLocation(string attrib);
+    GLuint GetUniformLocation(string uniform);
 
     void Bind();
     void UnBind();
@@ -32,7 +32,9 @@ public:
     Shader& operator=(const Shader &shader) = delete;
     Shader(const Shader &shader) = delete;
 
-    virtual std::string class_type() { return "Shader"; }
+    virtual string class_type() const { return "Shader"; }
+    virtual bool DEBUG_OK() const;
+    virtual string DEBUG_DUMP() const;
 
 private:
     enum ShaderType
@@ -44,12 +46,12 @@ private:
 
     GLuint m_program;
     GLuint m_shaders[NUM_SHADER_TYPES];
-    std::map<std::string, GLuint> m_attribList;
-    std::map<std::string, GLuint> m_uniforms;
+    std::map<string, GLuint> m_attribList;
+    std::map<string, GLuint> m_uniforms;
 
-    std::string loadFromFile(ShaderType type, const std::string &fileName);
-    GLuint loadFromText(ShaderType type, std::string text);
-    void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, LogType messageType, const std::string & msg);
+    string loadFromFile(ShaderType type, const string &fileName);
+    GLuint loadFromText(ShaderType type, string text);
+    void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, LogType messageType, const string &msg);
 };
 
 

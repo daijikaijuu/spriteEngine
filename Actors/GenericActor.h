@@ -24,7 +24,9 @@ public:
     inline GLfloat Y() { return m_y; }
     inline GLfloat Z() { return m_z; }
 
-    virtual std::string class_type() { return "GenericActor"; }
+    virtual string class_type() const { return "GenericActor"; }
+    virtual bool DEBUG_OK() const;
+    virtual string DEBUG_DUMP() const;
 
 protected:
     GLfloat m_x, m_y, m_z;
@@ -43,9 +45,9 @@ protected:
     virtual void UpdateMVP();
     virtual void BindShaderAttributesAndUniforms();
 
-    void InitializeShader(const std::string & vertexFilename, const std::string & fragmentFilename);
-    template<typename T> void InitializeVBO(T * vertexData);
-    template<typename T> void SetAttribute(T * vertexData, const std::string attribute, GLuint position);
+    void InitializeShader(const string &vertexFilename, const string &fragmentFilename);
+    template<typename T> void InitializeVBO(T *vertexData);
+    template<typename T> void SetAttribute(T *vertexData, const string attribute, GLuint position);
 };
 
 class TexturedActor : public GenericActor
@@ -56,7 +58,9 @@ public:
 
     virtual void Draw();
 
-    virtual std::string class_type() { return "TexturedActor"; }
+    virtual string class_type() const { return "TexturedActor"; }
+    virtual bool DEBUG_OK() const;
+    virtual string DEBUG_DUMP() const;
 
 protected:
     Texture *m_texture;
@@ -65,7 +69,7 @@ protected:
 };
 
 template<typename T>
-inline void GenericActor::InitializeVBO(T * vertexData)
+inline void GenericActor::InitializeVBO(T *vertexData)
 {
     m_VAO->GetVBO()->Bind(GL_ARRAY_BUFFER);
     m_VAO->GetVBO()->AddData(vertexData->vertices, vertexData->vertexBufferSize());
@@ -73,7 +77,7 @@ inline void GenericActor::InitializeVBO(T * vertexData)
 }
 
 template<typename T>
-inline void GenericActor::SetAttribute(T * vertexData, const std::string attribute, GLuint position)
+inline void GenericActor::SetAttribute(T *vertexData, const string attribute, GLuint position)
 {
     m_VAO->Generate(m_shader->GetAttributeLocation(attribute), 3, GL_FLOAT, GL_FALSE, vertexData->itemSize(), vertexData->position(position));
 }

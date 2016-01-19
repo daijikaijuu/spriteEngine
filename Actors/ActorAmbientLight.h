@@ -12,7 +12,7 @@ public:
     virtual void Draw();
     virtual void ResizeScene(GLsizei width, GLsizei height);
     
-    virtual std::string class_type() { return "ActorAmbientLight"; }
+    virtual string class_type() const { return "ActorAmbientLight"; }
 
 protected:
     virtual void BindShaderAttributesAndUniforms();

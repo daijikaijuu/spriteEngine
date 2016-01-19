@@ -30,9 +30,9 @@ Shader::~Shader()
     glDeleteProgram(m_program);
 }
 
-void Shader::Load(const std::string &fileName)
+void Shader::Load(const string &fileName)
 {
-    std::string vertex, fragment, geometry;
+    string vertex, fragment, geometry;
     vertex = loadFromFile(VERTEX_SHADER, fileName + VERTEX_FILETYPE);
     fragment = loadFromFile(FRAGMENT_SHADER, fileName + FRAGMENT_FILETYPE);
     geometry = loadFromFile(GEOMETRY_SHADER, fileName + GEOMETRY_FILETYPE);
@@ -40,14 +40,14 @@ void Shader::Load(const std::string &fileName)
     Load(vertex, fragment, geometry);
 }
 
-void Shader::Load(const std::string & vertexFilename, const std::string & fragmentFilename)
+void Shader::Load(const string &vertexFilename, const string &fragmentFilename)
 {
     Load(loadFromFile(VERTEX_SHADER, vertexFilename + VERTEX_FILETYPE),
          loadFromFile(FRAGMENT_SHADER, fragmentFilename + FRAGMENT_FILETYPE),
          "");
 }
 
-void Shader::Load(const std::string & vertex, const std::string & fragment, const std::string & geometry)
+void Shader::Load(const string &vertex, const string &fragment, const string &geometry)
 {
     if (!vertex.empty())
         m_shaders[VERTEX_SHADER] = loadFromText(VERTEX_SHADER, vertex);
@@ -75,22 +75,22 @@ GLuint Shader::GetProgramID() const
     return m_program;
 }
 
-GLuint Shader::GetAttributeLocation(std::string attrib)
+GLuint Shader::GetAttributeLocation(string attrib)
 {
     return m_attribList[attrib];
 }
 
-GLuint Shader::GetUniformLocation(std::string uniform)
+GLuint Shader::GetUniformLocation(string uniform)
 {
     return m_uniforms[uniform];
 }
 
-void Shader::RegisterAttribute(std::string attrib)
+void Shader::RegisterAttribute(string attrib)
 {
     m_attribList[attrib] = glGetAttribLocation(m_program, attrib.c_str());
 }
 
-void Shader::RegisterAttribute(std::initializer_list<std::string> a_args)
+void Shader::RegisterAttribute(std::initializer_list<string> a_args)
 {
     for (auto i : a_args)
     {
@@ -98,12 +98,12 @@ void Shader::RegisterAttribute(std::initializer_list<std::string> a_args)
     }
 }
 
-void Shader::RegisterUniform(std::string uniform)
+void Shader::RegisterUniform(string uniform)
 {
     m_uniforms[uniform] = glGetUniformLocation(m_program, uniform.c_str());
 }
 
-void Shader::RegisterUniform(std::initializer_list<std::string> a_args)
+void Shader::RegisterUniform(std::initializer_list<string> a_args)
 {
     for (auto i : a_args)
     {
@@ -111,13 +111,13 @@ void Shader::RegisterUniform(std::initializer_list<std::string> a_args)
     }
 }
 
-std::string Shader::loadFromFile(ShaderType type, const std::string &fileName)
+string Shader::loadFromFile(ShaderType type, const string &fileName)
 {
     std::ifstream fparser;
     fparser.open(fileName, std::ios_base::in);
     if (fparser)
     {
-        std::string buffer((std::istreambuf_iterator<char>(fparser)),
+        string buffer((std::istreambuf_iterator<char>(fparser)),
                            std::istreambuf_iterator<char>());
         return buffer;
     }
@@ -129,7 +129,7 @@ std::string Shader::loadFromFile(ShaderType type, const std::string &fileName)
     return "";
 }
 
-GLuint Shader::loadFromText(ShaderType type, std::string text)
+GLuint Shader::loadFromText(ShaderType type, string text)
 {
     GLenum st;
     switch (type)
@@ -147,7 +147,7 @@ GLuint Shader::loadFromText(ShaderType type, std::string text)
         break;
     }
 
-    text = std::string(SHADER_VERSION) + text;
+    text = string(SHADER_VERSION) + text;
 
     GLuint shader = glCreateShader(st);
     const char *cstr = text.c_str();
@@ -161,6 +161,8 @@ GLuint Shader::loadFromText(ShaderType type, std::string text)
 
 void Shader::Bind()
 {
+    DEBUG_OK();
+
     glUseProgram(m_program);
 }
 
@@ -169,7 +171,28 @@ void Shader::UnBind()
     glUseProgram(0);
 }
 
-void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, LogType messageType, const std::string & msg)
+bool Shader::DEBUG_OK() const
+{
+    HW_ASSERT(m_program > 0);
+
+    return true;
+}
+
+string Shader::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << endl;
+    result << DUMP_VAR(m_program) << endl;
+    for (size_t i = 0; i < NUM_SHADER_TYPES; i++)
+        result << "   m_shaders[" << i << "] = " << m_shaders[i] << endl;
+    for (auto &it : m_attribList)
+        result << "   m_attribList['" << it.first << "'] = " << it.second << endl;
+    for (auto &it : m_uniforms)
+        result << "   m_uniforms['" << it.first << "'] = " << it.second << endl;
+    return result.str();
+}
+
+void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, LogType messageType, const string &msg)
 {
     GLint success = 0;
     GLchar error[1024] = { 0 };

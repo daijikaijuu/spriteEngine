@@ -10,7 +10,7 @@ public:
     virtual ~Texture();
 
     void LoadTexture(GLuint width, GLuint height, const GLvoid *imageData);
-    void LoadPNGTexture(const std::string & filename);
+    void LoadPNGTexture(const string &filename);
 
     void BindTexture(GLuint textureUnit = 0);
     void setFiltering();
@@ -18,7 +18,12 @@ public:
     GLuint GetID() const;
     GLsizei GetItems() const;
 
-    virtual std::string class_type() { return "Texture"; }
+    Texture& operator=(const Texture &texture) = delete;
+    Texture(const Texture &texture) = delete;
+
+    virtual string class_type() const { return "Texture"; }
+    virtual bool DEBUG_OK() const;
+    virtual string DEBUG_DUMP() const;
 
 private:
     GLuint m_textureID;

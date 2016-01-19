@@ -17,13 +17,15 @@ public:
 
     virtual void ResizeScene(GLsizei width, GLsizei height);
 
-    void BindFrameBuffer();
+    bool BindFrameBuffer();
     void UnbindFrameBuffer();
     virtual void Draw();
 
     Texture* GetTexture() const;
 
-    virtual std::string class_type() { return "FrameBuffer"; }
+    virtual string class_type() const { return "FrameBuffer"; }
+    virtual bool DEBUG_OK() const;
+    virtual string DEBUG_DUMP() const;
 
 protected:
     virtual void BindShaderAttributesAndUniforms();

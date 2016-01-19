@@ -11,7 +11,7 @@ public:
 
     virtual void Draw();
 
-    virtual std::string class_type() { return "ActorHouse"; }
+    virtual string class_type() const { return "ActorHouse"; }
 
 protected:
     virtual void BindShaderAttributesAndUniforms();

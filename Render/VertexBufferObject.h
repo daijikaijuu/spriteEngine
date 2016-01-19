@@ -20,7 +20,12 @@ public:
     GLuint GetID() const;
     GLvoid* GetDataPointer() const;
 
-    virtual std::string class_type() { return "VertexBufferObject"; }
+    VertexBufferObject& operator=(const VertexBufferObject &vbo) = delete;
+    VertexBufferObject(const VertexBufferObject &vbo) = delete;
+
+    virtual string class_type() const { return "VertexBufferObject"; }
+    virtual bool DEBUG_OK() const;
+    virtual string DEBUG_DUMP() const;
 
 private:
     GLuint m_buffer;

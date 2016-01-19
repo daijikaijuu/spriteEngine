@@ -31,6 +31,9 @@ void VertexArrayObject::Generate(GLuint attribute, GLint size, GLenum type, GLbo
 
 void VertexArrayObject::Bind() const
 {
+    if (!DEBUG_OK())
+        CriticalError();
+
     glBindVertexArray(m_VAO);
 }
 
@@ -44,7 +47,26 @@ GLuint VertexArrayObject::GetID() const
     return m_VAO;
 }
 
-VertexBufferObject * VertexArrayObject::GetVBO() const
+VertexBufferObject* VertexArrayObject::GetVBO() const
 {
     return m_VBO;
+}
+
+bool VertexArrayObject::DEBUG_OK() const
+{
+    if (!m_VBO->DEBUG_OK())
+        CriticalError();
+
+    HW_ASSERT(m_VAO > 0);
+
+    return true;
+}
+
+string VertexArrayObject::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << endl;
+    result << DUMP_VAR(m_VAO) << endl;
+    result << "  m_VBO:" << m_VBO->DEBUG_DUMP();
+    return result.str();
 }

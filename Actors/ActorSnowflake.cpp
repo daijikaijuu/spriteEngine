@@ -64,6 +64,8 @@ void ActorSnowflake::Animate(GLint elapsedTime)
         m_deltaX *= -1;
 
     m_model = glm::rotate_slow(m_model, m_deltaX / 10, glm::vec3(0, 0, 1));
+
+    DEBUG_OK();
 }
 
 void ActorSnowflake::BindShaderAttributesAndUniforms()
@@ -73,4 +75,23 @@ void ActorSnowflake::BindShaderAttributesAndUniforms()
     m_shader->RegisterAttribute({ "inPosition", "inCoord" });
 
     glUniform1f(m_shader->GetUniformLocation("alpha"), 0.7f);
+}
+
+bool ActorSnowflake::DEBUG_OK() const
+{
+    HW_ASSERT(TexturedActor::DEBUG_OK());
+    HW_ASSERT(m_sceneWidth > 0);
+    HW_ASSERT(m_sceneHeight > 0);
+
+    return true;
+}
+
+string ActorSnowflake::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << TexturedActor::DEBUG_DUMP();
+    result << " CLASS: " << ActorSnowflake::class_type() << endl;
+    result << DUMP_VAR(m_sceneWidth) << DUMP_VAR(m_sceneHeight) << endl;
+    result << DUMP_VAR(m_speed) << DUMP_VAR(m_deltaX) << DUMP_VAR(m_angle) << endl;
+    return result.str();
 }

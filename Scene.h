@@ -13,9 +13,10 @@ public:
     virtual void Draw();
     virtual void Animate(GLint elapsedTime);
 
-    virtual GenericActor* GetActor(std::string name);
+    virtual GenericActor* GetActor(string name);
 
-    virtual std::string class_type() { return "Scene"; }
+    virtual string class_type() const { return "Scene"; }
+    virtual string DEBUG_DUMP() const;
 
 private:
     GenericActor *m_sun;

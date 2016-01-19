@@ -10,15 +10,8 @@ public:
     virtual void Draw();
     virtual void Animate(GLint elapsedTime);
 
-    virtual std::string class_type() { return "ActorSun"; }
+    virtual string class_type() const { return "ActorSun"; }
 
 protected:
     virtual void BindShaderAttributesAndUniforms();
-
-private:
-    GLfloat m_angle;
-    GLfloat m_rotaryStartAngle;
-    GLfloat m_rotaryEndAngle;
-
-    void RecalcAngles();
 };

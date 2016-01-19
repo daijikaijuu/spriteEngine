@@ -108,24 +108,24 @@ bool CreateGLWindow(int width, int height, int bits)
     }
 
     static PIXELFORMATDESCRIPTOR pfd = {
-        sizeof(PIXELFORMATDESCRIPTOR),                  // Size Of This Pixel Format Descriptor
+        sizeof(PIXELFORMATDESCRIPTOR),  // Size Of This Pixel Format Descriptor
         1,                              // Version Number
-        PFD_DRAW_TO_WINDOW |                        // Format Must Support Window
-        PFD_SUPPORT_OPENGL |                        // Format Must Support OpenGL
-        PFD_DOUBLEBUFFER,                       // Must Support Double Buffering
-        PFD_TYPE_RGBA,                          // Request An RGBA Format
-        bits,                               // Select Our Color Depth
-        0, 0, 0, 0, 0, 0,                       // Color Bits Ignored
+        PFD_DRAW_TO_WINDOW |            // Format Must Support Window
+        PFD_SUPPORT_OPENGL |            // Format Must Support OpenGL
+        PFD_DOUBLEBUFFER,               // Must Support Double Buffering
+        PFD_TYPE_RGBA,                  // Request An RGBA Format
+        (BYTE)bits,                     // Select Our Color Depth
+        0, 0, 0, 0, 0, 0,               // Color Bits Ignored
         0,                              // No Alpha Buffer
         0,                              // Shift Bit Ignored
         0,                              // No Accumulation Buffer
-        0, 0, 0, 0,                         // Accumulation Bits Ignored
+        0, 0, 0, 0,                     // Accumulation Bits Ignored
         16,                             // 16Bit Z-Buffer (Depth Buffer)
         0,                              // No Stencil Buffer
         0,                              // No Auxiliary Buffer
-        PFD_MAIN_PLANE,                         // Main Drawing Layer
+        PFD_MAIN_PLANE,                 // Main Drawing Layer
         0,                              // Reserved
-        0, 0, 0                             // Layer Masks Ignored
+        0, 0, 0                         // Layer Masks Ignored
     };
 
     if (!(hDC = GetDC(hWnd)))
@@ -300,5 +300,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     LogManager::Destroy();
 
-    return (int)msg.wParam;
+    return 0;
 }

@@ -70,6 +70,25 @@ void ActorCloud::Draw()
     glDisable(GL_BLEND);
 }
 
+bool ActorCloud::DEBUG_OK() const
+{
+    HW_ASSERT(TexturedActor::DEBUG_OK());
+    HW_ASSERT(m_width > 0);
+    HW_ASSERT(m_height > 0);
+
+    return true;
+}
+
+string ActorCloud::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << TexturedActor::DEBUG_DUMP();
+    result << " CLASS: " << ActorCloud::class_type() << endl;
+    result << DUMP_VAR(m_width) << DUMP_VAR(m_height) << endl;
+    result << DUMP_VAR(m_octave) << endl;
+    return result.str();
+}
+
 void ActorCloud::BindShaderAttributesAndUniforms()
 {
     TexturedActor::BindShaderAttributesAndUniforms();

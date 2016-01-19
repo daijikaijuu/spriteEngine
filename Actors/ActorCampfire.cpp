@@ -56,6 +56,20 @@ void ActorCampfire::Animate(GLint elapsedTime)
     glUniform1f(m_item, x);
 }
 
+bool ActorCampfire::DEBUG_OK() const
+{
+    return TexturedActor::DEBUG_OK();
+}
+
+string ActorCampfire::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << TexturedActor::DEBUG_DUMP();
+    result << " CLASS: " << ActorCampfire::class_type() << endl;
+    result << DUMP_VAR(m_item) << DUMP_VAR(m_animationItem) << endl;
+    return result.str();
+}
+
 void ActorCampfire::BindShaderAttributesAndUniforms()
 {
     TexturedActor::BindShaderAttributesAndUniforms();

@@ -19,3 +19,6 @@
 #endif // _MSC_VER
 
 #define PI 3.1415926535897932384626433832795
+
+using std::string;
+using std::endl;

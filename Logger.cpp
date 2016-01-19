@@ -2,9 +2,10 @@
 #include <iostream>
 #include "Logger.h"
 
-const std::string LogManager::LL_DEBUG = "DEBUG: ";
-const std::string LogManager::LL_INFO = "INFO: ";
-const std::string LogManager::LL_ERROR = "ERROR: ";
+const string LogManager::LL_DEBUG = "DEBUG: ";
+const string LogManager::LL_INFO = "INFO: ";
+const string LogManager::LL_ERROR = "ERROR: ";
+const string LogManager::LL_DUMP = "DUMP: ";
 
 #ifdef _DEBUG
 const char * const LogManager::LOG_FILENAME = "homework02.log";
@@ -32,12 +33,22 @@ LogManager::~LogManager()
 void LogManager::Log()
 {
 #ifdef _DEBUG
-    m_OutputStream << std::endl;
+    m_OutputStream << endl;
+    std::cout << endl;
 #endif // _DEBUG
-    std::cout << std::endl;
 }
 
 Logger::Logger(bool verbose) :
     m_verbose(verbose)
 {
+}
+
+bool Logger::DEBUG_OK() const
+{
+    return true;
+}
+
+string Logger::DEBUG_DUMP() const
+{
+    return string();
 }

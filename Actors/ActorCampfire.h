@@ -10,7 +10,9 @@ public:
     virtual void Draw();
     virtual void Animate(GLint elapsedTime);
 
-    virtual std::string class_type() { return "ActorCampfire"; }
+    virtual string class_type() const { return "ActorCampfire"; }
+    virtual bool DEBUG_OK() const;
+    virtual string DEBUG_DUMP() const;
 
 protected:
     virtual void BindShaderAttributesAndUniforms();

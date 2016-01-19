@@ -11,7 +11,7 @@ class TextureManager : public Singleton<TextureManager>, public Logger
 {
     friend Singleton<TextureManager>;
 
-    using texturesMap = std::map<std::string, Texture *>;
+    using texturesMap = std::map<string, Texture *>;
 private:
     TextureManager() :
         Logger(),
@@ -21,10 +21,10 @@ private:
     ~TextureManager();
 
 public:
-    Texture* GetTexture(std::string filename, GLsizei items = 1);
-    Texture* GenerateTexture(const std::string& textureName);
+    Texture* GetTexture(string filename, GLsizei items = 1);
+    Texture* GenerateTexture(const string& textureName);
 
-    virtual std::string class_type() { return "TextureManager"; }
+    virtual string class_type() const { return "TextureManager"; }
 
 private:
     texturesMap m_textures;

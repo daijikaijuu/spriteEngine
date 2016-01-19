@@ -14,7 +14,7 @@ public:
     virtual void Draw();
     virtual void ResizeScene(GLsizei width, GLsizei height);
 
-    virtual std::string class_type() { return "ActorBackgroundMountain"; }
+    virtual string class_type() const { return "ActorBackgroundMountain"; }
 
 protected:
     virtual void BindShaderAttributesAndUniforms();

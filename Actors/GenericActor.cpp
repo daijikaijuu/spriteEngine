@@ -37,6 +37,8 @@ GenericActor::~GenericActor()
 
 void GenericActor::Draw()
 {
+    DEBUG_OK();
+
     m_VAO->Bind();
 }
 
@@ -71,6 +73,16 @@ void GenericActor::ResizeScene(GLsizei width, GLsizei height)
     UpdateMVP();
 }
 
+bool GenericActor::DEBUG_OK() const
+{
+    HW_ASSERT(m_sceneWidth > 0);
+    HW_ASSERT(m_sceneHeight > 0);
+    HW_ASSERT(m_VAO->DEBUG_OK());
+    HW_ASSERT(m_shader->DEBUG_OK());
+
+    return true;
+}
+
 void GenericActor::UpdateMVP()
 {
     if (m_MVP != -1)
@@ -91,9 +103,23 @@ void GenericActor::BindShaderAttributesAndUniforms()
     m_MVP = m_shader->GetUniformLocation("MVP");
 }
 
-void GenericActor::InitializeShader(const std::string & vertexFilename, const std::string & fragmentFilename)
+void GenericActor::InitializeShader(const string &vertexFilename, const string &fragmentFilename)
 {
     m_shader->Load(vertexFilename, fragmentFilename);
+}
+
+string GenericActor::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << endl << " CLASS: " << GenericActor::class_type() << endl;
+    result << DUMP_VAR(m_x) << DUMP_VAR(m_y) << DUMP_VAR(m_z) << endl;
+    result << DUMP_VAR(m_sceneWidth) << DUMP_VAR(m_sceneHeight) << endl;
+    result << DUMP_VAR(m_size) << endl;
+    result << DUMP_VAR(m_elapsedTime) << endl;
+    result << DUMP_VAR(m_MVP) << endl;
+    result << "  m_shader:" << m_shader->DEBUG_DUMP();
+    result << "  m_VAO:" << m_VAO->DEBUG_DUMP();
+    return result.str();
 }
 
 TexturedActor::TexturedActor(GLfloat x, GLfloat y, GLfloat size, GLfloat z) :
@@ -110,6 +136,23 @@ void TexturedActor::Draw()
 {
     GenericActor::Draw();
     m_texture->BindTexture();
+}
+
+bool TexturedActor::DEBUG_OK() const
+{
+    HW_ASSERT(GenericActor::DEBUG_OK());
+    HW_ASSERT(m_texture->DEBUG_OK());
+
+    return true;
+}
+
+string TexturedActor::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << GenericActor::DEBUG_DUMP();
+    result << " CLASS: " << TexturedActor::class_type() << endl;
+    result << "  m_texture:" << m_texture->DEBUG_DUMP();
+    return result.str();
 }
 
 void TexturedActor::BindShaderAttributesAndUniforms()

@@ -25,7 +25,7 @@ void Texture::LoadTexture(GLuint width, GLuint height, const GLvoid *imageData)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 }
 
-void Texture::LoadPNGTexture(const std::string & filename)
+void Texture::LoadPNGTexture(const string &filename)
 {
     png_structp ptrPNG;
     png_infop ptrInfo;
@@ -116,6 +116,8 @@ void Texture::LoadPNGTexture(const std::string & filename)
 
 void Texture::BindTexture(GLuint textureUnit)
 {
+    DEBUG_OK();
+
     glActiveTexture(GL_TEXTURE0 + textureUnit);
     glBindTexture(GL_TEXTURE_2D, m_textureID);
     glBindSampler(textureUnit, m_Sampler);
@@ -137,4 +139,21 @@ GLuint Texture::GetID() const
 GLsizei Texture::GetItems() const
 {
     return GLsizei(m_items);
+}
+
+bool Texture::DEBUG_OK() const
+{
+    HW_ASSERT(m_textureID > 0);
+    HW_ASSERT(m_Sampler > 0);
+    HW_ASSERT(m_items >= 0);
+
+    return true;
+}
+
+string Texture::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << endl;
+    result << DUMP_VAR(m_textureID) << DUMP_VAR(m_Sampler) << DUMP_VAR(m_items) << endl;
+    return result.str();
 }

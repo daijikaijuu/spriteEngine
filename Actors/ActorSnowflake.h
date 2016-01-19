@@ -12,7 +12,9 @@ public:
     virtual void Draw();
     virtual void Animate(GLint elapsedTime);
 
-    virtual std::string class_type() { return "ActorSnowflake"; }
+    virtual string class_type() const { return "ActorSnowflake"; }
+    virtual bool DEBUG_OK() const;
+    virtual string DEBUG_DUMP() const;
 
 protected:
     virtual void BindShaderAttributesAndUniforms();

@@ -21,7 +21,12 @@ public:
     GLuint GetID() const;
     VertexBufferObject* GetVBO() const;
 
-    virtual std::string class_type() { return "VertexArrayObject"; }
+    VertexArrayObject& operator=(const VertexArrayObject &vao) = delete;
+    VertexArrayObject(const VertexArrayObject &vao) = delete;
+
+    virtual string class_type() const { return "VertexArrayObject"; }
+    virtual bool DEBUG_OK() const;
+    virtual string DEBUG_DUMP() const;
 
 private:
     GLuint m_VAO;

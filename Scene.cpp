@@ -23,7 +23,7 @@ Scene::Scene(GLuint width, GLuint height, bool useFramebuffer) :
     //AddActor("sunlight", new ActorAmbientLight(100.0f, 100.0f, -0.18f, 200, glm::vec3(1, 1, 0)));
     for (size_t i = 0; i < 50; i++)
     {
-        std::string name = "snowflake" + patch::to_string(i);
+        string name = "snowflake" + patch::to_string(i);
         AddActor(name, new ActorSnowflake(GLfloat(rand() % m_sceneWidth), GLfloat(rand() % m_sceneHeight / 2),
                                           GLfloat(15 + rand() % 20), m_sceneWidth, m_sceneHeight, 0.2f));
     }
@@ -46,7 +46,11 @@ void Scene::Draw()
     static FrameBuffer *fb = FrameBuffer::GetInstance();
     if (m_UseFramebuffer)
     {
-        fb->BindFrameBuffer();
+        if (!fb->BindFrameBuffer())
+        {
+            Error("Something wrong with FrameBuffer. Disabling it.");
+            m_UseFramebuffer = false;
+        }
     }
 
     RecalcBackground();
@@ -76,7 +80,7 @@ void Scene::Animate(GLint elapsedTime)
     }
 }
 
-GenericActor* Scene::GetActor(std::string name)
+GenericActor* Scene::GetActor(string name)
 {
     if (name == "sun")
     {
@@ -85,6 +89,15 @@ GenericActor* Scene::GetActor(std::string name)
     }
 
     return GenericScene::GetActor(name);
+}
+
+string Scene::DEBUG_DUMP() const
+{
+    std::stringstream result;
+    result << GenericScene::DEBUG_DUMP();
+    result << " CLASS: " << Scene::class_type() << endl;
+    result << DUMP_VAR(m_UseFramebuffer) << endl;
+    return result.str();
 }
 
 void Scene::RecalcBackground()
