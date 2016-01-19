@@ -66,7 +66,7 @@ bool CreateGLWindow(int width, int height, int bits)
 {
     GLuint PixelFormat;
     WNDCLASS wc;
-    DWORD dwStyle = WS_OVERLAPPEDWINDOW;
+    DWORD dwStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
     DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
     RECT WindowRect = { 0, 0, width, height };
 
