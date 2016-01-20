@@ -254,7 +254,7 @@ void APIENTRY openglDebugCallbackFunc(GLenum source, GLenum type, GLuint id, GLe
 #endif //_MSC_VER
 {
     std::stringstream msg;
-    msg << "---------------------opengl-callback-start------------" << endl;
+    msg << "--------------opengl-callback-start------------" << endl;
     msg << "message: " << message << endl;
     msg << "type: ";
     switch (type)
@@ -329,6 +329,18 @@ int main(int argc, char **argv)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 #endif // _DEBUG
 {
+    bool bUseFrameBuffer = true;
+
+#ifdef _DEBUG
+    debugInfo("Command-line arguments:");
+    for (size_t i = 0; i < argc; i++)
+    {
+        debugInfo("argv[", i, "] = ", argv[i]);
+        if (strcmp(argv[i], "-nofb") == 0)
+            bUseFrameBuffer = false;
+    }
+#endif // _DEBUG
+
     MSG msg;
     bool done = false;
 
@@ -348,7 +360,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         debugError("SetWaitableTimer failed ", GetLastError());
     }
 
-    scene = new Scene(WIDTH, HEIGHT);
+    scene = new Scene(WIDTH, HEIGHT, bUseFrameBuffer);
 
     while (!done)
     {
