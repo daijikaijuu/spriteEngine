@@ -22,7 +22,11 @@ bool keys[256];
 bool active = TRUE;
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+#ifdef _MSC_VER
 void APIENTRY openglDebugCallbackFunc(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, void *userParam);
+#else
+void APIENTRY openglDebugCallbackFunc(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam);
+#endif //_MSC_VER
 
 bool InitOpenGL()
 {
@@ -244,7 +248,11 @@ bool CreateGLWindow(int width, int height, int bits)
     return true;
 }
 
+#ifdef _MSC_VER
 void APIENTRY openglDebugCallbackFunc(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, void *userParam)
+#else
+void APIENTRY openglDebugCallbackFunc(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam)
+#endif //_MSC_VER
 {
     cout << "---------------------opengl-callback-start------------" << endl;
     cout << "message: " << message << endl;
