@@ -10,6 +10,7 @@ const int HEIGHT = 600;
 Scene *scene = NULL;
 
 HGLRC hRC = NULL;
+HGLRC hTempRC = NULL;
 HDC hDC = NULL;
 HWND hWnd = NULL;
 HINSTANCE hInstance;
@@ -21,6 +22,7 @@ bool keys[256];
 bool active = TRUE;
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+void APIENTRY openglDebugCallbackFunc(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, void *userParam);
 
 bool InitOpenGL()
 {
@@ -43,6 +45,7 @@ void KillGLWindow()
             debugError("KillGLWindow: Release of DC and RC failed.");
         if (!wglDeleteContext(hRC))
             debugError("KillGLWindow: RC release failed.");
+        hTempRC = NULL;
         hRC = NULL;
     }
     if (hDC && !ReleaseDC(hWnd, hDC))
@@ -149,19 +152,81 @@ bool CreateGLWindow(int width, int height, int bits)
         return false;
     }
 
-    if (!(hRC = wglCreateContext(hDC)))
+    if (!(hTempRC = wglCreateContext(hDC)))
     {
         KillGLWindow();
         debugError("CreateGLWindow: Can't create OpenGL RC.");
         return false;
     }
 
-    if (!wglMakeCurrent(hDC, hRC))
+    if (!wglMakeCurrent(hDC, hTempRC))
     {
         KillGLWindow();
         debugError("CreateGLWindow: Can't activate OpenGL RC.");
         return false;
     }
+
+
+    glewExperimental = GL_TRUE;
+    GLenum glew_status = glewInit();
+    if (glew_status != GLEW_OK)
+    {
+        debugError(glewGetErrorString(glew_status));
+        return 1;
+    }
+    debug("Glew initialized.");
+
+    if (!GLEW_VERSION_3_3)
+    {
+        debugError("Your graphic card does not support OpenGL 3.3\n");
+        return 1;
+    }
+    if (GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader)
+        debug("Vertex & fragment shaders supported.");
+    else
+    {
+        debugError("Vertex/fragment shaders not supported. Abort.");
+        return 1;
+    }
+
+    hRC = hTempRC;
+    int attribs[] = {
+        WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
+        WGL_CONTEXT_MINOR_VERSION_ARB, 1,
+        WGL_CONTEXT_FLAGS_ARB, 0
+#ifdef _DEBUG
+            | WGL_CONTEXT_DEBUG_BIT_ARB
+
+#endif // _DEBUG
+        , 0
+    };
+    if (wglewIsSupported("WGL_ARB_create_context"))
+    {
+        hRC = wglCreateContextAttribsARB(hDC, 0, attribs);
+        if (hRC)
+        {
+            wglMakeCurrent(NULL, NULL);
+            wglDeleteContext(hTempRC);
+            wglMakeCurrent(hDC, hRC);
+        }
+        else
+            hRC = hTempRC;
+    }
+
+    debugInfo("OpenGL initialized: OpenGL version: ", glGetString(GL_VERSION), " GLSL version: ", glGetString(GL_SHADING_LANGUAGE_VERSION));
+#ifdef _DEBUG
+    if (glDebugMessageCallback)
+    {
+        debug("Register OpenGL debug callback.");
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        glEnable(GL_DEBUG_OUTPUT);
+        glDebugMessageCallback(openglDebugCallbackFunc, nullptr);
+        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, 0, true);
+    }
+    else
+        debugError("glDebugMessageCallback not available.");
+#endif // _DEBUG
+
 
     ShowWindow(hWnd, SW_SHOW);
     SetForegroundWindow(hWnd);
@@ -177,6 +242,52 @@ bool CreateGLWindow(int width, int height, int bits)
     }
 
     return true;
+}
+
+void APIENTRY openglDebugCallbackFunc(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, void *userParam)
+{
+    cout << "---------------------opengl-callback-start------------" << endl;
+    cout << "message: " << message << endl;
+    cout << "type: ";
+    switch (type)
+    {
+    case GL_DEBUG_TYPE_ERROR:
+        cout << "ERROR";
+        break;
+    case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+        cout << "DEPRECATED_BEHAVIOR";
+        break;
+    case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+        cout << "UNDEFINED_BEHAVIOR";
+        break;
+    case GL_DEBUG_TYPE_PORTABILITY:
+        cout << "PORTABILITY";
+        break;
+    case GL_DEBUG_TYPE_PERFORMANCE:
+        cout << "PERFORMANCE";
+        break;
+    case GL_DEBUG_TYPE_OTHER:
+        cout << "OTHER";
+        break;
+    }
+    cout << endl;
+
+    cout << "id: " << id << endl;
+    cout << "severity: ";
+    switch (severity)
+    {
+    case GL_DEBUG_SEVERITY_LOW:
+        cout << "LOW";
+        break;
+    case GL_DEBUG_SEVERITY_MEDIUM:
+        cout << "MEDIUM";
+        break;
+    case GL_DEBUG_SEVERITY_HIGH:
+        cout << "HIGH";
+        break;
+    }
+    cout << endl;
+    cout << "---------------------opengl-callback-end--------------" << endl;
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -215,29 +326,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     if (!CreateGLWindow(WIDTH, HEIGHT, 16))
         return 0;
     debug("Created main window.");
-
-    glewExperimental = GL_TRUE;
-    GLenum glew_status = glewInit();
-    if (glew_status != GLEW_OK)
-    {
-        debugError(glewGetErrorString(glew_status));
-        return 1;
-    }
-    debug("Glew initialized.");
-    
-    if (!GLEW_VERSION_3_3)
-    {
-        debugError("Your graphic card does not support OpenGL 3.3\n");
-        return 1;
-    }
-    if (GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader)
-        debug("Vertex & fragment shaders supported.");
-    else
-    {
-        debugError("Vertex/fragment shaders not supported. Abort.");
-        return 1;
-    }
-    debugInfo("OpenGL initialized: OpenGL version: ", glGetString(GL_VERSION), " GLSL version: ", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     HANDLE hTimer = CreateWaitableTimer(NULL, true, NULL);
     LARGE_INTEGER liDueTime;

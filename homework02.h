@@ -7,6 +7,7 @@
 #include <math.h>
 #include <vector>
 #include <GL/glew.h>
+#include <GL/wglew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
@@ -20,5 +21,6 @@
 
 #define PI 3.1415926535897932384626433832795
 
+using std::cout;
 using std::string;
 using std::endl;
