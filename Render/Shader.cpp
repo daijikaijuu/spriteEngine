@@ -51,12 +51,11 @@ void Shader::Load(const string &vertex, const string &fragment, const string &ge
     if (!geometry.empty())
         m_shaders[GEOMETRY_SHADER] = loadFromText(GEOMETRY_SHADER, geometry);
 
-    if (m_shaders[VERTEX_SHADER] != 0)
-        glAttachShader(m_program, m_shaders[VERTEX_SHADER]);
-    if (m_shaders[FRAGMENT_SHADER] != 0)
-        glAttachShader(m_program, m_shaders[FRAGMENT_SHADER]);
-    if (m_shaders[GEOMETRY_SHADER] != 0)
-        glAttachShader(m_program, m_shaders[GEOMETRY_SHADER]);
+    for (size_t i = 0; i < NUM_SHADER_TYPES; i++)
+    {
+        if (m_shaders[i] != 0)
+            glAttachShader(m_program, m_shaders[i]);
+    }
 
     glLinkProgram(m_program);
     CheckShaderError(m_program, GL_LINK_STATUS, true, LogType::LOGTYPE_ERROR, "LNK shader program");
