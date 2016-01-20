@@ -22,11 +22,6 @@ Shader::Shader() :
 
 Shader::~Shader()
 {
-    for (size_t i = 0; i < NUM_SHADER_TYPES; i++)
-    {
-        glDetachShader(m_program, m_shaders[i]);
-        glDeleteShader(m_shaders[i]);
-    }
     glDeleteProgram(m_program);
 }
 
@@ -68,6 +63,16 @@ void Shader::Load(const string &vertex, const string &fragment, const string &ge
 
     glValidateProgram(m_program);
     CheckShaderError(m_program, GL_LINK_STATUS, true, LogType::LOGTYPE_ERROR, "INVALID shader program");
+
+    for (size_t i = 0; i < NUM_SHADER_TYPES; i++)
+    {
+        if (m_shaders[i] != 0)
+        {
+            glDetachShader(m_program, m_shaders[i]);
+            glDeleteShader(m_shaders[i]);
+        }
+    }
+
 }
 
 GLuint Shader::GetProgramID() const
