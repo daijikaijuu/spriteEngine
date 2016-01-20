@@ -200,7 +200,6 @@ bool CreateGLWindow(int width, int height, int bits)
         WGL_CONTEXT_FLAGS_ARB, 0
 #ifdef _DEBUG
             | WGL_CONTEXT_DEBUG_BIT_ARB
-
 #endif // _DEBUG
         , 0
     };
@@ -254,48 +253,50 @@ void APIENTRY openglDebugCallbackFunc(GLenum source, GLenum type, GLuint id, GLe
 void APIENTRY openglDebugCallbackFunc(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam)
 #endif //_MSC_VER
 {
-    cout << "---------------------opengl-callback-start------------" << endl;
-    cout << "message: " << message << endl;
-    cout << "type: ";
+    std::stringstream msg;
+    msg << "---------------------opengl-callback-start------------" << endl;
+    msg << "message: " << message << endl;
+    msg << "type: ";
     switch (type)
     {
     case GL_DEBUG_TYPE_ERROR:
-        cout << "ERROR";
+        msg << "ERROR";
         break;
     case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
-        cout << "DEPRECATED_BEHAVIOR";
+        msg << "DEPRECATED_BEHAVIOR";
         break;
     case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
-        cout << "UNDEFINED_BEHAVIOR";
+        msg << "UNDEFINED_BEHAVIOR";
         break;
     case GL_DEBUG_TYPE_PORTABILITY:
-        cout << "PORTABILITY";
+        msg << "PORTABILITY";
         break;
     case GL_DEBUG_TYPE_PERFORMANCE:
-        cout << "PERFORMANCE";
+        msg << "PERFORMANCE";
         break;
     case GL_DEBUG_TYPE_OTHER:
-        cout << "OTHER";
+        msg << "OTHER";
         break;
     }
-    cout << endl;
+    msg << endl;
 
-    cout << "id: " << id << endl;
-    cout << "severity: ";
+    msg << "id: " << id << endl;
+    msg << "severity: ";
     switch (severity)
     {
     case GL_DEBUG_SEVERITY_LOW:
-        cout << "LOW";
+        msg << "LOW";
         break;
     case GL_DEBUG_SEVERITY_MEDIUM:
-        cout << "MEDIUM";
+        msg << "MEDIUM";
         break;
     case GL_DEBUG_SEVERITY_HIGH:
-        cout << "HIGH";
+        msg << "HIGH";
         break;
     }
-    cout << endl;
-    cout << "---------------------opengl-callback-end--------------" << endl;
+    msg << endl;
+    msg << "---------------------opengl-callback-end--------------";
+    debug(msg.str());
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
