@@ -188,11 +188,14 @@ string Shader::DEBUG_DUMP() const
     result << endl;
     result << DUMP_VAR(m_program) << endl;
     for (size_t i = 0; i < NUM_SHADER_TYPES; i++)
-        result << "   m_shaders[" << i << "] = " << m_shaders[i] << endl;
+        result << "   m_shaders[" << i << "] = " << m_shaders[i];
+    result << endl;
     for (auto &it : m_attribList)
-        result << "   m_attribList['" << it.first << "'] = " << it.second << endl;
+        result << "   m_attribList['" << it.first << "'] = " << it.second;
+    result << endl;
     for (auto &it : m_uniforms)
-        result << "   m_uniforms['" << it.first << "'] = " << it.second << endl;
+        result << "   m_uniforms['" << it.first << "'] = " << it.second;
+    result << endl;
     return result.str();
 }
 

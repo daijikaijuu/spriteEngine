@@ -361,6 +361,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     scene = new Scene(WIDTH, HEIGHT, bUseFrameBuffer);
+#ifdef _DEBUG
+    debugInfo("------- SCENE DUMP -------: AFTER INITIALIZTION");
+    debugDump(scene->DEBUG_DUMP());
+    debugInfo("----- SCENE DUMP END -----");
+#endif // _DEBUG
 
     while (!done)
     {
@@ -401,6 +406,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     if (scene)
     {
+#ifdef _DEBUG
+        debugInfo("------- SCENE DUMP -------: BEFORE DESTRUCTION");
+        debugDump(scene->DEBUG_DUMP());
+        debugInfo("----- SCENE DUMP END -----");
+#endif // _DEBUG
         delete scene;
         scene = NULL;
     }

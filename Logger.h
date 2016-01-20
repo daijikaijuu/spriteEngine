@@ -23,6 +23,7 @@ enum LogType
 #define debug(message, ...)      LogManager::GetInstance()->Log(LogManager::LL_DEBUG, message, ##__VA_ARGS__)
 #define debugError(message, ...) LogManager::GetInstance()->Log(LogManager::LL_ERROR, message, ##__VA_ARGS__)
 #define debugInfo(message, ...)  LogManager::GetInstance()->Log(LogManager::LL_INFO,  message, ##__VA_ARGS__)
+#define debugDump(message, ...)  LogManager::GetInstance()->Log(LogManager::LL_DUMP,  message, ##__VA_ARGS__)
 
 #define DUMP_VAR(variable) "   " << #variable << ": " << variable
 #ifdef _DEBUG

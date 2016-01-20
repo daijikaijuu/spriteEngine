@@ -78,5 +78,11 @@ string GenericScene::DEBUG_DUMP() const
     result << DUMP_VAR(m_sceneWidth) << DUMP_VAR(m_sceneHeight) << endl;
     result << DUMP_VAR(m_actors.size()) << endl;
     result << DUMP_VAR(m_elapsedTime) << endl;
+    
+    for (auto &it : m_actors)
+    {
+        result << " ACTOR " << quoteStr(it.first);
+        result << it.second->DEBUG_DUMP();
+    }
     return result.str();
 }
