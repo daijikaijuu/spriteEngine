@@ -8,7 +8,7 @@ out vec2 texCoord;
 out vec3 fragColor;
 
 void main() {
-	gl_Position = MVP * vec4(inPosition, 1.0);
-	texCoord = inCoord;
-	fragColor = inColor;
+    gl_Position = MVP * vec4(inPosition, 1.0);
+    texCoord = inCoord;
+    fragColor = inColor;
 }

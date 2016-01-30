@@ -9,9 +9,9 @@ uniform float texShift;
 out vec2 texCoord;
 
 void main() {
-	gl_Position = MVP * vec4(inPosition, 1.0);
+    gl_Position = MVP * vec4(inPosition, 1.0);
 
-	texCoord = inCoord;
-	texCoord.x /= spriteCount;
-	texCoord.x += texShift;
+    texCoord = inCoord;
+    texCoord.x /= spriteCount;
+    texCoord.x += texShift;
 }

@@ -5,7 +5,7 @@ uniform float alpha;
 uniform sampler2D gSampler;
 
 void main() {
-	vec4 c = texture2D(gSampler, texCoord);
-	if (c.a < alpha) discard;
+    vec4 c = texture(gSampler, texCoord);
+    if (c.a < alpha) discard;
     outColor = c;
 }
