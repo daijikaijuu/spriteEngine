@@ -8,7 +8,7 @@
 
 #include "seShader.hpp"
 #include "../Utils/seHelpers.hpp"
-#include "../Debug/seDebug.hpp"
+#include "../Debug/Debug.hpp"
 #include <iostream>
 #include <fstream>
 #include <streambuf>

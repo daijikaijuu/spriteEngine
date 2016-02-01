@@ -6,25 +6,30 @@
 //  Copyright © 2016 Domrachev Alexandr. All rights reserved.
 //
 
-#include "seProgram.hpp"
-#include "seShader.hpp"
-#include "../Debug/seDebug.hpp"
+#include "../Debug/Debug.hpp"
+#include "../Utils/seHelpers.hpp"
+#include "../Resources/Resources.hpp"
 #include <iostream>
 #include <vector>
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace spriteEngine {
-    seProgram::seProgram(const std::string &resourceName) :
-        seResource(seResourceType::seRESOURCE_SHADER_PROGRAM, resourceName),
-        m_VertexShader(nullptr),
-        m_FragmentShader(nullptr),
+    unsigned int seProgram::sProgramCount = 0;
+
+    seProgram::seProgram(seShader *vertexShader, seShader *fragmentShader) :
+        seResource(seResourceType::seRESOURCE_SHADER_PROGRAM, std::string("shaderProgram:" + to_string(sProgramCount))),
+        m_VertexShader(vertexShader),
+        m_FragmentShader(fragmentShader),
         m_Attributes(),
         m_Uniforms()
     {
         m_ID = glCreateProgram();
         if (!m_ID)
             throw std::runtime_error("glCreateProgram failed");
+
+        Link();
+        sProgramCount++;
     }
 
     seProgram::~seProgram() {
@@ -54,7 +59,17 @@ namespace spriteEngine {
         Link();
     }
 
+    void seProgram::SetShaders(const std::string &vertexShader, const std::string &fragmentShader) {
+        seAssert(!vertexShader.empty());
+        seAssert(!fragmentShader.empty());
+
+        SetShaders(seRManager->GetShader(vertexShader), seRManager->GetShader(fragmentShader));
+    }
+
     void seProgram::Link() {
+        m_Attributes.clear();
+        m_Uniforms.clear();
+
         seAssert(m_ID);
         seAssert(m_VertexShader && m_FragmentShader);
 

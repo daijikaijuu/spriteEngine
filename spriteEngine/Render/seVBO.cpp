@@ -7,7 +7,7 @@
 //
 
 #include "seVBO.hpp"
-#include "../Debug/seDebug.hpp"
+#include "../Debug/Debug.hpp"
 
 namespace spriteEngine {
     seVBO::seVBO(GLuint size) :

@@ -32,16 +32,13 @@ namespace spriteEngine {
 
         seTexture* GetTexture(const std::string &textureName);
         seShader* GetShader(const std::string &shaderName);
-        seProgram* GetProgram(const std::string &programName);
         seResource* GetResource(const std::string &resourceName);
 
         seTexture* AddTexture(const std::string &textureName);
         seShader* AddShader(const std::string &shaderName);
-        seProgram* AddProgram(const std::string &programName);
-
-    private:
-        void InitializeDefaultResources();
     };
+
+#define seRManager seResourceManager::GetInstance()
 }
 
 #endif /* seResourceManager_hpp */

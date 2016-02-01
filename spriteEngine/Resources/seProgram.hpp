@@ -34,13 +34,14 @@ namespace spriteEngine {
         void GetAttributes();
         void GetUniforms();
     public:
-        seProgram(const std::string &resourceName);
+        seProgram(seShader *vertexShader, seShader *fragmentShader);
         virtual ~seProgram();
 
         virtual void Bind();
         virtual void Unbind();
 
         void SetShaders(seShader *vertexShader, seShader *fragmentShader);
+        void SetShaders(const std::string &vertexShader, const std::string &fragmentShader);
 
         GLuint Attribute(const std::string &attrib);
         GLuint Uniform(const std::string &uniform);
@@ -55,6 +56,8 @@ namespace spriteEngine {
 
         void SetUniform(const std::string &uniformName, const glm::mat4 &m, GLboolean transpose = GL_FALSE);
         void SetUniform(GLuint uniform, const glm::mat4 &m, GLboolean transpose = GL_FALSE);
+
+        static unsigned int sProgramCount;
     };
 }
 

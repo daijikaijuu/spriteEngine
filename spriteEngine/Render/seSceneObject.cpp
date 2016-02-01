@@ -10,26 +10,45 @@
 #include "seVBO.hpp"
 #include "seVAO.hpp"
 #include "seVertex.hpp"
-#include "../Resources/seProgram.hpp"
-#include "../Resources/seResourceManager.hpp"
-#include "../Debug/seDebug.hpp"
+#include "../Resources/Resources.hpp"
+#include "../Debug/Debug.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace spriteEngine {
-    seSceneObject::seSceneObject(bool centered, seProgram *program) :
+    seGenericSceneObject::seGenericSceneObject(seProgram *shaderProgram) :
         m_x(0), m_y(0), m_z(0),
         m_width(0), m_height(0),
-        m_VBO(NULL), m_VAO(NULL),
+        m_angle(0.0f),
+        m_mirrored(false),
+        m_VBO(nullptr), m_VAO(nullptr),
         m_MVP(-1), m_model(glm::mat4(1.0f)), m_view(glm::mat4(1.0f)), m_projection(glm::mat4(1.0f)), m_MVPupdated(false),
-        m_shaderProgram(program)
+        m_shaderProgram(shaderProgram)
     {
-        // If no shader program specified, when use "vs:basic,fs:basic" shader program
-        if (!m_shaderProgram)
-            m_shaderProgram = seResourceManager::GetInstance()->GetProgram("vs:basic,fs:basic");
         seAssert(m_shaderProgram);
+        seAssert(m_shaderProgram->Type() == seResourceType::seRESOURCE_SHADER_PROGRAM);
 
         m_VAO = new seVAO(); seAssert(m_VAO);
         m_VBO = new seVBO(); seAssert(m_VBO);
+    }
+
+    seGenericSceneObject::~seGenericSceneObject() {
+        if (m_shaderProgram) {
+            delete m_shaderProgram;
+            m_shaderProgram = nullptr;
+        }
+        if (m_VBO) {
+            delete m_VBO;
+            m_VBO = nullptr;
+        }
+        if (m_VAO) {
+            delete m_VAO;
+            m_VAO = nullptr;
+        }
+    }
+
+    seSceneObject::seSceneObject(bool centered, seProgram *shaderProgram) :
+        seGenericSceneObject(shaderProgram)
+    {
         m_VBO->Bind(GL_ARRAY_BUFFER);
         m_shaderProgram->Bind();
 
@@ -47,14 +66,6 @@ namespace spriteEngine {
     }
 
     seSceneObject::~seSceneObject() {
-        if (m_VBO) {
-            delete m_VBO;
-            m_VBO = NULL;
-        }
-        if (m_VAO) {
-            delete m_VAO;
-            m_VAO = NULL;
-        }
     }
 
     void seSceneObject::Render() {
@@ -69,6 +80,7 @@ namespace spriteEngine {
         m_projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f);
         m_view = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, m_z));
         m_model = glm::scale(glm::mat4(1.0f), glm::vec3(m_width, m_height, 1.0f));
+        m_model = glm::rotate(m_model, m_angle, glm::vec3(0, 0, 1));
         glm::mat4 matrixMVP = m_projection * m_view * m_model;
         m_shaderProgram->SetUniform(m_MVP, matrixMVP);
 
@@ -107,7 +119,8 @@ namespace spriteEngine {
     }
 
     void seSceneObject::SetSize(GLfloat width, GLfloat height) {
-        seAssert(width == height == 0);
+        seAssert(width != 0);
+        seAssert(height != 0);
 
         m_width = width;
         m_height = height;

@@ -10,6 +10,7 @@
 #define seHelpers_h
 
 #include <string>
+#include <sstream>
 #include <glm/glm.hpp>
 
 namespace spriteEngine {
@@ -21,6 +22,13 @@ namespace spriteEngine {
         if (ending.size() > value.size())
             return false;
         return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+    }
+
+    template<typename T>
+    std::string to_string(const T &n) {
+        std::ostringstream stm;
+        stm << n;
+        return stm.str();
     }
 }
 

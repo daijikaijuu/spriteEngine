@@ -32,9 +32,9 @@ namespace spriteEngine {
         virtual void Bind(GLuint param) {}
         virtual void Unbind() {}
 
-        GLuint ID() const { return m_ID; }
-        const std::string& Name() const { return m_resourceName; }
-        seResourceType Type() const { return m_resourceType; }
+        inline GLuint ID() const { return m_ID; }
+        inline const std::string& Name() const { return m_resourceName; }
+        inline seResourceType Type() const { return m_resourceType; }
 
         seResource& operator=(const seResource &resource) = delete;
         seResource(const seResource &resource) = delete;

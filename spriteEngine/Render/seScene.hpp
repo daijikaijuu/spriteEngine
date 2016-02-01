@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 namespace spriteEngine {
-    class seScene : public seCollection<seSceneObject> {
+    class seScene : public seCollection<seGenericSceneObject> {
     public:
         seScene(GLfloat width, GLfloat height);
         virtual ~seScene();
@@ -22,7 +22,7 @@ namespace spriteEngine {
         virtual void InitializeResources();
         virtual void Render();
 
-    private:
+    protected:
         GLfloat m_width, m_height;
     };
 }

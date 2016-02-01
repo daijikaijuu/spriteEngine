@@ -41,6 +41,7 @@
 			<Add option="-DUNICODE" />
 			<Add option="-DGLEW_STATIC" />
 			<Add directory="external/include" />
+			<Add directory="spriteEngine" />
 		</Compiler>
 		<Linker>
 			<Add library="external\lib\glew32s.lib" />
@@ -52,22 +53,31 @@
 			<Add library="gdi32" />
 			<Add directory="external/lib" />
 		</Linker>
+		<Unit filename="seGame/Scene/gameScene.cpp" />
+		<Unit filename="seGame/Scene/gameScene.hpp" />
+		<Unit filename="seGame/seMain.cpp" />
+		<Unit filename="spriteEngine/Debug/Debug.hpp" />
 		<Unit filename="spriteEngine/Debug/seDebug.hpp" />
 		<Unit filename="spriteEngine/Debug/seExceptions.cpp" />
 		<Unit filename="spriteEngine/Debug/seExceptions.hpp" />
 		<Unit filename="spriteEngine/Debug/seLogger.cpp" />
 		<Unit filename="spriteEngine/Debug/seLogger.hpp" />
+		<Unit filename="spriteEngine/Render/seGameLevel.cpp" />
+		<Unit filename="spriteEngine/Render/seGameLevel.hpp" />
 		<Unit filename="spriteEngine/Render/seScene.cpp" />
 		<Unit filename="spriteEngine/Render/seScene.hpp" />
 		<Unit filename="spriteEngine/Render/seSceneObject.cpp" />
 		<Unit filename="spriteEngine/Render/seSceneObject.hpp" />
 		<Unit filename="spriteEngine/Render/seSprite.cpp" />
 		<Unit filename="spriteEngine/Render/seSprite.hpp" />
+		<Unit filename="spriteEngine/Render/seSpriteTile.cpp" />
+		<Unit filename="spriteEngine/Render/seSpriteTile.hpp" />
 		<Unit filename="spriteEngine/Render/seVAO.cpp" />
 		<Unit filename="spriteEngine/Render/seVAO.hpp" />
 		<Unit filename="spriteEngine/Render/seVBO.cpp" />
 		<Unit filename="spriteEngine/Render/seVBO.hpp" />
 		<Unit filename="spriteEngine/Render/seVertex.hpp" />
+		<Unit filename="spriteEngine/Resources/Resources.hpp" />
 		<Unit filename="spriteEngine/Resources/seProgram.cpp" />
 		<Unit filename="spriteEngine/Resources/seProgram.hpp" />
 		<Unit filename="spriteEngine/Resources/seResource.hpp" />
@@ -81,7 +91,6 @@
 		<Unit filename="spriteEngine/Utils/seEnums.hpp" />
 		<Unit filename="spriteEngine/Utils/seHelpers.hpp" />
 		<Unit filename="spriteEngine/Utils/seSingleton.hpp" />
-		<Unit filename="spriteEngine/seMain.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -8,10 +8,10 @@
 
 #include "seSprite.hpp"
 #include "../Resources/seTexture.hpp"
-#include "../Debug/seDebug.hpp"
+#include "../Debug/Debug.hpp"
 
 namespace spriteEngine {
-    seSprite::seSprite(bool centered, seTexture *texture, seProgram *shaderProgram) :
+    seSprite::seSprite(bool centered, seProgram *shaderProgram, seTexture *texture) :
         seSceneObject(centered, shaderProgram),
         m_texture(texture)
     {

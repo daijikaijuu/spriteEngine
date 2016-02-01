@@ -8,7 +8,7 @@
 
 #include "seTexture.hpp"
 #include "../Utils/seHelpers.hpp"
-#include "../Debug/seDebug.hpp"
+#include "../Debug/Debug.hpp"
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>

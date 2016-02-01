@@ -10,7 +10,7 @@
 #define seCollection_hpp
 
 #include "../Utils/seHelpers.hpp"
-#include "../Debug/seDebug.hpp"
+#include "../Debug/Debug.hpp"
 #include <stdio.h>
 #include <iostream>
 #include <string>
@@ -42,7 +42,7 @@ namespace spriteEngine {
         T* GetItem(const std::string &name) const {
             seAssert(!name.empty());
 
-            T *result = NULL;
+            T *result = nullptr;
             typename seCollectionMap::const_iterator it = m_collection.find(name);
             if (it != m_collection.end()) {
                 result = it->second;

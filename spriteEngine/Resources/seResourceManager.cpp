@@ -6,19 +6,14 @@
 //  Copyright © 2016 Domrachev Alexandr. All rights reserved.
 //
 
-#include "seResourceManager.hpp"
-#include "seResource.hpp"
-#include "seShader.hpp"
-#include "seProgram.hpp"
-#include "seTexture.hpp"
+#include "Resources.hpp"
 #include "../Utils/seHelpers.hpp"
-#include "../Debug/seDebug.hpp"
+#include "../Debug/Debug.hpp"
 #include <iostream>
 
 namespace spriteEngine {
     seResourceManager::seResourceManager() : seSingleton<seResourceManager>(), seCollection<seResource>()
     {
-        InitializeDefaultResources();
     }
 
     seResourceManager::~seResourceManager() {
@@ -26,18 +21,10 @@ namespace spriteEngine {
 
     seShader* seResourceManager::GetShader(const std::string &shaderName) {
         seResource *res = GetResource(shaderName);
-        seAssert(!res);
+        seAssert(res);
         seAssert(res->Type() == seResourceType::seRESOURCE_SHADER);
 
         return dynamic_cast<seShader *>(res);
-    }
-
-    seProgram* seResourceManager::GetProgram(const std::string &programName) {
-        seResource *res = GetResource(programName);
-        seAssert(res);
-        seAssert(res->Type() == seResourceType::seRESOURCE_SHADER_PROGRAM);
-
-        return dynamic_cast<seProgram *>(res);
     }
 
     seTexture* seResourceManager::GetTexture(const std::string &textureName) {
@@ -73,19 +60,5 @@ namespace spriteEngine {
         }
 
         return dynamic_cast<seShader *>(res);
-    }
-
-    seProgram* seResourceManager::AddProgram(const std::string &programName) {
-        seAssert(GetResource(programName) == nullptr);
-
-        seProgram *res = new seProgram(programName);
-        AddItem(programName, res);
-
-        return res;
-    }
-
-    void seResourceManager::InitializeDefaultResources() {
-        seProgram *basicShaderProgram = AddProgram("vs:basic,fs:basic");
-        basicShaderProgram->SetShaders(AddShader("basic.vs"), AddShader("basic.fs"));
     }
 }

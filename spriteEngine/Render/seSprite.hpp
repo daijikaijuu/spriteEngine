@@ -16,7 +16,7 @@ namespace spriteEngine {
 
     class seSprite : public seSceneObject {
     public:
-        seSprite(bool centred, seTexture *texture, seProgram *shaderProgram = nullptr);
+        seSprite(bool centred, seProgram *shaderProgram, seTexture *texture);
         virtual ~seSprite();
 
         void SetTexture(seTexture *texture);

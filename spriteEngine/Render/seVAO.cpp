@@ -7,7 +7,7 @@
 //
 
 #include "seVAO.hpp"
-#include "../Debug/seDebug.hpp"
+#include "../Debug/Debug.hpp"
 
 namespace spriteEngine {
     seVAO::seVAO() :
