@@ -22,6 +22,8 @@ namespace spriteEngine {
         virtual void Bind(GLuint textureUnit = 0);
         virtual void Unbind();
 
+        void SetFiltering(GLint minMagFiler = GL_LINEAR, GLint wrapMode = GL_CLAMP_TO_EDGE);
+
     protected:
         GLuint m_Sampler;
 

@@ -136,9 +136,16 @@ namespace spriteEngine {
 
         free(outData);
 
-        glSamplerParameteri(m_Sampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glSamplerParameteri(m_Sampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        SetFiltering();
+    }
+
+    void seTexture::SetFiltering(GLint minMagFiler, GLint wrapMode) {
+        Bind();
+        glSamplerParameteri(m_Sampler, GL_TEXTURE_MAG_FILTER, minMagFiler);
+        glSamplerParameteri(m_Sampler, GL_TEXTURE_MIN_FILTER, minMagFiler);
+        glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_S, wrapMode);
+        glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_T, wrapMode);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        Unbind();
     }
 }
