@@ -23,10 +23,12 @@ namespace spriteEngine {
 
         virtual void Render();
 
+        virtual void UpdateMVP();
+
     private:
         seTexture *m_tileSet;
-
-        unsigned int m_width, m_height;
+        GLfloat m_tileSize;
+        GLuint m_indexBuffer;
     };
 
 }

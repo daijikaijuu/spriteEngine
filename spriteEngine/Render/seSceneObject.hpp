@@ -33,16 +33,16 @@ namespace spriteEngine {
 
         virtual void SetSize(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height) {}
         virtual void SetSize(GLfloat width, GLfloat height) {}
-        virtual void Move(GLfloat shiftX, GLfloat shiftY, GLfloat shiftZ = 0.0f) {}
-        virtual void MoveTo(GLfloat x, GLfloat y, GLfloat z = 0.0f) {}
+        virtual void Move(GLfloat shiftX, GLfloat shiftY, GLfloat shiftZ = 0.0f);
+        virtual void MoveTo(GLfloat x, GLfloat y, GLfloat z = 0.0f);
         virtual void Resize(GLfloat deltaWidth, GLfloat deltaHeight) {}
         virtual void SetMirrored(GLboolean mirrored) {}
         virtual void Rotate(GLfloat angle) { m_angle += angle; m_MVPupdated = false; }
         virtual void ResetRotation() { m_angle = 0; }
         virtual void Animate() {}
 
-        virtual void Render() {}
-        virtual void UpdateMVP() {}
+        virtual void Render();
+        virtual void UpdateMVP();
 
     protected:
         GLfloat m_x, m_y, m_z;
@@ -62,8 +62,8 @@ namespace spriteEngine {
         seProgram *m_shaderProgram;
 
     protected:
-        virtual void Bind() {}
-        virtual void Unbind() {}
+        virtual void Bind();
+        virtual void Unbind();
     };
 
     class seSceneObject : public seGenericSceneObject {
@@ -73,16 +73,10 @@ namespace spriteEngine {
 
         virtual void SetSize(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height);
         virtual void SetSize(GLfloat width, GLfloat height);
-        virtual void Move(GLfloat shiftX, GLfloat shiftY, GLfloat shiftZ = 0.0f);
-        virtual void MoveTo(GLfloat x, GLfloat y, GLfloat z = 0.0f);
         virtual void Resize(GLfloat deltaWidth, GLfloat deltaHeight);
 
         virtual void Render();
         virtual void UpdateMVP();
-
-    protected:
-        virtual void Bind();
-        virtual void Unbind();
     };
 }
 

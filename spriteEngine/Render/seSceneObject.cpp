@@ -46,6 +46,42 @@ namespace spriteEngine {
         }
     }
 
+
+    void seGenericSceneObject::Move(GLfloat shiftX, GLfloat shiftY, GLfloat shiftZ) {
+        MoveTo(m_x + shiftX, m_y + shiftY, m_z + shiftZ);
+    }
+
+    void seGenericSceneObject::MoveTo(GLfloat x, GLfloat y, GLfloat z) {
+        m_x = x;
+        m_y = y;
+        m_z = z;
+
+        m_MVPupdated = false;
+    }
+
+    void seGenericSceneObject::UpdateMVP() {
+        glm::mat4 matrixMVP = m_projection * m_view * m_model;
+        m_shaderProgram->SetUniform(m_MVP, matrixMVP);
+
+        m_MVPupdated = true;
+    }
+
+    void seGenericSceneObject::Render() {
+        Bind();
+        if (!m_MVPupdated)
+            UpdateMVP();
+    }
+
+    void seGenericSceneObject::Bind() {
+        m_shaderProgram->Bind();
+        m_VAO->Bind();
+    }
+
+    void seGenericSceneObject::Unbind() {
+        m_VAO->Unbind();
+        m_shaderProgram->Unbind();
+    }
+
     seSceneObject::seSceneObject(bool centered, seProgram *shaderProgram) :
         seGenericSceneObject(shaderProgram)
     {
@@ -69,9 +105,7 @@ namespace spriteEngine {
     }
 
     void seSceneObject::Render() {
-        Bind();
-        if (!m_MVPupdated)
-            UpdateMVP();
+        seGenericSceneObject::Render();
     }
 
     void seSceneObject::UpdateMVP() {
@@ -81,32 +115,8 @@ namespace spriteEngine {
         m_view = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, m_z));
         m_model = glm::scale(glm::mat4(1.0f), glm::vec3(m_width, m_height, 1.0f));
         m_model = glm::rotate(m_model, m_angle, glm::vec3(0, 0, 1));
-        glm::mat4 matrixMVP = m_projection * m_view * m_model;
-        m_shaderProgram->SetUniform(m_MVP, matrixMVP);
 
-        m_MVPupdated = true;
-    }
-
-    void seSceneObject::Bind() {
-        m_shaderProgram->Bind();
-        m_VAO->Bind();
-    }
-
-    void seSceneObject::Unbind() {
-        m_VAO->Unbind();
-        m_shaderProgram->Unbind();
-    }
-
-    void seSceneObject::Move(GLfloat shiftX, GLfloat shiftY, GLfloat shiftZ) {
-        MoveTo(m_x + shiftX, m_y + shiftY, m_z + shiftZ);
-    }
-
-    void seSceneObject::MoveTo(GLfloat x, GLfloat y, GLfloat z) {
-        m_x = x;
-        m_y = y;
-        m_z = z;
-
-        m_MVPupdated = false;
+        seGenericSceneObject::UpdateMVP();
     }
 
     void seSceneObject::Resize(GLfloat deltaWidth, GLfloat deltaHeight) {

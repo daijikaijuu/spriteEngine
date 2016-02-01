@@ -10,6 +10,7 @@
 #include "Debug/Debug.hpp"
 #include "Resources/Resources.hpp"
 #include "Render/seSceneObject.hpp"
+#include "Render/seGameLevel.hpp"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -25,14 +26,22 @@ void OnError(int errorCode, const char* msg) {
 }
 
 void OnKeyPressed(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    seGenericSceneObject *iceman = scene->GetItem("sceneObject:iceman");
-    iceman->GetProgram()->Bind();
 
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
-    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        spr++;
+
+    seGenericSceneObject *level = scene->GetItem("sceneObject:gameLevel");
+    level->GetProgram()->Bind();
+    if (key == GLFW_KEY_A) {
+        level->Move(-10.0f, 0);
     }
+    if (key == GLFW_KEY_D) {
+        level->Move(+10.0f, 0);
+    }
+    level->GetProgram()->Unbind();
+
+    seGenericSceneObject *iceman = scene->GetItem("sceneObject:iceman");
+    iceman->GetProgram()->Bind();
     if (key == GLFW_KEY_RIGHT) {
         spr++;
         iceman->SetMirrored(false);
