@@ -22,6 +22,8 @@ namespace spriteEngine {
         GLuint itemsY = ceil((GLfloat)itemCount / itemsX);
         m_shaderProgram->SetUniform("spriteCountY", itemsY);
         SetCurrentSprite(m_currentSprite);
+
+        m_texture->SetFiltering(GL_LINEAR, GL_REPEAT);
     }
 
     seSpriteTile::~seSpriteTile() {

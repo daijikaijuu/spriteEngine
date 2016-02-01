@@ -29,7 +29,6 @@ namespace spriteEngine {
         virtual void Bind();
         virtual void Unbind();
 
-    private:
         seTexture *m_texture;
     };
 }

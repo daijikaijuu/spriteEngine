@@ -25,6 +25,8 @@ namespace spriteEngine {
 
     private:
         seTexture *m_tileSet;
+
+        unsigned int m_width, m_height;
     };
 
 }
