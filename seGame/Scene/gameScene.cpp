@@ -151,12 +151,13 @@ void gameScene::Update(GLfloat secondsElapsed) {
 
 void gameScene::MoveHero(GLfloat shiftX, GLfloat shiftY) {
     seCollisionRect heroRect = m_hero->CollisionRect();
+
     seCollisionRect rect = heroRect.Shift(shiftX, 0);
-    if (m_gameLevel->IsTileInCoordCollidable(shiftX > 0 ? rect.Right() : rect.x, rect.y))
+    if (m_gameLevel->Collision(rect, (shiftX > 0 ? seCOLLISION_RIGHT : seCOLLISION_LEFT)))
         shiftX = 0;
 
     rect = heroRect.Shift(0, shiftY);
-    if (m_gameLevel->IsTileInCoordCollidable(rect.x, shiftY > 0 ? rect.Bottom() : rect.y))
+    if (m_gameLevel->Collision(rect, (shiftY > 0 ? seCOLLISION_DOWN : seCOLLISION_UP)))
         shiftY = 0;
 
     m_hero->Move(shiftX, shiftY);

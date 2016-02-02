@@ -17,6 +17,13 @@ namespace spriteEngine {
         seRESOURCE_VBO,
         seRESOURCE_VAO,
     };
+
+    enum seCollisionDirection {
+        seCOLLISION_UP,
+        seCOLLISION_DOWN,
+        seCOLLISION_LEFT,
+        seCOLLISION_RIGHT,
+    };
 }
 
 #endif /* seEnums_h */

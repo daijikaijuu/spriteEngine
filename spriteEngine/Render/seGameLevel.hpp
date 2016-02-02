@@ -11,6 +11,7 @@
 
 #include "seSceneObject.hpp"
 #include "../Utils/seCollisionRect.hpp"
+#include "../Utils/seEnums.hpp"
 #include <vector>
 
 namespace spriteEngine {
@@ -44,6 +45,7 @@ namespace spriteEngine {
 
         std::vector<seTile> Tiles() const { return m_tiles; }
         GLboolean IsTileInCoordCollidable(GLfloat x, GLfloat y) const;
+        GLboolean Collision(seCollisionRect rect, seCollisionDirection direction) const;
 
     private:
         seTexture *m_tileSet;

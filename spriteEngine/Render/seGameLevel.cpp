@@ -136,4 +136,30 @@ namespace spriteEngine {
 
         return m_tiles[tileY * m_width + tileX].collidable;
     }
+
+    GLboolean seGameLevel::Collision(seCollisionRect rect, seCollisionDirection direction) const {
+        GLuint x1 = (rect.x - m_x) / m_tileSize;
+        GLuint x2 = (rect.Right() - m_x) / m_tileSize;
+        GLuint y1 = (rect.y - m_y) / m_tileSize;
+        GLuint y2 = (rect.Bottom() - m_y) / m_tileSize;
+
+        if (direction == seCollisionDirection::seCOLLISION_UP ||
+            direction == seCollisionDirection::seCOLLISION_DOWN)
+        {
+            for (GLuint x = x1; x <= x2; x++) {
+                if (m_tiles[x + m_width * (direction == seCollisionDirection::seCOLLISION_UP ? y1 : y2)].collidable)
+                    return true;
+            }
+        }
+        if (direction == seCollisionDirection::seCOLLISION_LEFT ||
+            direction == seCollisionDirection::seCOLLISION_RIGHT)
+        {
+            for (GLuint y = y1; y <= y2; y++) {
+                if (m_tiles[(direction == seCollisionDirection::seCOLLISION_LEFT ? x1 : x2) + m_width * y].collidable)
+                    return true;
+            }
+        }
+
+        return false;
+    }
 }
