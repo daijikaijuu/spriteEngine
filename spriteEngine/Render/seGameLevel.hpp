@@ -40,6 +40,9 @@ namespace spriteEngine {
         seGameLevel(seProgram *shaderProgram, seTexture *tileSet);
         virtual ~seGameLevel();
 
+        virtual GLfloat Width() const { return m_width * m_tileSize; }
+        virtual GLfloat Height() const { return m_height * m_tileSize; }
+
         virtual void Render();
         virtual void UpdateMVP();
 

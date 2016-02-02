@@ -93,10 +93,10 @@ void gameScene::HandleInput(GLFWwindow *window, int key, int scancode, int actio
         glfwSetWindowShouldClose(window, GL_TRUE);
 
     if (key == GLFW_KEY_A) {
-        m_gameLevel->Move(-10.0f, 0);
+        ScrollMap(-10.0f);
     }
     if (key == GLFW_KEY_D) {
-        m_gameLevel->Move(+10.0f, 0);
+        ScrollMap(10.0f);
     }
 
     if (key == GLFW_KEY_G && action == GLFW_RELEASE)
@@ -107,20 +107,20 @@ void gameScene::HandleInput(GLFWwindow *window, int key, int scancode, int actio
     if (key == GLFW_KEY_RIGHT) {
         spr++;
         m_hero->SetMirrored(false);
-        MoveHero(2.0f, 0.0f);
+        MoveHero(5.0f, 0.0f);
     }
     if (key == GLFW_KEY_LEFT) {
         spr++;
         m_hero->SetMirrored(true);
-        MoveHero(-2.0f, 0.0f);
+        MoveHero(-5.0f, 0.0f);
     }
     if (key == GLFW_KEY_UP) {
         spr++;
-        MoveHero(0.0f, -2.0f);
+        MoveHero(0.0f, -10.0f);
     }
     if (key == GLFW_KEY_DOWN) {
         spr++;
-        MoveHero(0.0f, 2.0f);
+        MoveHero(0.0f, 10.0f);
     }
 
     m_hero->GetProgram()->SetUniform("spriteCurrent", spr);
@@ -153,7 +153,7 @@ void gameScene::Update(GLfloat secondsElapsed) {
     }
 
     if (m_gravity) {
-        MoveHero(0, secondsElapsed * 100);
+        MoveHero(0, secondsElapsed * 200);
     }
 }
 
@@ -162,11 +162,35 @@ void gameScene::MoveHero(GLfloat shiftX, GLfloat shiftY) {
 
     seCollisionRect rect = heroRect.Shift(shiftX, 0);
     if (m_gameLevel->Collision(rect, (shiftX > 0 ? seCOLLISION_RIGHT : seCOLLISION_LEFT)))
-        shiftX = 0;
+        return;
 
     rect = heroRect.Shift(0, shiftY);
     if (m_gameLevel->Collision(rect, (shiftY > 0 ? seCOLLISION_DOWN : seCOLLISION_UP)))
-        shiftY = 0;
+        return;
+
+    if (heroRect.x <= 0 && m_gameLevel->X() <= 0 && shiftX < 0)
+        return;
+    if (heroRect.Right() > m_width && m_gameLevel->X() + m_gameLevel->Width() <= m_width && shiftX > 0)
+        return;
+
+    if ((heroRect.x < m_width / 2) &&
+        (shiftX < 0) &&
+        (m_gameLevel->X() < 0))
+    {
+        ScrollMap(-shiftX);
+        return;
+    }
+    if ((heroRect.Right() > m_width / 2) &&
+        (shiftX > 0) &&
+        (m_gameLevel->X() + m_gameLevel->Width() > m_width))
+    {
+        ScrollMap(-shiftX);
+        return;
+    }
 
     m_hero->Move(shiftX, shiftY);
+}
+
+void gameScene::ScrollMap(GLfloat shiftX) {
+    m_gameLevel->Move(shiftX, 0);
 }

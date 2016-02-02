@@ -36,6 +36,7 @@ private:
     GLboolean m_gravity;
 
     void MoveHero(GLfloat shiftX, GLfloat shiftY);
+    void ScrollMap(GLfloat shiftX);
 };
 
 #endif /* gameScene_hpp */
