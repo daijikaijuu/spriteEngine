@@ -169,18 +169,17 @@ void gameScene::MoveHero(GLfloat shiftX, GLfloat shiftY) {
         return;
     if (heroRect.Right() > m_width && m_gameLevel->X() + m_gameLevel->Width() <= m_width && shiftX > 0)
         return;
-    if (heroRect.y <= 0) return;
-    if (heroRect.Bottom() + shiftY >= m_height) {
-        Logger << "You loose. TODO: make something" << eol;
-        return;
-    }
 
     seCollisionRect rect = heroRect.Shift(shiftX, 0);
     if (m_gameLevel->Collision(rect, (shiftX > 0 ? seCOLLISION_RIGHT : seCOLLISION_LEFT)))
         return;
     rect = heroRect.Shift(0, shiftY);
-    if (m_gameLevel->Collision(rect, (shiftY > 0 ? seCOLLISION_DOWN : seCOLLISION_UP)))
+    if (m_gameLevel->Collision(rect, (shiftY > 0 ? seCOLLISION_DOWN : seCOLLISION_UP)) || rect.y <= 0)
         return;
+    if (rect.Bottom() >= m_height) {
+        Logger << "You loose. TODO: make something" << eol;
+        return;
+    }
 
     if ((heroRect.x < m_width / 2) &&
         (shiftX < 0) &&
