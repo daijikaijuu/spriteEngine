@@ -30,7 +30,7 @@ namespace spriteEngine {
         m_width = 11;
         m_height = 8;
         m_tiles.reserve(m_width * m_height);
-        std::vector<uint> levelMap = {
+        std::vector<GLuint> levelMap = {
             0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
             0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
             0,  3,  4,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -99,8 +99,8 @@ namespace spriteEngine {
 
         std::vector<GLshort> indices;
         for (int i = 0; i < 2 * m_width * m_height; i++) {
-            float x = (i % (uint)m_width);
-            float y = (i / (uint)m_width) % (uint)m_height;
+            float x = (i % (GLuint)m_width);
+            float y = (i / (GLuint)m_width) % (GLuint)m_height;
             if (!(((x + 1) * m_tileSize + m_x < 0) || ((x - 1) * m_tileSize + m_x + m_tileSize > 800))) {
                 for (int ic = 0; ic < 6; ic++) {
                     indices.push_back(i * 6 + ic);
