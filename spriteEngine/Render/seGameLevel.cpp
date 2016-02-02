@@ -14,14 +14,14 @@
 #include "../Debug/Debug.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <vector>
 
 namespace spriteEngine {
     seGameLevel::seGameLevel(seProgram *shaderProgram, seTexture *tileSet) :
         seGenericSceneObject(shaderProgram),
         m_tileSet(tileSet),
         m_tileSize(0),
-        m_indexBuffer(0)
+        m_indexBuffer(0),
+        m_tiles()
     {
         seAssert(m_tileSet);
 
@@ -29,6 +29,7 @@ namespace spriteEngine {
 
         m_width = 11;
         m_height = 8;
+        m_tiles.reserve(m_width * m_height);
         std::vector<uint> levelMap = {
             0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
             0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -49,8 +50,8 @@ namespace spriteEngine {
         for (int y = 0; y < m_height; y++) {
             for (int x = 0; x < m_width; x++) {
                 unsigned int item = levelMap[x + m_width * y];
-                GLfloat itemX = item % 11;
-                GLfloat itemY = 1 - (item / 11) % 2;
+                GLuint itemX = item % 11;
+                GLuint itemY = 1 - (item / 11) % 2;
                 seVertexUV vertexData[] = {
                     glm::vec3(m_tileSize * x,              m_tileSize * y + m_tileSize, 0.0f), glm::vec2(uvStepX * itemX,           uvStepY * itemY),
                     glm::vec3(m_tileSize * x + m_tileSize, m_tileSize * y + m_tileSize, 0.0f), glm::vec2(uvStepX * itemX + uvStepX, uvStepY * itemY),
@@ -62,6 +63,12 @@ namespace spriteEngine {
 
                 };
                 m_VBO->AddData(&vertexData, sizeof(vertexData));
+
+                m_tiles.emplace_back(item,
+                                     (GLuint)x, (GLuint)y,
+                                     seCollisionRect(m_tileSize * x, m_tileSize * y, m_tileSize, m_tileSize),
+                                     (item != 0),
+                                     false);
             }
         }
         m_VBO->UploadDataToGPU(GL_STATIC_DRAW);
@@ -79,6 +86,8 @@ namespace spriteEngine {
     seGameLevel::~seGameLevel() {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glDeleteBuffers(1, &m_indexBuffer);
+
+        m_tiles.clear();
     }
 
     void seGameLevel::Render() {
@@ -88,8 +97,6 @@ namespace spriteEngine {
         m_tileSet->Bind();
         m_VAO->Bind();
 
-//        glDrawArrays(GL_TRIANGLES, 0, m_width * m_height * 6);
-
         std::vector<GLshort> indices;
         for (int i = 0; i < 2 * m_width * m_height; i++) {
             float x = (i % (uint)m_width);
@@ -98,10 +105,13 @@ namespace spriteEngine {
                 for (int ic = 0; ic < 6; ic++) {
                     indices.push_back(i * 6 + ic);
                 }
-                //LogDebug << "Tile drawn x:" << x << " y:" << y << eol;
+                m_tiles[y * m_width + x].onScreen = true;
+//                LogDebug << "Tile drawn x:" << x << " y:" << y << eol;
             }
-            else
-                LogDebug << "Tile out of screen x:" << x << " y:" << y << eol;
+            else {
+//                LogDebug << "Tile out of screen x:" << x << " y:" << y << eol;
+                m_tiles[y * m_width + x].onScreen = false;
+            }
 
         }
 
@@ -109,7 +119,6 @@ namespace spriteEngine {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size(), indices.data(), GL_STATIC_DRAW);
         glDrawElements(GL_TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_SHORT, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
 
         m_VAO->Unbind();
         m_tileSet->Unbind();
@@ -119,5 +128,12 @@ namespace spriteEngine {
     void seGameLevel::UpdateMVP() {
         m_view = glm::translate(glm::mat4(1.0f), glm::vec3(m_x, m_y, m_z));
         seGenericSceneObject::UpdateMVP();
+    }
+
+    GLboolean seGameLevel::IsTileInCoordCollidable(GLfloat x, GLfloat y) const {
+        GLuint tileX = (x - m_x) / m_tileSize;
+        GLuint tileY = (y - m_y) / m_tileSize;
+
+        return m_tiles[tileY * m_width + tileX].collidable;
     }
 }

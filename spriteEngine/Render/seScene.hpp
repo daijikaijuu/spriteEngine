@@ -11,7 +11,7 @@
 
 #include "../Utils/seCollection.hpp"
 #include "seSceneObject.hpp"
-#include <stdio.h>
+#include <vector>
 
 namespace spriteEngine {
     class seScene : public seCollection<seGenericSceneObject> {

@@ -9,6 +9,7 @@
 #ifndef seSceneObject_hpp
 #define seSceneObject_hpp
 
+#include "../Utils/seCollisionRect.hpp"
 #include <stdio.h>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
@@ -29,6 +30,7 @@ namespace spriteEngine {
         inline GLfloat Width() const { return m_width; }
         inline GLfloat Height() const { return m_height; }
         inline GLboolean IsMirrored() const { return m_mirrored; }
+        inline seCollisionRect CollisionRect() const { return seCollisionRect(m_x, m_y, m_width, m_height); }
         seProgram* GetProgram() { return m_shaderProgram; }
 
         virtual void SetSize(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height) {}

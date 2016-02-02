@@ -11,6 +11,7 @@
 
 #include "Render/seScene.hpp"
 #include <GLFW/glfw3.h>
+#include <vector>
 
 namespace spriteEngine {
     class seGameLevel;
@@ -32,6 +33,8 @@ public:
 private:
     seGameLevel *m_gameLevel;
     seSpriteTile *m_hero;
+
+    void MoveHero(GLfloat shiftX, GLfloat shiftY);
 };
 
 #endif /* gameScene_hpp */

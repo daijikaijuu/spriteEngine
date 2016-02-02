@@ -46,6 +46,7 @@
 		4C93ACCF1C5CE46C001F8833 /* seExceptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = seExceptions.cpp; path = Debug/seExceptions.cpp; sourceTree = "<group>"; };
 		4C93ACD01C5CE46C001F8833 /* seExceptions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = seExceptions.hpp; path = Debug/seExceptions.hpp; sourceTree = "<group>"; };
 		4C93ACD21C5CE79A001F8833 /* Debug.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Debug.hpp; path = Debug/Debug.hpp; sourceTree = "<group>"; };
+		4C96AE801C60CFC7001F1ECA /* seCollisionRect.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = seCollisionRect.hpp; path = Utils/seCollisionRect.hpp; sourceTree = "<group>"; };
 		4C9DB5601C590703005D6BEC /* libGLEW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.a; path = ../../../../../../../usr/local/Cellar/glew/1.13.0/lib/libGLEW.a; sourceTree = "<group>"; };
 		4C9DB5621C590715005D6BEC /* libglfw3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw3.3.1.dylib; path = ../../../../../../../usr/local/Cellar/glfw3/3.1.2/lib/libglfw3.3.1.dylib; sourceTree = "<group>"; };
 		4C9DB5681C590D74005D6BEC /* seScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = seScene.cpp; path = Render/seScene.cpp; sourceTree = "<group>"; };
@@ -140,6 +141,7 @@
 				4CF5B8F71C591C8800BD7366 /* seSingleton.hpp */,
 				4CF5B9051C594E6800BD7366 /* seHelpers.hpp */,
 				4C8D53701C5B2C9100C471B7 /* seCollection.hpp */,
+				4C96AE801C60CFC7001F1ECA /* seCollisionRect.hpp */,
 			);
 			name = Utils;
 			sourceTree = "<group>";

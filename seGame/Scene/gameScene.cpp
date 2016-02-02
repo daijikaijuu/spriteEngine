@@ -12,6 +12,7 @@
 #include "Render/seGameLevel.hpp"
 #include "Resources/seProgram.hpp"
 #include "Resources/seResourceManager.hpp"
+#include "Utils/seCollisionRect.hpp"
 
 gameScene::gameScene(unsigned int width, unsigned height) :
     seScene((float)width, (float)height),
@@ -47,7 +48,7 @@ gameScene::gameScene(unsigned int width, unsigned height) :
                               new seProgram(seRManager->GetShader("spriteTile.vs"), seRManager->GetShader("basic.fs")),
                               manager->GetTexture("iceman.png"), 5, 5);
     m_hero->GetProgram()->SetUniform("alpha", 0.7f);
-    m_hero->SetSize(50, 310, 0.5f, 52, 95);
+    m_hero->SetSize(50, 310, 0.5f, 42, 75);
     AddItem("sceneObject:iceman", m_hero);
 
     obj = new seSpriteTile(true,
@@ -102,12 +103,20 @@ void gameScene::HandleInput(GLFWwindow *window, int key, int scancode, int actio
     if (key == GLFW_KEY_RIGHT) {
         spr++;
         m_hero->SetMirrored(false);
-        m_hero->Move(2.0f, 0.0f);
+        MoveHero(2.0f, 0.0f);
     }
     if (key == GLFW_KEY_LEFT) {
         spr++;
         m_hero->SetMirrored(true);
-        m_hero->Move(-2.0f, 0.0f);
+        MoveHero(-2.0f, 0.0f);
+    }
+    if (key == GLFW_KEY_UP) {
+        spr++;
+        MoveHero(0.0f, -2.0f);
+    }
+    if (key == GLFW_KEY_DOWN) {
+        spr++;
+        MoveHero(0.0f, 2.0f);
     }
 
     m_hero->GetProgram()->SetUniform("spriteCurrent", spr);
@@ -138,4 +147,17 @@ void gameScene::Update(GLfloat secondsElapsed) {
         bird->GetProgram()->Unbind();
         counter = 0;
     }
+}
+
+void gameScene::MoveHero(GLfloat shiftX, GLfloat shiftY) {
+    seCollisionRect heroRect = m_hero->CollisionRect();
+    seCollisionRect rect = heroRect.Shift(shiftX, 0);
+    if (m_gameLevel->IsTileInCoordCollidable(shiftX > 0 ? rect.Right() : rect.x, rect.y))
+        shiftX = 0;
+
+    rect = heroRect.Shift(0, shiftY);
+    if (m_gameLevel->IsTileInCoordCollidable(rect.x, shiftY > 0 ? rect.Bottom() : rect.y))
+        shiftY = 0;
+
+    m_hero->Move(shiftX, shiftY);
 }
