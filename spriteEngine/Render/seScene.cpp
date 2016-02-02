@@ -11,6 +11,7 @@
 
 namespace spriteEngine {
     seScene::seScene(GLfloat width, GLfloat height) :
+        seCollection<seGenericSceneObject>(),
         m_width(width), m_height(height)
     {
         InitializeResources();
