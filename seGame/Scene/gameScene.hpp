@@ -10,7 +10,12 @@
 #define gameScene_hpp
 
 #include "Render/seScene.hpp"
-#include <stdio.h>
+#include <GLFW/glfw3.h>
+
+namespace spriteEngine {
+    class seGameLevel;
+    class seSpriteTile;
+}
 
 using namespace spriteEngine;
 
@@ -20,6 +25,13 @@ public:
     virtual ~gameScene();
 
     virtual void InitializeResources();
+
+    void HandleInput(GLFWwindow *window, int key, int scancode, int action, int mods);
+    void Update(GLfloat secondsElapsed);
+
+private:
+    seGameLevel *m_gameLevel;
+    seSpriteTile *m_hero;
 };
 
 #endif /* gameScene_hpp */

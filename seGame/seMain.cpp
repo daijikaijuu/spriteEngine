@@ -26,36 +26,7 @@ void OnError(int errorCode, const char* msg) {
 }
 
 void OnKeyPressed(GLFWwindow *window, int key, int scancode, int action, int mods) {
-
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
-
-    seGenericSceneObject *level = scene->GetItem("sceneObject:gameLevel");
-    level->GetProgram()->Bind();
-    if (key == GLFW_KEY_A) {
-        level->Move(-10.0f, 0);
-    }
-    if (key == GLFW_KEY_D) {
-        level->Move(+10.0f, 0);
-    }
-    level->GetProgram()->Unbind();
-
-    seGenericSceneObject *iceman = scene->GetItem("sceneObject:iceman");
-    iceman->GetProgram()->Bind();
-    if (key == GLFW_KEY_RIGHT) {
-        spr++;
-        iceman->SetMirrored(false);
-        iceman->Move(2.0f, 0.0f);
-    }
-    if (key == GLFW_KEY_LEFT) {
-        spr++;
-        iceman->SetMirrored(true);
-        iceman->Move(-2.0f, 0.0f);
-    }
-
-    iceman->GetProgram()->SetUniform("spriteCurrent", spr);
-    iceman->GetProgram()->Unbind();
-    if (spr > 5) spr = 1;
+    scene->HandleInput(window, key, scancode, action, mods);
 }
 
 void Render() {
@@ -70,28 +41,7 @@ void Render() {
 }
 
 void Update(GLfloat secondsElapsed) {
-    seGenericSceneObject *sun = scene->GetItem("sceneObject:sun");
-    sun->Rotate(secondsElapsed);
-
-    seGenericSceneObject *bird = scene->GetItem("sceneObject:bird");
-    GLfloat x = bird->X();
-    bird->GetProgram()->Bind();
-    if (x > (800 - bird->Width() / 2) && !bird->IsMirrored())
-        bird->SetMirrored(true);
-    if (x < bird->Width() / 2 && bird->IsMirrored())
-        bird->SetMirrored(false);
-    GLfloat dx = bird->IsMirrored() ? -1 : 1;
-    bird->Move(dx, 0);
-    bird->GetProgram()->Unbind();
-
-    static GLfloat counter;
-    counter += secondsElapsed;
-    if (counter > 0.2f) {
-        bird->GetProgram()->Bind();
-        bird->Animate();
-        bird->GetProgram()->Unbind();
-        counter = 0;
-    }
+    scene->Update(secondsElapsed);
 }
 
 void AppMain() {

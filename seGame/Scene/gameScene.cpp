@@ -14,7 +14,9 @@
 #include "Resources/seResourceManager.hpp"
 
 gameScene::gameScene(unsigned int width, unsigned height) :
-    seScene((float)width, (float)height)
+    seScene((float)width, (float)height),
+    m_gameLevel(nullptr),
+    m_hero(nullptr)
 {
     InitializeResources();
 
@@ -41,24 +43,24 @@ gameScene::gameScene(unsigned int width, unsigned height) :
     AddItem("sceneObject:sun", obj);
     obj->SetSize(600, 50, -0.9f, 200, 200);
 
-    obj = new seSpriteTile(false,
-                           new seProgram(seRManager->GetShader("spriteTile.vs"), seRManager->GetShader("basic.fs")),
-                           manager->GetTexture("iceman.png"), 5, 5);
-    obj->GetProgram()->SetUniform("alpha", 0.7f);
-    AddItem("sceneObject:iceman", obj);
-    obj->SetSize(50, 600 - 95, 0, 52, 95);
+    m_hero = new seSpriteTile(false,
+                              new seProgram(seRManager->GetShader("spriteTile.vs"), seRManager->GetShader("basic.fs")),
+                              manager->GetTexture("iceman.png"), 5, 5);
+    m_hero->GetProgram()->SetUniform("alpha", 0.7f);
+    m_hero->SetSize(50, 310, 0.5f, 52, 95);
+    AddItem("sceneObject:iceman", m_hero);
 
     obj = new seSpriteTile(true,
                            new seProgram(seRManager->GetShader("spriteTile.vs"), seRManager->GetShader("basic.fs")),
                            seRManager->GetTexture("bird.png"), 14, 14);
     obj->GetProgram()->SetUniform("alpha", 0.7f);
     AddItem("sceneObject:bird", obj);
-    obj->SetSize(50, 100, 0, 50, 50);
+    obj->SetSize(50, 100, -0.8f, 50, 50);
 
-    obj = new seGameLevel(new seProgram(seRManager->GetShader("basic.vs"), seRManager->GetShader("basic.fs")),
-                          seRManager->GetTexture("tileset.png"));
-    obj->GetProgram()->SetUniform("alpha", 0.7f);
-    AddItem("sceneObject:gameLevel", obj);
+    m_gameLevel = new seGameLevel(new seProgram(seRManager->GetShader("basic.vs"), seRManager->GetShader("basic.fs")),
+                                  seRManager->GetTexture("tileset.png"));
+    m_gameLevel->GetProgram()->SetUniform("alpha", 0.7f);
+    AddItem("sceneObject:gameLevel", m_gameLevel);
 }
 
 gameScene::~gameScene() {
@@ -82,4 +84,58 @@ void gameScene::InitializeResources() {
     seRManager->AddTexture("iceman.png");
     seRManager->AddTexture("tileset.png");
     seRManager->AddTexture("bird.png");
+}
+
+void gameScene::HandleInput(GLFWwindow *window, int key, int scancode, int action, int mods) {
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+
+    if (key == GLFW_KEY_A) {
+        m_gameLevel->Move(-10.0f, 0);
+    }
+    if (key == GLFW_KEY_D) {
+        m_gameLevel->Move(+10.0f, 0);
+    }
+
+    static GLuint spr;
+    m_hero->GetProgram()->Bind();
+    if (key == GLFW_KEY_RIGHT) {
+        spr++;
+        m_hero->SetMirrored(false);
+        m_hero->Move(2.0f, 0.0f);
+    }
+    if (key == GLFW_KEY_LEFT) {
+        spr++;
+        m_hero->SetMirrored(true);
+        m_hero->Move(-2.0f, 0.0f);
+    }
+
+    m_hero->GetProgram()->SetUniform("spriteCurrent", spr);
+    m_hero->GetProgram()->Unbind();
+    if (spr > 5) spr = 1;
+}
+
+void gameScene::Update(GLfloat secondsElapsed) {
+    seGenericSceneObject *sun = GetItem("sceneObject:sun");
+    sun->Rotate(secondsElapsed);
+
+    seGenericSceneObject *bird = GetItem("sceneObject:bird");
+    GLfloat x = bird->X();
+    bird->GetProgram()->Bind();
+    if (x > (800 - bird->Width() / 2) && !bird->IsMirrored())
+        bird->SetMirrored(true);
+    if (x < bird->Width() / 2 && bird->IsMirrored())
+        bird->SetMirrored(false);
+    GLfloat dx = bird->IsMirrored() ? -1 : 1;
+    bird->Move(dx, 0);
+    bird->GetProgram()->Unbind();
+
+    static GLfloat counter;
+    counter += secondsElapsed;
+    if (counter > 0.2f) {
+        bird->GetProgram()->Bind();
+        bird->Animate();
+        bird->GetProgram()->Unbind();
+        counter = 0;
+    }
 }
