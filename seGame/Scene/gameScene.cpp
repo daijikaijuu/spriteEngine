@@ -40,7 +40,7 @@ gameScene::gameScene(unsigned int width, unsigned height) :
                                         manager->GetTexture("bg2.png"));
     m_backgroundMountain->GetProgram()->SetUniform("alpha", 0.5f);
     m_backgroundMountain->SetSize(0, 150, -0.8f, m_width, m_height - 150);
-    m_backgroundMountain->GetTexture()->SetFiltering(GL_LINEAR_MIPMAP_LINEAR, GL_MIRRORED_REPEAT);
+    m_backgroundMountain->GetTexture()->SetFiltering(GL_LINEAR_MIPMAP_LINEAR, GL_REPEAT);
     AddItem("sceneObject:mountains", m_backgroundMountain);
 
     obj = new seSprite(true,
