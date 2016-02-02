@@ -76,6 +76,16 @@ namespace spriteEngine {
         virtual void Write(const std::string &message);
     };
 
+#ifdef _DEBUG
+#define oglError() { \
+    GLenum error = glGetError(); \
+    if(error != GL_NO_ERROR) \
+        Logger << "OpenGL Error " << error << eol; \
+}
+#else
+#define oglError() {}
+#endif
+
 #define DebugLogger seLogger::Debug()
 #define ErrorLogger seLogger::Error()
 #define Logger seLogger::Omni()

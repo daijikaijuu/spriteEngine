@@ -100,6 +100,8 @@ void AppMain() {
         lastTime = thisTime;
 
         Render();
+
+        oglError();
     }
 
     // clean up and exit
