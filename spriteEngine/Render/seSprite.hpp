@@ -21,7 +21,7 @@ namespace spriteEngine {
 
         void SetTexture(seTexture *texture);
 
-        seTexture* Texture() { return m_texture; }
+        virtual seTexture* GetTexture() { return m_texture; }
 
         virtual void Render();
 

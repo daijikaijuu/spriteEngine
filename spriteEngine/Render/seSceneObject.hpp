@@ -18,6 +18,7 @@ namespace spriteEngine {
     class seVBO;
     class seVAO;
     class seProgram;
+    class seTexture;
 
     class seGenericSceneObject {
     public:
@@ -32,6 +33,7 @@ namespace spriteEngine {
         inline GLboolean IsMirrored() const { return m_mirrored; }
         inline seCollisionRect CollisionRect() const { return seCollisionRect(m_x, m_y, m_width, m_height); }
         seProgram* GetProgram() { return m_shaderProgram; }
+        virtual seTexture* GetTexture() { return nullptr; }
 
         virtual void SetSize(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height) {}
         virtual void SetSize(GLfloat width, GLfloat height) {}

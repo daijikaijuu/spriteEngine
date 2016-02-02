@@ -42,8 +42,8 @@ namespace spriteEngine {
 
     void seProgram::Bind() {
         seAssert(m_ID);
-
-        glUseProgram(m_ID);
+        if (!InUse())
+            glUseProgram(m_ID);
     }
 
     void seProgram::Unbind() {
@@ -179,7 +179,7 @@ namespace spriteEngine {
     void seProgram::SetUniform(const std::string &name, OGL_TYPE v0) \
         { SetUniform(Uniform(name), v0); } \
     void seProgram::SetUniform(GLuint uniform, OGL_TYPE v0) \
-        { seAssert(InUse()); glUniform1 ## TYPE_SUFFIX (uniform, v0); }
+        { Bind(); glUniform1 ## TYPE_SUFFIX (uniform, v0); }
 
     ATTRIB_N_UNIFORM_SETTERS(GLfloat, , f);
     ATTRIB_N_UNIFORM_SETTERS(GLint, I, i);
@@ -190,7 +190,7 @@ namespace spriteEngine {
     }
 
     void seProgram::SetUniform(GLuint uniform, const glm::mat4 &m, GLboolean transpose) {
-        seAssert(InUse());
+        Bind();
         glUniformMatrix4fv(uniform, 1, transpose, glm::value_ptr(m));
     }
 }

@@ -11,6 +11,7 @@
 #include "Render/seSpriteTile.hpp"
 #include "Render/seGameLevel.hpp"
 #include "Resources/seProgram.hpp"
+#include "Resources/seTexture.hpp"
 #include "Resources/seResourceManager.hpp"
 #include "Utils/seCollisionRect.hpp"
 
@@ -18,7 +19,9 @@ gameScene::gameScene(unsigned int width, unsigned height) :
     seScene((float)width, (float)height),
     m_gameLevel(nullptr),
     m_hero(nullptr),
-    m_gravity(true)
+    m_gravity(true),
+    m_backgroundMountain(nullptr),
+    m_backgroundShift(0)
 {
     InitializeResources();
 
@@ -31,38 +34,43 @@ gameScene::gameScene(unsigned int width, unsigned height) :
     AddItem("sky", obj);
     obj->SetSize(0, 0, -1.0f, m_width, m_height);
 
-    obj = new seSprite(false,
-                       new seProgram(seRManager->GetShader("basic.vs"), seRManager->GetShader("basic.fs")),
-                       manager->GetTexture("bg2.png"));
-    obj->GetProgram()->SetUniform("alpha", 0.7f);
-    AddItem("sceneObject:mountains", obj);
-    obj->SetSize(0, 150, -0.8f, m_width, m_height - 150);
+    m_backgroundMountain = new seSprite(false,
+                                        new seProgram(seRManager->GetShader("basic.vs"),
+                                                      seRManager->GetShader("basic.fs")),
+                                        manager->GetTexture("bg2.png"));
+    m_backgroundMountain->GetProgram()->SetUniform("alpha", 0.5f);
+    m_backgroundMountain->SetSize(0, 150, -0.8f, m_width, m_height - 150);
+    m_backgroundMountain->GetTexture()->SetFiltering(GL_LINEAR_MIPMAP_LINEAR, GL_MIRRORED_REPEAT);
+    AddItem("sceneObject:mountains", m_backgroundMountain);
 
     obj = new seSprite(true,
                        new seProgram(seRManager->GetShader("basic.vs"), seRManager->GetShader("basic.fs")),
                        manager->GetTexture("sun_01.png"));
-    obj->GetProgram()->SetUniform("alpha", 0.7f);
+    obj->GetProgram()->SetUniform("alpha", 0.5f);
     AddItem("sceneObject:sun", obj);
     obj->SetSize(600, 50, -0.9f, 200, 200);
 
     m_hero = new seSpriteTile(false,
                               new seProgram(seRManager->GetShader("spriteTile.vs"), seRManager->GetShader("basic.fs")),
                               manager->GetTexture("iceman.png"), 5, 5);
-    m_hero->GetProgram()->SetUniform("alpha", 0.7f);
+    m_hero->GetProgram()->SetUniform("alpha", 0.2f);
     m_hero->SetSize(50, 310, 0.5f, 42, 75);
     AddItem("sceneObject:iceman", m_hero);
 
     obj = new seSpriteTile(true,
                            new seProgram(seRManager->GetShader("spriteTile.vs"), seRManager->GetShader("basic.fs")),
                            seRManager->GetTexture("bird.png"), 14, 14);
-    obj->GetProgram()->SetUniform("alpha", 0.7f);
+    obj->GetProgram()->SetUniform("alpha", 0.2f);
     AddItem("sceneObject:bird", obj);
     obj->SetSize(50, 100, -0.8f, 50, 50);
 
     m_gameLevel = new seGameLevel(new seProgram(seRManager->GetShader("basic.vs"), seRManager->GetShader("basic.fs")),
                                   seRManager->GetTexture("tileset.png"));
-    m_gameLevel->GetProgram()->SetUniform("alpha", 0.7f);
+    m_gameLevel->GetProgram()->SetUniform("alpha", 0.5f);
     AddItem("sceneObject:gameLevel", m_gameLevel);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 gameScene::~gameScene() {
@@ -103,7 +111,6 @@ void gameScene::HandleInput(GLFWwindow *window, int key, int scancode, int actio
         m_gravity = !m_gravity;
 
     static GLuint spr;
-    m_hero->GetProgram()->Bind();
     if (key == GLFW_KEY_RIGHT) {
         spr++;
         m_hero->SetMirrored(false);
@@ -134,7 +141,6 @@ void gameScene::Update(GLfloat secondsElapsed) {
 
     seGenericSceneObject *bird = GetItem("sceneObject:bird");
     GLfloat x = bird->X();
-    bird->GetProgram()->Bind();
     if (x > (800 - bird->Width() / 2) && !bird->IsMirrored())
         bird->SetMirrored(true);
     if (x < bird->Width() / 2 && bird->IsMirrored())
@@ -146,7 +152,6 @@ void gameScene::Update(GLfloat secondsElapsed) {
     static GLfloat counter;
     counter += secondsElapsed;
     if (counter > 0.2f) {
-        bird->GetProgram()->Bind();
         bird->Animate();
         bird->GetProgram()->Unbind();
         counter = 0;
@@ -193,4 +198,8 @@ void gameScene::MoveHero(GLfloat shiftX, GLfloat shiftY) {
 
 void gameScene::ScrollMap(GLfloat shiftX) {
     m_gameLevel->Move(shiftX, 0);
+
+    m_backgroundShift -= shiftX / 5000;
+    m_backgroundMountain->GetProgram()->SetUniform("shiftX", m_backgroundShift);
+    m_backgroundMountain->GetProgram()->Unbind();
 }

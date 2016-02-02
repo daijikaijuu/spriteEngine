@@ -33,6 +33,8 @@ public:
 private:
     seGameLevel *m_gameLevel;
     seSpriteTile *m_hero;
+    seGenericSceneObject *m_backgroundMountain;
+    GLfloat m_backgroundShift;
     GLboolean m_gravity;
 
     void MoveHero(GLfloat shiftX, GLfloat shiftY);
