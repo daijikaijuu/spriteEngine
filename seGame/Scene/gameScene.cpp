@@ -17,7 +17,8 @@
 gameScene::gameScene(unsigned int width, unsigned height) :
     seScene((float)width, (float)height),
     m_gameLevel(nullptr),
-    m_hero(nullptr)
+    m_hero(nullptr),
+    m_gravity(true)
 {
     InitializeResources();
 
@@ -98,6 +99,9 @@ void gameScene::HandleInput(GLFWwindow *window, int key, int scancode, int actio
         m_gameLevel->Move(+10.0f, 0);
     }
 
+    if (key == GLFW_KEY_G && action == GLFW_RELEASE)
+        m_gravity = !m_gravity;
+
     static GLuint spr;
     m_hero->GetProgram()->Bind();
     if (key == GLFW_KEY_RIGHT) {
@@ -146,6 +150,10 @@ void gameScene::Update(GLfloat secondsElapsed) {
         bird->Animate();
         bird->GetProgram()->Unbind();
         counter = 0;
+    }
+
+    if (m_gravity) {
+        MoveHero(0, secondsElapsed * 100);
     }
 }
 
