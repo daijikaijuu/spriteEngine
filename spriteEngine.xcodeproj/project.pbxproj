@@ -356,6 +356,8 @@
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					"spriteEngine/**",
+					external/glm,
+					external/rapidjson/include,
 				);
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -399,6 +401,8 @@
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					"spriteEngine/**",
+					external/glm,
+					external/rapidjson/include,
 				);
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
