@@ -45,6 +45,8 @@ namespace spriteEngine {
         LogDebug << "seGameLevel::Using tileset: " << quoteStr(tilesetName) << eol;
         tilesetName = ReplaceString(tilesetName, "../Textures/", "");
         m_tileSet = seRManager->AddTexture(tilesetName);
+        GLuint tilesetColumns = doc.FirstChildElement("map")->FirstChildElement("tileset")->UnsignedAttribute("columns");
+        GLuint tilesetRows = doc.FirstChildElement("map")->FirstChildElement("tileset")->UnsignedAttribute("tilecount") / tilesetColumns;
 
         std::string data = doc.FirstChildElement("map")->FirstChildElement("layer")->FirstChildElement("data")->GetText();
         std::vector<GLuint> levelMap;
@@ -60,13 +62,13 @@ namespace spriteEngine {
         m_shaderProgram->Bind();
 
         m_tileSize = 600.0f / m_height;
-        GLfloat uvStepX = 1.0f / 10.0f;
-        GLfloat uvStepY = 1.0f / 2.0f;
+        GLfloat uvStepX = 1.0f / tilesetColumns;
+        GLfloat uvStepY = 1.0f / tilesetRows;
         for (int y = 0; y < m_height; y++) {
             for (int x = 0; x < m_width; x++) {
                 unsigned int item = levelMap[x + m_width * y];
-                GLuint itemX = item % 10;
-                GLuint itemY = 1 - (item / 10) % 2;
+                GLuint itemX = item % tilesetColumns;
+                GLuint itemY = 1 - (item / tilesetColumns) % tilesetRows;
                 seVertexUV vertexData[] = {
                     glm::vec3(m_tileSize * x,              m_tileSize * y + m_tileSize, 0.0f), glm::vec2(uvStepX * itemX,           uvStepY * itemY),
                     glm::vec3(m_tileSize * x + m_tileSize, m_tileSize * y + m_tileSize, 0.0f), glm::vec2(uvStepX * itemX + uvStepX, uvStepY * itemY),
