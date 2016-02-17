@@ -15,6 +15,7 @@ namespace spriteEngine {
         float width, height;
 
         seCollisionRect(float x1, float y1, float w, float h) : x(x1), y(y1), width(w), height(h) {}
+        seCollisionRect(const seCollisionRect &rect) : x(rect.x), y(rect.y), width(rect.width), height(rect.height) {}
 
         bool Contains(const seCollisionRect rect) const {
             return ((rect.x >= x) && (rect.y >= y) &&
@@ -29,7 +30,7 @@ namespace spriteEngine {
         }
 
         seCollisionRect Shift(float shiftX, float shiftY) const {
-            seCollisionRect result = seCollisionRect(x + shiftX, y + shiftY, width, height);
+            seCollisionRect result(x + shiftX, y + shiftY, width, height);
             return result;
         }
 

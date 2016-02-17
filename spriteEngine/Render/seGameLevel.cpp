@@ -35,19 +35,39 @@ namespace spriteEngine {
             abort();
         }
 
+        // Load map information
         const char *levelName = doc.FirstChildElement("map")->FirstChildElement("layer")->Attribute("name");
         m_width = doc.FirstChildElement("map")->FirstChildElement("layer")->UnsignedAttribute("width");
         m_height = doc.FirstChildElement("map")->FirstChildElement("layer")->UnsignedAttribute("height");
         LogDebug << "seGameLevel: Map name: " << quoteStr(levelName) << ". Width: " << m_width << ", height: " << m_height << eol;
         m_tiles.reserve(m_width * m_height);
 
+        // Load tileset information
         std::string tilesetName = doc.FirstChildElement("map")->FirstChildElement("tileset")->FirstChildElement("image")->Attribute("source");
         LogDebug << "seGameLevel::Using tileset: " << quoteStr(tilesetName) << eol;
         tilesetName = ReplaceString(tilesetName, "../Textures/", "");
         m_tileSet = seRManager->AddTexture(tilesetName);
         GLuint tilesetColumns = doc.FirstChildElement("map")->FirstChildElement("tileset")->UnsignedAttribute("columns");
         GLuint tilesetRows = doc.FirstChildElement("map")->FirstChildElement("tileset")->UnsignedAttribute("tilecount") / tilesetColumns;
+        m_tileSize = 600.0f / m_height; // TODO: Unhardcore scene height
 
+        // Load collision information
+        tinyxml2::XMLElement *element = doc.FirstChildElement("map")->FirstChildElement("tileset")->FirstChildElement("tile");
+        std::map<GLuint, seCollisionRect *> tileBounds;
+        while (element) {
+            GLuint id = element->UnsignedAttribute("id");
+            GLfloat x = element->FirstChildElement()->FirstChildElement()->FloatAttribute("x");
+            GLfloat y = element->FirstChildElement()->FirstChildElement()->FloatAttribute("y");
+            GLfloat width = element->FirstChildElement()->FirstChildElement()->FloatAttribute("width");
+            GLfloat height = element->FirstChildElement()->FirstChildElement()->FloatAttribute("height");
+            LogDebug << "seGameLevel::Tile " << id << ". Collision rect - x: " << x << ", y: " << y << ", width: " << width << ", height: " << height  << eol;
+
+            tileBounds.insert(std::pair<GLuint, seCollisionRect *>(id, new seCollisionRect(x, y, width, height)));
+
+            element = element->NextSiblingElement("tile");
+        }
+
+        // Load map data
         std::string data = doc.FirstChildElement("map")->FirstChildElement("layer")->FirstChildElement("data")->GetText();
         std::vector<GLuint> levelMap;
         std::stringstream ss(data);
@@ -61,7 +81,6 @@ namespace spriteEngine {
         m_VBO->Bind(GL_ARRAY_BUFFER);
         m_shaderProgram->Bind();
 
-        m_tileSize = 600.0f / m_height;
         GLfloat uvStepX = 1.0f / tilesetColumns;
         GLfloat uvStepY = 1.0f / tilesetRows;
         for (int y = 0; y < m_height; y++) {
@@ -81,11 +100,17 @@ namespace spriteEngine {
                 };
                 m_VBO->AddData(&vertexData, sizeof(vertexData));
 
-                m_tiles.emplace_back(item,
-                                     (GLuint)x, (GLuint)y,
-                                     seCollisionRect(m_tileSize * x, m_tileSize * y, m_tileSize, m_tileSize),
-                                     (item != 0 && item != 17 && item != 18),
-                                     false);
+                seCollisionRect *rect = tileBounds[item];
+                m_tiles.push_back(new seTile(item,
+                                             (GLuint)x, (GLuint)y,
+                                             seCollisionRect(m_tileSize * x,
+                                                             m_tileSize * y,
+                                                             rect != nullptr ? rect->width : m_tileSize,
+                                                             rect != nullptr ? rect->height : m_tileSize),
+                                             (item != 0 && item != 17 && item != 18),
+                                             false));
+//                seTile *tile = m_tiles.back();
+//                LogDebug << "T " << tile->id << " x: " << tile->rect.x << ", y: " << tile->rect.y << ", w: " << tile->rect.width << ", h: " << tile->rect.height << eol;
             }
         }
         m_VBO->UploadDataToGPU(GL_STATIC_DRAW);
@@ -99,6 +124,11 @@ namespace spriteEngine {
         m_projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f);
         UpdateMVP();
 
+        for (auto &it : tileBounds) {
+            delete it.second;
+        }
+        tileBounds.clear();
+
         LogDebug << "seGameLevel::Loaded: " << quoteStr(m_resourceName) << eol;
     }
 
@@ -106,6 +136,9 @@ namespace spriteEngine {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glDeleteBuffers(1, &m_indexBuffer);
 
+        for (auto it : m_tiles) {
+            delete it;
+        }
         m_tiles.clear();
     }
 
@@ -124,12 +157,12 @@ namespace spriteEngine {
                 for (int ic = 0; ic < 6; ic++) {
                     indices.push_back(i * 6 + ic);
                 }
-                m_tiles[y * m_width + x].onScreen = true;
+                m_tiles[y * m_width + x]->onScreen = true;
 //                LogDebug << "Tile drawn x:" << x << " y:" << y << eol;
             }
             else {
 //                LogDebug << "Tile out of screen x:" << x << " y:" << y << eol;
-                m_tiles[y * m_width + x].onScreen = false;
+                m_tiles[y * m_width + x]->onScreen = false;
             }
 
         }
@@ -153,7 +186,7 @@ namespace spriteEngine {
         GLuint tileX = (x - m_x) / m_tileSize;
         GLuint tileY = (y - m_y) / m_tileSize;
 
-        return m_tiles[tileY * m_width + tileX].collidable;
+        return m_tiles[tileY * m_width + tileX]->collidable;
     }
 
     GLboolean seGameLevel::Collision(seCollisionRect rect, seCollisionDirection direction) const {
@@ -166,15 +199,36 @@ namespace spriteEngine {
             direction == seCollisionDirection::seCOLLISION_DOWN)
         {
             for (GLuint x = x1; x <= x2; x++) {
-                if (m_tiles[x + m_width * (direction == seCollisionDirection::seCOLLISION_UP ? y1 : y2)].collidable)
+                GLuint id = x + m_width * (direction == seCollisionDirection::seCOLLISION_UP ? y1 : y2);
+                if (id > m_tiles.size())
+                    return true;
+                seTile *tile = m_tiles[id];
+                if (!tile)
+                    return true;
+                seCollisionRect r = tile->rect.Shift(m_x, m_y);
+//                LogDebug << "UD_Tile: " << r.x << ", " << r.y << ", " << r.Right() << ", " << r.Bottom() << eol;
+//                LogDebug << "UD_Hero: " << rect.x << ", " << rect.y << ", " << rect.Right() << ", " << rect.Bottom() << eol;
+//                LogDebug << "Intersects: " << r.Intersects(rect) << eol;
+                if (tile->collidable && r.Intersects(rect))
                     return true;
             }
         }
+//        LogDebug << "----" << eol;
         if (direction == seCollisionDirection::seCOLLISION_LEFT ||
             direction == seCollisionDirection::seCOLLISION_RIGHT)
         {
             for (GLuint y = y1; y <= y2; y++) {
-                if (m_tiles[(direction == seCollisionDirection::seCOLLISION_LEFT ? x1 : x2) + m_width * y].collidable)
+                GLuint id = (direction == seCollisionDirection::seCOLLISION_LEFT ? x1 : x2) + m_width * y;
+                if (id > m_tiles.size())
+                    return true;
+                seTile *tile = m_tiles[id];
+                if (!tile)
+                    return true;
+                seCollisionRect r = tile->rect.Shift(m_x, m_y);
+//                LogDebug << "UD_Tile: " << r.x << ", " << r.y << ", " << r.Right() << ", " << r.Bottom() << eol;
+//                LogDebug << "UD_Hero: " << rect.x << ", " << rect.y << ", " << rect.Right() << ", " << rect.Bottom() << eol;
+//                LogDebug << "Intersects: " << r.Intersects(rect) << eol;
+                if (tile->collidable && r.Intersects(rect))
                     return true;
             }
         }
