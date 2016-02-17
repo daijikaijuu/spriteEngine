@@ -14,6 +14,7 @@
 #include "../Debug/Debug.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <tinyxml2.h>
 
 namespace spriteEngine {
     seGameLevel::seGameLevel(seProgram *shaderProgram, seTexture *tileSet) :
@@ -25,21 +26,34 @@ namespace spriteEngine {
     {
         seAssert(m_tileSet);
 
+        const std::string filename = "Data/Maps/level01.tmx";
+
         glGenBuffers(1, &m_indexBuffer);
 
-        m_width = 100;
-        m_height = 8;
+        tinyxml2::XMLDocument doc(true, tinyxml2::COLLAPSE_WHITESPACE);
+        LogDebug << "seGameLevel: Opening game level: " << quoteStr(filename) << eol;
+        doc.LoadFile(filename.c_str());
+        if (doc.Error()) {
+            LogError << "seGameLevel::XMLDocument.LoadFile(" << filename << "): " << doc.ErrorName() << eol;
+            abort();
+        }
+
+        const char *levelName = doc.FirstChildElement("map")->FirstChildElement("layer")->Attribute("name");
+        m_width = doc.FirstChildElement("map")->FirstChildElement("layer")->UnsignedAttribute("width");
+        m_height = doc.FirstChildElement("map")->FirstChildElement("layer")->UnsignedAttribute("height");
+        LogDebug << "seGameLevel: Map name: " << quoteStr(levelName) << ". Width: " << m_width << ", height: " << m_height << eol;
         m_tiles.reserve(m_width * m_height);
-        std::vector<GLuint> levelMap = {
-            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,0,11,12,13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-            14,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,16,18,18,18,18,14,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,16
-        };
+
+        std::string data = doc.FirstChildElement("map")->FirstChildElement("layer")->FirstChildElement("data")->GetText();
+        std::vector<GLuint> levelMap;
+
+        std::stringstream ss(data);
+        int i;
+        while (ss >> i) {
+            levelMap.push_back(--i);
+            if (ss.peek() == ',' || ss.peek() == ' ')
+                ss.ignore();
+        }
 
         m_VBO->Bind(GL_ARRAY_BUFFER);
         m_shaderProgram->Bind();
@@ -50,8 +64,8 @@ namespace spriteEngine {
         for (int y = 0; y < m_height; y++) {
             for (int x = 0; x < m_width; x++) {
                 unsigned int item = levelMap[x + m_width * y];
-                GLuint itemX = item % 11;
-                GLuint itemY = 1 - (item / 11) % 2;
+                GLuint itemX = item % 10;
+                GLuint itemY = 1 - (item / 10) % 2;
                 seVertexUV vertexData[] = {
                     glm::vec3(m_tileSize * x,              m_tileSize * y + m_tileSize, 0.0f), glm::vec2(uvStepX * itemX,           uvStepY * itemY),
                     glm::vec3(m_tileSize * x + m_tileSize, m_tileSize * y + m_tileSize, 0.0f), glm::vec2(uvStepX * itemX + uvStepX, uvStepY * itemY),

@@ -42,6 +42,8 @@
 			<Add option="-DGLEW_STATIC" />
 			<Add directory="external/include" />
 			<Add directory="spriteEngine" />
+			<Add directory="external/glm" />
+			<Add directory="external/tinyxml2" />
 		</Compiler>
 		<Linker>
 			<Add library="external\lib\glew32s.lib" />
@@ -53,6 +55,8 @@
 			<Add library="gdi32" />
 			<Add directory="external/lib" />
 		</Linker>
+		<Unit filename="external/tinyxml2/tinyxml2.cpp" />
+		<Unit filename="external/tinyxml2/tinyxml2.h" />
 		<Unit filename="seGame/Scene/gameScene.cpp" />
 		<Unit filename="seGame/Scene/gameScene.hpp" />
 		<Unit filename="seGame/seMain.cpp" />

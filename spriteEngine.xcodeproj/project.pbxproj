@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4C54BA1C1C5D817D0098F8A3 /* seSpriteTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C54BA1A1C5D817D0098F8A3 /* seSpriteTile.cpp */; };
 		4C54BA261C5E235D0098F8A3 /* seGameLevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C54BA241C5E235D0098F8A3 /* seGameLevel.cpp */; };
+		4C7360B51C74D8B00011F46A /* libtinyxml2.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7360B41C74D8B00011F46A /* libtinyxml2.3.0.0.dylib */; };
 		4C8B7FC71C5B9D2E001849D2 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 4C8B7FC61C5B9D2E001849D2 /* Data */; };
 		4C8C855C1C5E24DE00C37BD0 /* gameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE07451C5D6B2100289E4B /* gameScene.cpp */; };
 		4C93ACCE1C5CD664001F8833 /* seLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C93ACCC1C5CD664001F8833 /* seLogger.cpp */; };
@@ -39,6 +40,7 @@
 		4C54BA241C5E235D0098F8A3 /* seGameLevel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = seGameLevel.cpp; path = Render/seGameLevel.cpp; sourceTree = "<group>"; };
 		4C54BA251C5E235D0098F8A3 /* seGameLevel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = seGameLevel.hpp; path = Render/seGameLevel.hpp; sourceTree = "<group>"; };
 		4C57128B1C5A51540092B3C6 /* seVertex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = seVertex.hpp; path = Render/seVertex.hpp; sourceTree = "<group>"; };
+		4C7360B41C74D8B00011F46A /* libtinyxml2.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtinyxml2.3.0.0.dylib; path = ../../../../../../../usr/local/Cellar/tinyxml2/3.0.0/lib/libtinyxml2.3.0.0.dylib; sourceTree = "<group>"; };
 		4C8B7FC61C5B9D2E001849D2 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		4C8D53701C5B2C9100C471B7 /* seCollection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = seCollection.hpp; path = Utils/seCollection.hpp; sourceTree = "<group>"; };
 		4C93ACCC1C5CD664001F8833 /* seLogger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = seLogger.cpp; path = Debug/seLogger.cpp; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C7360B51C74D8B00011F46A /* libtinyxml2.3.0.0.dylib in Frameworks */,
 				4CF5B9071C59552000BD7366 /* libpng16.a in Frameworks */,
 				4C9DB5631C590715005D6BEC /* libglfw3.3.1.dylib in Frameworks */,
 				4C9DB5611C590703005D6BEC /* libGLEW.a in Frameworks */,
@@ -179,6 +182,7 @@
 		4CD9A7D41C5902B80086AC7D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C7360B41C74D8B00011F46A /* libtinyxml2.3.0.0.dylib */,
 				4CF5B9061C59552000BD7366 /* libpng16.a */,
 				4C9DB5621C590715005D6BEC /* libglfw3.3.1.dylib */,
 				4C9DB5601C590703005D6BEC /* libGLEW.a */,
@@ -357,7 +361,7 @@
 					/usr/local/include,
 					"spriteEngine/**",
 					external/glm,
-					external/rapidjson/include,
+					external/tinyxml2,
 				);
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -402,7 +406,7 @@
 					/usr/local/include,
 					"spriteEngine/**",
 					external/glm,
-					external/rapidjson/include,
+					external/tinyxml2,
 				);
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -421,6 +425,7 @@
 					/usr/local/Cellar/glew/1.13.0/lib,
 					/usr/local/Cellar/glfw3/3.1.2/lib,
 					/usr/local/Cellar/libpng/1.6.20/lib,
+					/usr/local/Cellar/tinyxml2/3.0.0/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gakidou.spriteEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -437,6 +442,7 @@
 					/usr/local/Cellar/glew/1.13.0/lib,
 					/usr/local/Cellar/glfw3/3.1.2/lib,
 					/usr/local/Cellar/libpng/1.6.20/lib,
+					/usr/local/Cellar/tinyxml2/3.0.0/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gakidou.spriteEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
