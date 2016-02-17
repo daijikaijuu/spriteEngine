@@ -16,6 +16,7 @@ namespace spriteEngine {
         seRESOURCE_TEXTURE,
         seRESOURCE_VBO,
         seRESOURCE_VAO,
+        seRESOURCE_GAME_LEVEL,
     };
 
     enum seCollisionDirection {

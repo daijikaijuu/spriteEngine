@@ -65,9 +65,9 @@ gameScene::gameScene(unsigned int width, unsigned height) :
     obj->SetSize(50, 100, -0.8f, 50, 50);
 
     m_gameLevel = new seGameLevel(new seProgram(seRManager->GetShader("basic.vs"), seRManager->GetShader("basic.fs")),
-                                  seRManager->GetTexture("tileset.png"));
+                                  "level01.tmx");
     m_gameLevel->GetProgram()->SetUniform("alpha", 0.5f);
-    AddItem("sceneObject:gameLevel", m_gameLevel);
+    AddItem("sceneObject:gameLevel:" + m_gameLevel->Name(), m_gameLevel);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -92,7 +92,6 @@ void gameScene::InitializeResources() {
     seRManager->AddTexture("sky_01.png");
     seRManager->AddTexture("sun_01.png");
     seRManager->AddTexture("iceman.png");
-    seRManager->AddTexture("tileset.png");
     seRManager->AddTexture("bird.png");
 }
 

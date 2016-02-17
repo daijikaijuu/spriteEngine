@@ -9,6 +9,7 @@
 #ifndef seResource_hpp
 #define seResource_hpp
 
+#include "../Debug/Debug.hpp"
 #include "../Utils/seEnums.hpp"
 #include <stdio.h>
 #include <string>
@@ -22,10 +23,14 @@ namespace spriteEngine {
             m_resourceName(resourceName),
             m_ID(0)
         {
+            seAssert(!resourceName.empty());
+
             if (m_resourceType == seResourceType::seRESOURCE_SHADER)
                 m_resourceName = "Data/Shaders/" + m_resourceName;
             if (m_resourceType == seResourceType::seRESOURCE_TEXTURE)
                 m_resourceName = "Data/Textures/"+ m_resourceName;
+            if (m_resourceType == seResourceType::seRESOURCE_GAME_LEVEL)
+                m_resourceName = "Data/Maps/"+ m_resourceName;
         }
         virtual ~seResource() { Unbind(); }
 

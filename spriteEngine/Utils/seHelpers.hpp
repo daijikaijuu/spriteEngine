@@ -24,6 +24,15 @@ namespace spriteEngine {
         return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
     }
 
+    inline std::string ReplaceString(std::string subject, const std::string& search, const std::string& replace) {
+        size_t pos = 0;
+        while ((pos = subject.find(search, pos)) != std::string::npos) {
+            subject.replace(pos, search.length(), replace);
+            pos += replace.length();
+        }
+        return subject;
+    }
+
     template<typename T>
     std::string to_string(const T &n) {
         std::ostringstream stm;

@@ -10,6 +10,7 @@
 #define gameLevel_hpp
 
 #include "seSceneObject.hpp"
+#include "../Resources/seResource.hpp"
 #include "../Utils/seCollisionRect.hpp"
 #include "../Utils/seEnums.hpp"
 #include <vector>
@@ -35,9 +36,10 @@ namespace spriteEngine {
         }
     };
 
-    class seGameLevel : public seGenericSceneObject {
+    class seGameLevel : public seGenericSceneObject, public seResource
+    {
     public:
-        seGameLevel(seProgram *shaderProgram, seTexture *tileSet);
+        seGameLevel(seProgram *shaderProgram, const std::string &resourceName);
         virtual ~seGameLevel();
 
         virtual GLfloat Width() const { return m_width * m_tileSize; }

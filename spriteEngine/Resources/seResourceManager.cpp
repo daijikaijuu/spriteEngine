@@ -42,10 +42,13 @@ namespace spriteEngine {
     }
 
     seTexture* seResourceManager::AddTexture(const std::string &textureName) {
-        seAssert(!GetResource(textureName));
-
-        seResource *res = new seTexture(textureName);
-        AddItem(textureName, res);
+        seResource *res = GetResource(textureName);
+        if (res && res->Type() == seResourceType::seRESOURCE_TEXTURE)
+            LogDebug << "WARNING! Texture " << quoteStr(textureName) << " already exists" << eol;
+        else {
+            res = new seTexture(textureName);
+            AddItem(textureName, res);
+        }
 
         return dynamic_cast<seTexture *>(res);
     }

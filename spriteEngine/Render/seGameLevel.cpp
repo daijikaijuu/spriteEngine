@@ -17,24 +17,21 @@
 #include <tinyxml2.h>
 
 namespace spriteEngine {
-    seGameLevel::seGameLevel(seProgram *shaderProgram, seTexture *tileSet) :
+    seGameLevel::seGameLevel(seProgram *shaderProgram, const std::string &resourceName) :
         seGenericSceneObject(shaderProgram),
-        m_tileSet(tileSet),
+        seResource(seResourceType::seRESOURCE_GAME_LEVEL, resourceName),
+        m_tileSet(nullptr),
         m_tileSize(0),
         m_indexBuffer(0),
         m_tiles()
     {
-        seAssert(m_tileSet);
-
-        const std::string filename = "Data/Maps/level01.tmx";
-
         glGenBuffers(1, &m_indexBuffer);
 
         tinyxml2::XMLDocument doc(true, tinyxml2::COLLAPSE_WHITESPACE);
-        LogDebug << "seGameLevel: Opening game level: " << quoteStr(filename) << eol;
-        doc.LoadFile(filename.c_str());
+        LogDebug << "seGameLevel: Opening game level: " << quoteStr(m_resourceName) << eol;
+        doc.LoadFile(m_resourceName.c_str());
         if (doc.Error()) {
-            LogError << "seGameLevel::XMLDocument.LoadFile(" << filename << "): " << doc.ErrorName() << eol;
+            LogError << "seGameLevel::XMLDocument.LoadFile(" << m_resourceName << "): " << doc.ErrorName() << eol;
             abort();
         }
 
@@ -44,9 +41,13 @@ namespace spriteEngine {
         LogDebug << "seGameLevel: Map name: " << quoteStr(levelName) << ". Width: " << m_width << ", height: " << m_height << eol;
         m_tiles.reserve(m_width * m_height);
 
+        std::string tilesetName = doc.FirstChildElement("map")->FirstChildElement("tileset")->FirstChildElement("image")->Attribute("source");
+        LogDebug << "seGameLevel::Using tileset: " << quoteStr(tilesetName) << eol;
+        tilesetName = ReplaceString(tilesetName, "../Textures/", "");
+        m_tileSet = seRManager->AddTexture(tilesetName);
+
         std::string data = doc.FirstChildElement("map")->FirstChildElement("layer")->FirstChildElement("data")->GetText();
         std::vector<GLuint> levelMap;
-
         std::stringstream ss(data);
         int i;
         while (ss >> i) {
@@ -95,6 +96,8 @@ namespace spriteEngine {
 
         m_projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f);
         UpdateMVP();
+
+        LogDebug << "seGameLevel::Loaded: " << quoteStr(m_resourceName) << eol;
     }
 
     seGameLevel::~seGameLevel() {
