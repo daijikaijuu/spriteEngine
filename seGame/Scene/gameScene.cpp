@@ -54,7 +54,7 @@ gameScene::gameScene(unsigned int width, unsigned height) :
                               new seProgram(seRManager->GetShader("spriteTile.vs"), seRManager->GetShader("basic.fs")),
                               manager->GetTexture("iceman.png"), 5, 5);
     m_hero->GetProgram()->SetUniform("alpha", 0.2f);
-    m_hero->SetSize(50, 310, 0.5f, 42, 75);
+    m_hero->SetSize(50, 310, 0.5f, 40, 69);
     AddItem("sceneObject:iceman", m_hero);
 
     obj = new seSpriteTile(true,

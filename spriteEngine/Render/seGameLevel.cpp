@@ -200,17 +200,20 @@ namespace spriteEngine {
         {
             for (GLuint x = x1; x <= x2; x++) {
                 GLuint id = x + m_width * (direction == seCollisionDirection::seCOLLISION_UP ? y1 : y2);
-                if (id > m_tiles.size())
-                    return true;
-                seTile *tile = m_tiles[id];
-                if (!tile)
-                    return true;
-                seCollisionRect r = tile->rect.Shift(m_x, m_y);
+                try {
+                    seTile *tile = m_tiles.at(id);
+                    if (!tile)
+                        return true;
+                    seCollisionRect r = tile->rect.Shift(m_x, m_y);
 //                LogDebug << "UD_Tile: " << r.x << ", " << r.y << ", " << r.Right() << ", " << r.Bottom() << eol;
 //                LogDebug << "UD_Hero: " << rect.x << ", " << rect.y << ", " << rect.Right() << ", " << rect.Bottom() << eol;
 //                LogDebug << "Intersects: " << r.Intersects(rect) << eol;
-                if (tile->collidable && r.Intersects(rect))
+                    if (tile->collidable && r.Intersects(rect))
+                        return true;
+                } catch (std::out_of_range &e) {
+                    LogError << "seGameLevel::Collision Index (" << id << ") out of bounds"<< eol;
                     return true;
+                }
             }
         }
 //        LogDebug << "----" << eol;
@@ -219,17 +222,22 @@ namespace spriteEngine {
         {
             for (GLuint y = y1; y <= y2; y++) {
                 GLuint id = (direction == seCollisionDirection::seCOLLISION_LEFT ? x1 : x2) + m_width * y;
-                if (id > m_tiles.size())
-                    return true;
-                seTile *tile = m_tiles[id];
-                if (!tile)
-                    return true;
-                seCollisionRect r = tile->rect.Shift(m_x, m_y);
+                try {
+                    if (id > m_tiles.size())
+                        return true;
+                    seTile *tile = m_tiles[id];
+                    if (!tile)
+                        return true;
+                    seCollisionRect r = tile->rect.Shift(m_x, m_y);
 //                LogDebug << "UD_Tile: " << r.x << ", " << r.y << ", " << r.Right() << ", " << r.Bottom() << eol;
 //                LogDebug << "UD_Hero: " << rect.x << ", " << rect.y << ", " << rect.Right() << ", " << rect.Bottom() << eol;
 //                LogDebug << "Intersects: " << r.Intersects(rect) << eol;
-                if (tile->collidable && r.Intersects(rect))
+                    if (tile->collidable && r.Intersects(rect))
+                        return true;
+                } catch (std::out_of_range &e) {
+                    LogError << "seGameLevel::Collision Index (" << id << ") out of bounds"<< eol;
                     return true;
+                }
             }
         }
 
