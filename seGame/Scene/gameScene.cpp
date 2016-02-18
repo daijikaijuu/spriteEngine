@@ -29,14 +29,13 @@ gameScene::gameScene(unsigned int width, unsigned height) :
     seGenericSceneObject *obj = nullptr;
 
     obj = new seSprite(false,
-                       new seProgram(seRManager->GetShader("basic.vs"), seRManager->GetShader("basic.fs")),
+                       seNewShaderProgram("basic.vs", "basic.fs"),
                        manager->GetTexture("sky_01.png"));
     AddItem("sky", obj);
     obj->SetSize(0, 0, -1.0f, m_width, m_height);
 
     m_backgroundMountain = new seSprite(false,
-                                        new seProgram(seRManager->GetShader("basic.vs"),
-                                                      seRManager->GetShader("basic.fs")),
+                                        seNewShaderProgram("basic.vs", "basic.fs"),
                                         manager->GetTexture("bg2.png"));
     m_backgroundMountain->GetProgram()->SetUniform("alpha", 0.5f);
     m_backgroundMountain->SetSize(0, 150, -0.8f, m_width, m_height - 150);
@@ -44,27 +43,27 @@ gameScene::gameScene(unsigned int width, unsigned height) :
     AddItem("sceneObject:mountains", m_backgroundMountain);
 
     obj = new seSprite(true,
-                       new seProgram(seRManager->GetShader("basic.vs"), seRManager->GetShader("basic.fs")),
+                       seNewShaderProgram("basic.vs", "basic.fs"),
                        manager->GetTexture("sun_01.png"));
     obj->GetProgram()->SetUniform("alpha", 0.5f);
     AddItem("sceneObject:sun", obj);
     obj->SetSize(600, 50, -0.9f, 200, 200);
 
     m_hero = new seSpriteTile(false,
-                              new seProgram(seRManager->GetShader("spriteTile.vs"), seRManager->GetShader("basic.fs")),
+                              seNewShaderProgram("spriteTile.vs", "basic.fs"),
                               manager->GetTexture("iceman.png"), 5, 5);
     m_hero->GetProgram()->SetUniform("alpha", 0.2f);
-    m_hero->SetSize(50, 310, 0.5f, 42, 75);
+    m_hero->SetSize(50, 310, 0.5f, 40, 69);
     AddItem("sceneObject:iceman", m_hero);
 
     obj = new seSpriteTile(true,
-                           new seProgram(seRManager->GetShader("spriteTile.vs"), seRManager->GetShader("basic.fs")),
+                           seNewShaderProgram("spriteTile.vs", "basic.fs"),
                            seRManager->GetTexture("bird.png"), 14, 14);
     obj->GetProgram()->SetUniform("alpha", 0.2f);
     AddItem("sceneObject:bird", obj);
     obj->SetSize(50, 100, -0.8f, 50, 50);
 
-    m_gameLevel = new seGameLevel(new seProgram(seRManager->GetShader("basic.vs"), seRManager->GetShader("basic.fs")),
+    m_gameLevel = new seGameLevel(seNewShaderProgram("basic.vs", "basic.fs"),
                                   "level01.tmx");
     m_gameLevel->GetProgram()->SetUniform("alpha", 0.5f);
     AddItem("sceneObject:gameLevel:" + m_gameLevel->Name(), m_gameLevel);
@@ -96,38 +95,41 @@ void gameScene::InitializeResources() {
 }
 
 void gameScene::HandleInput(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
-
-    if (key == GLFW_KEY_A) {
-        ScrollMap(-10.0f);
-    }
-    if (key == GLFW_KEY_D) {
-        ScrollMap(10.0f);
-    }
-
-    if (key == GLFW_KEY_G && action == GLFW_RELEASE)
-        m_gravity = !m_gravity;
-
     static GLuint spr;
-    if (key == GLFW_KEY_RIGHT) {
-        spr++;
-        m_hero->SetMirrored(false);
-        MoveHero(5.0f, 0.0f);
+    GLfloat heroShiftX = 0.0f;
+    GLfloat heroShiftY = 0.0f;
+    switch (key) {
+        case GLFW_KEY_RIGHT:
+        case GLFW_KEY_D:
+            m_hero->SetMirrored(false);
+            heroShiftX = 5.0f;
+            break;
+        case GLFW_KEY_LEFT:
+        case GLFW_KEY_A:
+            m_hero->SetMirrored(true);
+            heroShiftX = -5.0f;
+            break;
+        case GLFW_KEY_UP:
+            heroShiftY = - 20.0f;
+            break;
+        case GLFW_KEY_DOWN:
+            heroShiftY = 20.0f;
+            break;
+
+        case GLFW_KEY_G:
+            if (action == GLFW_RELEASE)
+                m_gravity = !m_gravity;
+            break;
+
+        case GLFW_KEY_ESCAPE:
+            glfwSetWindowShouldClose(window, GL_TRUE);
+            break;
+
+        default:
+            break;
     }
-    if (key == GLFW_KEY_LEFT) {
-        spr++;
-        m_hero->SetMirrored(true);
-        MoveHero(-5.0f, 0.0f);
-    }
-    if (key == GLFW_KEY_UP) {
-        spr++;
-        MoveHero(0.0f, -10.0f);
-    }
-    if (key == GLFW_KEY_DOWN) {
-        spr++;
-        MoveHero(0.0f, 10.0f);
-    }
+    if (heroShiftX || heroShiftY) spr++;
+    MoveHero(heroShiftX, heroShiftY);
 
     m_hero->GetProgram()->SetUniform("spriteCurrent", spr);
     m_hero->GetProgram()->Unbind();

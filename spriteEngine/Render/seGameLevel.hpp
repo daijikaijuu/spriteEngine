@@ -48,7 +48,7 @@ namespace spriteEngine {
         virtual void Render();
         virtual void UpdateMVP();
 
-        std::vector<seTile> Tiles() const { return m_tiles; }
+        std::vector<seTile *> Tiles() const { return m_tiles; }
         GLboolean IsTileInCoordCollidable(GLfloat x, GLfloat y) const;
         GLboolean Collision(seCollisionRect rect, seCollisionDirection direction) const;
 
@@ -57,7 +57,7 @@ namespace spriteEngine {
         GLfloat m_tileSize;
         GLuint m_indexBuffer;
 
-        std::vector<seTile> m_tiles;
+        std::vector<seTile *> m_tiles;
     };
 
 }

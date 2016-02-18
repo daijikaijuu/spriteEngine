@@ -25,12 +25,19 @@ namespace spriteEngine {
         {
             seAssert(!resourceName.empty());
 
-            if (m_resourceType == seResourceType::seRESOURCE_SHADER)
-                m_resourceName = "Data/Shaders/" + m_resourceName;
-            if (m_resourceType == seResourceType::seRESOURCE_TEXTURE)
-                m_resourceName = "Data/Textures/"+ m_resourceName;
-            if (m_resourceType == seResourceType::seRESOURCE_GAME_LEVEL)
-                m_resourceName = "Data/Maps/"+ m_resourceName;
+            switch (m_resourceType) {
+                case seRESOURCE_SHADER:
+                    m_resourceName = "Data/Shaders/" + m_resourceName;
+                    break;
+                case seRESOURCE_TEXTURE:
+                    m_resourceName = "Data/Textures/"+ m_resourceName;
+                    break;
+                case seRESOURCE_GAME_LEVEL:
+                    m_resourceName = "Data/Maps/"+ m_resourceName;
+                    break;
+                default:
+                    break;
+            }
         }
         virtual ~seResource() { Unbind(); }
 
