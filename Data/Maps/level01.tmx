@@ -12,6 +12,11 @@
     <object id="0" x="-0.125" y="0.125" width="70.25" height="69.625"/>
    </objectgroup>
   </tile>
+  <tile id="9">
+   <objectgroup draworder="index">
+    <object id="0" x="0.25" y="0.25" width="69.5" height="39.875"/>
+   </objectgroup>
+  </tile>
   <tile id="10">
    <objectgroup draworder="index">
     <object id="0" x="0.125" y="-0.125" width="70.125" height="40.125"/>
@@ -40,6 +45,11 @@
   <tile id="15">
    <objectgroup draworder="index">
     <object id="0" x="0" y="0" width="69.875" height="69.875"/>
+   </objectgroup>
+  </tile>
+  <tile id="18">
+   <objectgroup draworder="index">
+    <object id="0" x="0.25" y="50" width="69.875" height="19.75"/>
    </objectgroup>
   </tile>
  </tileset>

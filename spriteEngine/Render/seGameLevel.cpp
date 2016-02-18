@@ -103,11 +103,11 @@ namespace spriteEngine {
                 seCollisionRect *rect = tileBounds[item];
                 m_tiles.push_back(new seTile(item,
                                              (GLuint)x, (GLuint)y,
-                                             seCollisionRect(m_tileSize * x,
-                                                             m_tileSize * y,
+                                             seCollisionRect(m_tileSize * x + (rect != nullptr ? rect->x : 0),
+                                                             m_tileSize * y + (rect != nullptr ? rect->y : 0),
                                                              rect != nullptr ? rect->width : m_tileSize,
                                                              rect != nullptr ? rect->height : m_tileSize),
-                                             (item != 0 && item != 17 && item != 18),
+                                             rect != nullptr,
                                              false));
 //                seTile *tile = m_tiles.back();
 //                LogDebug << "T " << tile->id << " x: " << tile->rect.x << ", y: " << tile->rect.y << ", w: " << tile->rect.width << ", h: " << tile->rect.height << eol;
@@ -205,9 +205,9 @@ namespace spriteEngine {
                     if (!tile)
                         return true;
                     seCollisionRect r = tile->rect.Shift(m_x, m_y);
-//                LogDebug << "UD_Tile: " << r.x << ", " << r.y << ", " << r.Right() << ", " << r.Bottom() << eol;
-//                LogDebug << "UD_Hero: " << rect.x << ", " << rect.y << ", " << rect.Right() << ", " << rect.Bottom() << eol;
-//                LogDebug << "Intersects: " << r.Intersects(rect) << eol;
+//                    LogDebug << "UD_Tile: " << tile->id << ": " << r.x << ", " << r.y << ", " << r.Right() << ", " << r.Bottom() << eol;
+//                    LogDebug << "UD_Hero: " << rect.x << ", " << rect.y << ", " << rect.Right() << ", " << rect.Bottom() << eol;
+//                    LogDebug << "Intersects: " << r.Intersects(rect) << eol;
                     if (tile->collidable && r.Intersects(rect))
                         return true;
                 } catch (std::out_of_range &e) {
