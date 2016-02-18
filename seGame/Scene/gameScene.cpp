@@ -7,8 +7,8 @@
 //
 
 #include "gameScene.hpp"
+#include "gameHero.hpp"
 #include "Render/seSprite.hpp"
-#include "Render/seSpriteTile.hpp"
 #include "Render/seGameLevel.hpp"
 #include "Resources/seProgram.hpp"
 #include "Resources/seTexture.hpp"
@@ -49,12 +49,7 @@ gameScene::gameScene(unsigned int width, unsigned height) :
     AddItem("sceneObject:sun", obj);
     obj->SetSize(600, 50, -0.9f, 200, 200);
 
-    m_hero = new seSpriteTile(false,
-                              seNewShaderProgram("spriteTile.vs", "basic.fs"),
-                              manager->GetTexture("iceman.png"), 5, 5);
-    m_hero->GetProgram()->SetUniform("alpha", 0.2f);
-    m_hero->SetSize(50, 310, 0.5f, 40, 69);
-    AddItem("sceneObject:iceman", m_hero);
+    AddItem("sceneObject:iceman", m_hero = new gameHero());
 
     obj = new seSpriteTile(true,
                            seNewShaderProgram("spriteTile.vs", "basic.fs"),
@@ -90,46 +85,35 @@ void gameScene::InitializeResources() {
     seRManager->AddTexture("bg2.png");
     seRManager->AddTexture("sky_01.png");
     seRManager->AddTexture("sun_01.png");
-    seRManager->AddTexture("iceman.png");
     seRManager->AddTexture("bird.png");
 }
 
 void gameScene::HandleInput(GLFWwindow *window, int key, int scancode, int action, int mods) {
     static GLuint spr;
-    GLfloat heroShiftX = 0.0f;
-    GLfloat heroShiftY = 0.0f;
-    switch (key) {
-        case GLFW_KEY_RIGHT:
-        case GLFW_KEY_D:
-            m_hero->SetMirrored(false);
-            heroShiftX = 5.0f;
-            break;
-        case GLFW_KEY_LEFT:
-        case GLFW_KEY_A:
-            m_hero->SetMirrored(true);
-            heroShiftX = -5.0f;
-            break;
-        case GLFW_KEY_UP:
-            heroShiftY = - 20.0f;
-            break;
-        case GLFW_KEY_DOWN:
-            heroShiftY = 20.0f;
-            break;
+    GLfloat heroShiftX = m_hero->Speed().x;
+    GLfloat heroShiftY = m_hero->Speed().y;
 
-        case GLFW_KEY_G:
-            if (action == GLFW_RELEASE)
-                m_gravity = !m_gravity;
-            break;
-
-        case GLFW_KEY_ESCAPE:
-            glfwSetWindowShouldClose(window, GL_TRUE);
-            break;
-
-        default:
-            break;
+    if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A) {
+        m_hero->SetMirrored(true);
+        heroShiftX += action == GLFW_RELEASE ? -1.0f : -2.0f;
     }
+    if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) {
+        m_hero->SetMirrored(false);
+        heroShiftX += action == GLFW_RELEASE ? 1.0f : 2.0f;
+    }
+    if (key == GLFW_KEY_UP )
+        heroShiftY += -5.0f;
+    if (key == GLFW_KEY_DOWN)
+        heroShiftY += 5.0f;
+
+    if (key == GLFW_KEY_G && action == GLFW_RELEASE)
+        m_gravity = !m_gravity;
+
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+
     if (heroShiftX || heroShiftY) spr++;
-    MoveHero(heroShiftX, heroShiftY);
+    m_hero->SetSpeed(glm::vec2(heroShiftX, heroShiftY));
 
     m_hero->GetProgram()->SetUniform("spriteCurrent", spr);
     m_hero->GetProgram()->Unbind();
@@ -158,46 +142,48 @@ void gameScene::Update(GLfloat secondsElapsed) {
         counter = 0;
     }
 
-    if (m_gravity) {
-        MoveHero(0, secondsElapsed * 200);
-    }
+    MoveHero(secondsElapsed);
+
+//    if (m_gravity) {
+//        MoveHero(0, secondsElapsed * 200);
+//    }
 }
 
-void gameScene::MoveHero(GLfloat shiftX, GLfloat shiftY) {
+void gameScene::MoveHero(GLfloat secondsElapsed) {
+    GLfloat shiftX = m_hero->Speed().x;
+    GLfloat shiftY = m_hero->Speed().y;
     seCollisionRect heroRect = m_hero->CollisionRect();
 
-    if (heroRect.x <= 0 && m_gameLevel->X() <= 0 && shiftX < 0)
-        return;
-    if (heroRect.Right() > m_width && m_gameLevel->X() + m_gameLevel->Width() <= m_width && shiftX > 0)
-        return;
+    if (heroRect.x <= 0.0f && m_gameLevel->X() >= 0.0f && shiftX < 0.0f)
+        shiftX = 0;
+    if (heroRect.Right() > m_width && m_gameLevel->X() + m_gameLevel->Width() <= m_width && shiftX > 0.0f)
+        shiftX = 0;
 
     seCollisionRect rect = heroRect.Shift(shiftX, 0);
     if (m_gameLevel->Collision(rect, (shiftX > 0 ? seCOLLISION_RIGHT : seCOLLISION_LEFT)))
-        return;
+        shiftX = 0;
     rect = heroRect.Shift(0, shiftY);
     if (m_gameLevel->Collision(rect, (shiftY > 0 ? seCOLLISION_DOWN : seCOLLISION_UP)) || rect.y <= 0)
-        return;
+        shiftY = 0;
     if (rect.Bottom() >= m_height) {
         Logger << "You loose. TODO: make something" << eol;
-        return;
+        shiftY = 0;
     }
 
-    if ((heroRect.x < m_width / 2) &&
-        (shiftX < 0) &&
-        (m_gameLevel->X() < 0))
-    {
+    if ((heroRect.x < m_width / 2) && (shiftX < 0.0f) && (m_gameLevel->X() < 0.0f))
         ScrollMap(-shiftX);
-        return;
-    }
-    if ((heroRect.Right() > m_width / 2) &&
-        (shiftX > 0) &&
-        (m_gameLevel->X() + m_gameLevel->Width() > m_width))
-    {
+    else if ((heroRect.Right() > m_width / 2) && (shiftX > 0.0f) && (m_gameLevel->X() + m_gameLevel->Width() > m_width))
         ScrollMap(-shiftX);
-        return;
-    }
+    else
+        m_hero->Move(shiftX, shiftY);
 
-    m_hero->Move(shiftX, shiftY);
+    float n = shiftX > 0.0f ? -1.0f : +1.0f;
+    shiftX += secondsElapsed * 10 * n;
+    if ((n < 0.0f && shiftX <= 0.0f) || (n > 0.0f && shiftX >= 0.0f))
+        shiftX = 0.0f;
+
+    shiftY += secondsElapsed * 25;
+    m_hero->SetSpeed(glm::vec2(shiftX, shiftY));
 }
 
 void gameScene::ScrollMap(GLfloat shiftX) {
