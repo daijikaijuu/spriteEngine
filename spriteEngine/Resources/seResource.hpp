@@ -35,6 +35,8 @@ namespace spriteEngine {
                 case seRESOURCE_GAME_LEVEL:
                     m_resourceName = "Data/Maps/"+ m_resourceName;
                     break;
+                default:
+                    break;
             }
         }
         virtual ~seResource() { Unbind(); }
