@@ -15,14 +15,17 @@
 #include "Resources/seResourceManager.hpp"
 #include "Utils/seCollisionRect.hpp"
 
-gameScene::gameScene(unsigned int width, unsigned height) :
+gameScene::gameScene(GLFWwindow *window, unsigned int width, unsigned height) :
     seScene((float)width, (float)height),
+    m_window(window),
     m_gameLevel(nullptr),
     m_hero(nullptr),
     m_gravity(true),
     m_backgroundMountain(nullptr),
     m_backgroundShift(0)
 {
+    seAssert(m_window != nullptr);
+
     InitializeResources();
 
     seResourceManager *manager = seResourceManager::GetInstance();
@@ -88,39 +91,41 @@ void gameScene::InitializeResources() {
     seRManager->AddTexture("bird.png");
 }
 
-void gameScene::HandleInput(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    static GLuint spr;
+void gameScene::HandleInput() {
     GLfloat heroShiftX = m_hero->Speed().x;
     GLfloat heroShiftY = m_hero->Speed().y;
+    static GLuint spr;
 
-    if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A) {
+    if ((glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)) {
         m_hero->SetMirrored(true);
-        heroShiftX += action == GLFW_RELEASE ? -1.0f : -2.0f;
+        heroShiftX += -1.0f;
     }
-    if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) {
+    if ((glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)) {
         m_hero->SetMirrored(false);
-        heroShiftX += action == GLFW_RELEASE ? 1.0f : 2.0f;
+        heroShiftX += 1.0f;
     }
-    if (key == GLFW_KEY_UP )
+    if ((glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS))
         heroShiftY += -5.0f;
-    if (key == GLFW_KEY_DOWN)
+    if ((glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS))
         heroShiftY += 5.0f;
 
-    if (key == GLFW_KEY_G && action == GLFW_RELEASE)
+    if (glfwGetKey(m_window, GLFW_KEY_G) == GLFW_PRESS)
         m_gravity = !m_gravity;
 
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-        glfwSetWindowShouldClose(window, GL_TRUE);
+    if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(m_window, GL_TRUE);
 
-    if (heroShiftX || heroShiftY) spr++;
     m_hero->SetSpeed(glm::vec2(heroShiftX, heroShiftY));
 
+    if (heroShiftX) spr++;
     m_hero->GetProgram()->SetUniform("spriteCurrent", spr);
     m_hero->GetProgram()->Unbind();
     if (spr > 5) spr = 1;
 }
 
 void gameScene::Update(GLfloat secondsElapsed) {
+    HandleInput();
+
     seGenericSceneObject *sun = GetItem("sceneObject:sun");
     sun->Rotate(secondsElapsed);
 
@@ -143,10 +148,6 @@ void gameScene::Update(GLfloat secondsElapsed) {
     }
 
     MoveHero(secondsElapsed);
-
-//    if (m_gravity) {
-//        MoveHero(0, secondsElapsed * 200);
-//    }
 }
 
 void gameScene::MoveHero(GLfloat secondsElapsed) {
@@ -170,19 +171,26 @@ void gameScene::MoveHero(GLfloat secondsElapsed) {
         shiftY = 0;
     }
 
-    if ((heroRect.x < m_width / 2) && (shiftX < 0.0f) && (m_gameLevel->X() < 0.0f))
+    if ((heroRect.x < m_width / 2) && (shiftX < 0.0f) && (m_gameLevel->X() < 0.0f)) {
         ScrollMap(-shiftX);
-    else if ((heroRect.Right() > m_width / 2) && (shiftX > 0.0f) && (m_gameLevel->X() + m_gameLevel->Width() > m_width))
+        m_hero->Move(0, shiftY);
+    }
+    else if ((heroRect.Right() > m_width / 2) && (shiftX > 0.0f) && (m_gameLevel->X() + m_gameLevel->Width() > m_width)) {
         ScrollMap(-shiftX);
+        m_hero->Move(0, shiftY);
+    }
     else
         m_hero->Move(shiftX, shiftY);
 
-    float n = shiftX > 0.0f ? -1.0f : +1.0f;
-    shiftX += secondsElapsed * 10 * n;
-    if ((n < 0.0f && shiftX <= 0.0f) || (n > 0.0f && shiftX >= 0.0f))
-        shiftX = 0.0f;
+    if (shiftX != 0.0f) {
+        float n = shiftX > 0.0f ? -1.0f : +1.0f;
+        shiftX += secondsElapsed * 20.0f * n;
+        if ((n < 0.0f && shiftX < 0.0f) || (n > 0.0f && shiftX > 0.0f))
+            shiftX = 0.0f;
+    }
 
-    shiftY += secondsElapsed * 25;
+    shiftY = m_gravity ? shiftY + secondsElapsed * 20.0f : 0.0f;
+
     m_hero->SetSpeed(glm::vec2(shiftX, shiftY));
 }
 

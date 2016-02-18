@@ -24,15 +24,16 @@ class gameHero;
 
 class gameScene : public seScene {
 public:
-    gameScene(unsigned int width, unsigned int height);
+    gameScene(GLFWwindow *window, unsigned int width, unsigned int height);
     virtual ~gameScene();
 
     virtual void InitializeResources();
 
-    void HandleInput(GLFWwindow *window, int key, int scancode, int action, int mods);
+    void HandleInput();
     void Update(GLfloat secondsElapsed);
 
 private:
+    GLFWwindow *m_window;
     seGameLevel *m_gameLevel;
     gameHero *m_hero;
     seGenericSceneObject *m_backgroundMountain;
