@@ -39,6 +39,7 @@ namespace spriteEngine {
     };
 
 #define seRManager seResourceManager::GetInstance()
+#define seNewShaderProgram(vertex, fragment) new seProgram(seRManager->GetShader(vertex), seRManager->GetShader(fragment))
 }
 
 #endif /* seResourceManager_hpp */
