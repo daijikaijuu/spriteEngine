@@ -36,8 +36,11 @@ namespace spriteEngine {
         }
 
         // Load map information
+        // TODO: For each layer with/height
         m_width = doc.FirstChildElement("map")->FirstChildElement("layer")->UnsignedAttribute("width");
         m_height = doc.FirstChildElement("map")->FirstChildElement("layer")->UnsignedAttribute("height");
+        seAssert(m_width > 0);
+        seAssert(m_height > 0);
 
         // Load tileset information
         std::string tilesetName = doc.FirstChildElement("map")->FirstChildElement("tileset")->FirstChildElement("image")->Attribute("source");
@@ -119,7 +122,10 @@ namespace spriteEngine {
             for (int i = 0; i < 2 * m_width * m_height; i++) {
                 float x = (i % (GLuint)m_width);
                 float y = (i / (GLuint)m_width) % (GLuint)m_height;
+                seAssert(y * m_width + x < it.second->tiles.size());
+
                 seTile *tile =  it.second->tiles[y * m_width + x];
+                seAssert(tile);
 
                 if (!(((x + 1) * m_tileSize + m_x < 0) || ((x - 1) * m_tileSize + m_x + m_tileSize > 800))) {
                     for (int ic = 0; ic < 6; ic++) {
@@ -149,6 +155,8 @@ namespace spriteEngine {
     }
 
     GLboolean seGameLevel::Collision(seCollisionRect rect, seCollisionDirection direction) const {
+        seAssert(m_tileSize > 0);
+
         GLuint x1 = (rect.x - m_x) / m_tileSize;
         GLuint x2 = (rect.Right() - m_x) / m_tileSize;
         GLuint y1 = (rect.y - m_y) / m_tileSize;
@@ -162,8 +170,8 @@ namespace spriteEngine {
                     GLuint id = x + m_width * (direction == seCollisionDirection::seCOLLISION_UP ? y1 : y2);
                     try {
                         seTile *tile = it.second->tiles.at(id);
-                        if (!tile)
-                            return true;
+                        seAssert(tile);
+
                         seCollisionRect r = tile->rect.Shift(m_x, m_y);
                         //                    LogDebug << "UD_Tile: " << tile->id << ": " << r.x << ", " << r.y << ", " << r.Right() << ", " << r.Bottom() << eol;
                         //                    LogDebug << "UD_Hero: " << rect.x << ", " << rect.y << ", " << rect.Right() << ", " << rect.Bottom() << eol;
@@ -184,8 +192,8 @@ namespace spriteEngine {
                     GLuint id = (direction == seCollisionDirection::seCOLLISION_LEFT ? x1 : x2) + m_width * y;
                     try {
                         seTile *tile = it.second->tiles.at(id);
-                        if (!tile)
-                            return true;
+                        seAssert(tile);
+
                         seCollisionRect r = tile->rect.Shift(m_x, m_y);
                         //                LogDebug << "UD_Tile: " << r.x << ", " << r.y << ", " << r.Right() << ", " << r.Bottom() << eol;
                         //                LogDebug << "UD_Hero: " << rect.x << ", " << rect.y << ", " << rect.Right() << ", " << rect.Bottom() << eol;
@@ -206,13 +214,17 @@ namespace spriteEngine {
     void seGameLevel::ParseLayer(GLuint *index, GLuint tilesetColumns, GLuint tilesetRows, tinyxml2::XMLElement *element,
                                  std::map<GLuint, seCollisionRect *> &tileBounds)
     {
+        seAssert(element);
+        seAssert(tilesetColumns > 0);
+        seAssert(tilesetRows > 0);
+
         GLfloat uvStepX = 1.0f / tilesetColumns;
         GLfloat uvStepY = 1.0f / tilesetRows;
         GLfloat zOrder = Z() + m_layers.size() / 100.0f;
 
         std::string layerName(element->Attribute("name"));
-        GLuint layerWidth = element->UnsignedAttribute("width");
-        GLuint layerHeight = element->UnsignedAttribute("height");
+        GLuint layerWidth = element->UnsignedAttribute("width"); seAssert(layerWidth > 0);
+        GLuint layerHeight = element->UnsignedAttribute("height"); seAssert(layerHeight > 0);
         m_layers[layerName] = new seTileLayer(layerWidth, layerHeight);
 
         std::string data = element->FirstChildElement("data")->GetText();
@@ -221,6 +233,7 @@ namespace spriteEngine {
         int count = 0;
         while (ss >> item) {
             item--;
+            seAssert(item >= 0);
 
             GLuint x = count % layerWidth;
             GLuint y = (count / layerWidth) % layerHeight;
