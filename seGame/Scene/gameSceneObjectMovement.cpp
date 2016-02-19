@@ -33,3 +33,10 @@ void gameSceneObjectMovement::CheckSpeedLimits() {
         m_speed.y = m_speedLimit.y * n;
     }
 }
+
+bool gameSceneObjectMovement::IsMoving(bool considerVertical) {
+    if (considerVertical)
+        return m_speed.x != 0.0f && m_speed.y != 0.0f;
+    else
+        return m_speed.x != 0.0f;
+}

@@ -70,6 +70,8 @@
 		<Unit filename="spriteEngine/Debug/seExceptions.hpp" />
 		<Unit filename="spriteEngine/Debug/seLogger.cpp" />
 		<Unit filename="spriteEngine/Debug/seLogger.hpp" />
+		<Unit filename="spriteEngine/Render/seAnimation.cpp" />
+		<Unit filename="spriteEngine/Render/seAnimation.hpp" />
 		<Unit filename="spriteEngine/Render/seGameLevel.cpp" />
 		<Unit filename="spriteEngine/Render/seGameLevel.hpp" />
 		<Unit filename="spriteEngine/Render/seScene.cpp" />

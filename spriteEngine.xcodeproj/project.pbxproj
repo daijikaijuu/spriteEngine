@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C2DCBBB1C77A8CD00D226B0 /* seAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C2DCBB91C77A8CD00D226B0 /* seAnimation.cpp */; };
 		4C54BA1C1C5D817D0098F8A3 /* seSpriteTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C54BA1A1C5D817D0098F8A3 /* seSpriteTile.cpp */; };
 		4C54BA261C5E235D0098F8A3 /* seGameLevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C54BA241C5E235D0098F8A3 /* seGameLevel.cpp */; };
 		4C7360B51C74D8B00011F46A /* libtinyxml2.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7360B41C74D8B00011F46A /* libtinyxml2.3.0.0.dylib */; };
@@ -36,6 +37,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C2DCBB91C77A8CD00D226B0 /* seAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = seAnimation.cpp; path = Render/seAnimation.cpp; sourceTree = "<group>"; };
+		4C2DCBBA1C77A8CD00D226B0 /* seAnimation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = seAnimation.hpp; path = Render/seAnimation.hpp; sourceTree = "<group>"; };
 		4C54BA1A1C5D817D0098F8A3 /* seSpriteTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = seSpriteTile.cpp; path = Render/seSpriteTile.cpp; sourceTree = "<group>"; };
 		4C54BA1B1C5D817D0098F8A3 /* seSpriteTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = seSpriteTile.hpp; path = Render/seSpriteTile.hpp; sourceTree = "<group>"; };
 		4C54BA1D1C5DEF290098F8A3 /* Resources.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Resources.hpp; path = Resources/Resources.hpp; sourceTree = "<group>"; };
@@ -124,21 +127,23 @@
 		4C9DB5641C590C0E005D6BEC /* Render */ = {
 			isa = PBXGroup;
 			children = (
+				4C2DCBB91C77A8CD00D226B0 /* seAnimation.cpp */,
+				4C2DCBBA1C77A8CD00D226B0 /* seAnimation.hpp */,
 				4C54BA241C5E235D0098F8A3 /* seGameLevel.cpp */,
 				4C54BA251C5E235D0098F8A3 /* seGameLevel.hpp */,
-				4C57128B1C5A51540092B3C6 /* seVertex.hpp */,
 				4C9DB5681C590D74005D6BEC /* seScene.cpp */,
 				4C9DB5691C590D74005D6BEC /* seScene.hpp */,
-				4C9DB56C1C590FE9005D6BEC /* seSprite.cpp */,
-				4C9DB56D1C590FE9005D6BEC /* seSprite.hpp */,
-				4CF5B90F1C597F3700BD7366 /* seVBO.cpp */,
-				4CF5B9101C597F3700BD7366 /* seVBO.hpp */,
-				4CF5B9121C59847400BD7366 /* seVAO.cpp */,
-				4CF5B9131C59847400BD7366 /* seVAO.hpp */,
 				4CC2831C1C5B7D96008D472A /* seSceneObject.cpp */,
 				4CC2831D1C5B7D96008D472A /* seSceneObject.hpp */,
+				4C9DB56C1C590FE9005D6BEC /* seSprite.cpp */,
+				4C9DB56D1C590FE9005D6BEC /* seSprite.hpp */,
 				4C54BA1A1C5D817D0098F8A3 /* seSpriteTile.cpp */,
 				4C54BA1B1C5D817D0098F8A3 /* seSpriteTile.hpp */,
+				4CF5B9121C59847400BD7366 /* seVAO.cpp */,
+				4CF5B9131C59847400BD7366 /* seVAO.hpp */,
+				4CF5B90F1C597F3700BD7366 /* seVBO.cpp */,
+				4CF5B9101C597F3700BD7366 /* seVBO.hpp */,
+				4C57128B1C5A51540092B3C6 /* seVertex.hpp */,
 			);
 			name = Render;
 			sourceTree = "<group>";
@@ -322,6 +327,7 @@
 				4CF5B9011C591F9500BD7366 /* seResourceManager.cpp in Sources */,
 				4C54BA261C5E235D0098F8A3 /* seGameLevel.cpp in Sources */,
 				4CFE07431C5D6A5100289E4B /* seMain.cpp in Sources */,
+				4C2DCBBB1C77A8CD00D226B0 /* seAnimation.cpp in Sources */,
 				4C9DB56E1C590FE9005D6BEC /* seSprite.cpp in Sources */,
 				4CF5B90A1C59559B00BD7366 /* seProgram.cpp in Sources */,
 				4C93ACD11C5CE46C001F8833 /* seExceptions.cpp in Sources */,

@@ -20,6 +20,7 @@ public:
     void Stop() { m_speed = glm::vec2(0.0f, 0.0f); }
     void IncHorizontalSpeed(float x) { m_speed.x += x; CheckSpeedLimits(); }
     void IncVerticalSpeed(float y) { m_speed.y += y; CheckSpeedLimits(); }
+    bool IsMoving(bool considerVertical = false);
 
     glm::vec2 Speed() const { return m_speed; }
 

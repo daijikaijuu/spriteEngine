@@ -9,8 +9,9 @@
 #ifndef seCollection_hpp
 #define seCollection_hpp
 
-#include "../Utils/seHelpers.hpp"
+#include "seHelpers.hpp"
 #include "../Debug/Debug.hpp"
+#include "../Resources/seResource.hpp"
 #include <stdio.h>
 #include <iostream>
 #include <string>
@@ -22,7 +23,7 @@ namespace spriteEngine {
         using seCollectionMap = std::map<const std::string, T *>;
         seCollectionMap m_collection;
     public:
-        seCollection() : m_collection() {}
+        seCollection(bool autoID = false) : m_collection() {}
         virtual ~seCollection() {
             for (auto &it : m_collection) {
                 LogDebug << "Item " << quoteStr(it.first) << " deleted" << eol;
@@ -39,6 +40,13 @@ namespace spriteEngine {
             LogDebug << "Item " << quoteStr(name) << " added" << eol;
         }
 
+        void AddItem(T *item) {
+            seResource *resource = dynamic_cast<seResource *>(item);
+            seAssert(resource);
+
+            AddItem(resource->Name(), item);
+        }
+
         T* GetItem(const std::string &name) const {
             seAssert(!name.empty());
 
@@ -52,6 +60,7 @@ namespace spriteEngine {
         }
 
         seCollectionMap Items() const { return m_collection; }
+        size_t size() const { return m_collection.size(); }
     };
 }
 

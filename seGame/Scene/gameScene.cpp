@@ -89,8 +89,6 @@ void gameScene::InitializeResources() {
 }
 
 void gameScene::HandleInput() {
-    static GLuint spr;
-
     if ((glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)) {
         m_hero->SetMirrored(true);
         m_hero->IncHorizontalSpeed(-1.0f);
@@ -118,15 +116,13 @@ void gameScene::HandleInput() {
 
     if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(m_window, GL_TRUE);
-
-    spr++;
-    m_hero->GetProgram()->SetUniform("spriteCurrent", spr);
-    m_hero->GetProgram()->Unbind();
-    if (spr > 5) spr = 1;
 }
 
 void gameScene::Update(GLfloat secondsElapsed) {
     HandleInput();
+
+    m_hero->UpdateStats();
+    m_hero->DoAnimation(secondsElapsed);
 
     seGenericSceneObject *sun = GetItem("sceneObject:sun");
     sun->Rotate(secondsElapsed);
