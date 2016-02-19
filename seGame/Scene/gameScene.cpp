@@ -89,22 +89,29 @@ void gameScene::InitializeResources() {
 }
 
 void gameScene::HandleInput() {
-    GLfloat heroShiftX = m_hero->Speed().x;
-    GLfloat heroShiftY = m_hero->Speed().y;
     static GLuint spr;
 
     if ((glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)) {
         m_hero->SetMirrored(true);
-        heroShiftX += -1.0f;
+        m_hero->IncHorizontalSpeed(-1.0f);
     }
     if ((glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)) {
         m_hero->SetMirrored(false);
-        heroShiftX += 1.0f;
+        m_hero->IncHorizontalSpeed(1.0f);
     }
-    if ((glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS))
-        heroShiftY += -5.0f;
-    if ((glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS))
-        heroShiftY += 5.0f;
+    if (((glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) ||
+         (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) ||
+         (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS)) &&
+        !m_hero->inJump())
+    {
+        m_hero->Jump();
+    }
+    if (((glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS) ||
+         (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)) &&
+         !m_gravity)
+    {
+        m_hero->IncVerticalSpeed(5.0f);
+    }
 
     if (glfwGetKey(m_window, GLFW_KEY_G) == GLFW_PRESS)
         m_gravity = !m_gravity;
@@ -112,9 +119,7 @@ void gameScene::HandleInput() {
     if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(m_window, GL_TRUE);
 
-    m_hero->SetSpeed(glm::vec2(heroShiftX, heroShiftY));
-
-    if (heroShiftX) spr++;
+    spr++;
     m_hero->GetProgram()->SetUniform("spriteCurrent", spr);
     m_hero->GetProgram()->Unbind();
     if (spr > 5) spr = 1;
@@ -162,9 +167,15 @@ void gameScene::MoveHero(GLfloat secondsElapsed) {
         shiftX = 0;
     rect = heroRect.Shift(0, shiftY);
     if (m_gameLevel->Collision(rect, (shiftY > 0 ? seCOLLISION_DOWN : seCOLLISION_UP)) || rect.y <= 0)
+    {
+        if (shiftY > 0)
+            m_hero->Jump(false);
         shiftY = 0;
+    }
     if (rect.Bottom() >= m_height) {
         Logger << "You loose. TODO: make something" << eol;
+        if (shiftY > 0)
+            m_hero->Jump(false);
         shiftY = 0;
     }
 

@@ -11,11 +11,17 @@
 
 gameHero::gameHero() :
     seSpriteTile(false, seNewShaderProgram("spriteTile.vs", "basic.fs"), seRManager->AddTexture("iceman.png"), 5, 5),
-    gameSceneObjectMovement()
+    gameSceneObjectMovement(),
+    m_isJumping(false)
 {
     GetProgram()->SetUniform("alpha", 0.2f);
     SetSize(50, 310, 0.5f, 40, 69);
 }
 
 gameHero::~gameHero() {
+}
+
+void gameHero::Jump(bool jumping) {
+    m_isJumping = jumping;
+    IncVerticalSpeed(-10.0f);
 }
