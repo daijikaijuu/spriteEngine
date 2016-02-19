@@ -82,9 +82,6 @@ void gameScene::InitializeResources() {
     seRManager->AddShader("spriteTile.vs");
 
     // Load textures
-    seRManager->AddTexture("house.png");
-    seRManager->AddTexture("campfire.png");
-    seRManager->AddTexture("snowflake.png");
     seRManager->AddTexture("bg2.png");
     seRManager->AddTexture("sky_01.png");
     seRManager->AddTexture("sun_01.png");
