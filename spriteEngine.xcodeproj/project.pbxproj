@@ -30,6 +30,8 @@
 		4CF5B90A1C59559B00BD7366 /* seProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CF5B9081C59559B00BD7366 /* seProgram.cpp */; };
 		4CF5B9111C597F3700BD7366 /* seVBO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CF5B90F1C597F3700BD7366 /* seVBO.cpp */; };
 		4CF5B9141C59847400BD7366 /* seVAO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CF5B9121C59847400BD7366 /* seVAO.cpp */; };
+		4CF93F841C75E6AC0036EAC2 /* gameSceneObjectMovement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CF93F821C75E6AC0036EAC2 /* gameSceneObjectMovement.cpp */; };
+		4CF93F871C75E6FA0036EAC2 /* gameHero.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CF93F851C75E6FA0036EAC2 /* gameHero.cpp */; };
 		4CFE07431C5D6A5100289E4B /* seMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE07421C5D6A5100289E4B /* seMain.cpp */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +81,10 @@
 		4CF5B9121C59847400BD7366 /* seVAO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = seVAO.cpp; path = Render/seVAO.cpp; sourceTree = "<group>"; };
 		4CF5B9131C59847400BD7366 /* seVAO.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = seVAO.hpp; path = Render/seVAO.hpp; sourceTree = "<group>"; };
 		4CF5B9151C5984B600BD7366 /* seEnums.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = seEnums.hpp; path = Utils/seEnums.hpp; sourceTree = "<group>"; };
+		4CF93F821C75E6AC0036EAC2 /* gameSceneObjectMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gameSceneObjectMovement.cpp; path = seGame/Scene/gameSceneObjectMovement.cpp; sourceTree = "<group>"; };
+		4CF93F831C75E6AC0036EAC2 /* gameSceneObjectMovement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gameSceneObjectMovement.hpp; path = seGame/Scene/gameSceneObjectMovement.hpp; sourceTree = "<group>"; };
+		4CF93F851C75E6FA0036EAC2 /* gameHero.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gameHero.cpp; path = seGame/Scene/gameHero.cpp; sourceTree = "<group>"; };
+		4CF93F861C75E6FA0036EAC2 /* gameHero.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gameHero.hpp; path = seGame/Scene/gameHero.hpp; sourceTree = "<group>"; };
 		4CFE07421C5D6A5100289E4B /* seMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = seMain.cpp; path = seGame/seMain.cpp; sourceTree = "<group>"; };
 		4CFE07451C5D6B2100289E4B /* gameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gameScene.cpp; path = seGame/Scene/gameScene.cpp; sourceTree = "<group>"; };
 		4CFE07461C5D6B2100289E4B /* gameScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = gameScene.hpp; path = seGame/Scene/gameScene.hpp; sourceTree = "<group>"; };
@@ -226,6 +232,10 @@
 			children = (
 				4CFE07451C5D6B2100289E4B /* gameScene.cpp */,
 				4CFE07461C5D6B2100289E4B /* gameScene.hpp */,
+				4CF93F821C75E6AC0036EAC2 /* gameSceneObjectMovement.cpp */,
+				4CF93F831C75E6AC0036EAC2 /* gameSceneObjectMovement.hpp */,
+				4CF93F851C75E6FA0036EAC2 /* gameHero.cpp */,
+				4CF93F861C75E6FA0036EAC2 /* gameHero.hpp */,
 			);
 			name = Scene;
 			sourceTree = "<group>";
@@ -304,6 +314,8 @@
 				4CF5B8FB1C591E2A00BD7366 /* seShader.cpp in Sources */,
 				4CF5B9141C59847400BD7366 /* seVAO.cpp in Sources */,
 				4CF5B9111C597F3700BD7366 /* seVBO.cpp in Sources */,
+				4CF93F871C75E6FA0036EAC2 /* gameHero.cpp in Sources */,
+				4CF93F841C75E6AC0036EAC2 /* gameSceneObjectMovement.cpp in Sources */,
 				4CC2831E1C5B7D96008D472A /* seSceneObject.cpp in Sources */,
 				4CF5B9041C594AD800BD7366 /* seTexture.cpp in Sources */,
 				4C9DB56A1C590D74005D6BEC /* seScene.cpp in Sources */,

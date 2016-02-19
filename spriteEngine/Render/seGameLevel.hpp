@@ -15,6 +15,10 @@
 #include "../Utils/seEnums.hpp"
 #include <vector>
 
+namespace tinyxml2 {
+    class XMLElement;
+}
+
 namespace spriteEngine {
     class seProgram;
     class seTexture;
@@ -25,14 +29,36 @@ namespace spriteEngine {
         seCollisionRect rect;
         GLboolean collidable;
         GLboolean onScreen;
+        GLuint indexShift;
 
-        seTile(GLuint ID, GLuint MapX, GLuint MapY, seCollisionRect Rect, GLboolean Collidable, GLboolean OnScreen) :
+        seTile(GLuint ID, GLuint MapX, GLuint MapY, seCollisionRect Rect, GLboolean Collidable, GLboolean OnScreen, GLuint IndexShift) :
             id(ID),
             mapX(MapX), mapY(MapY),
             rect(Rect),
             collidable(Collidable),
-            onScreen(OnScreen)
+            onScreen(OnScreen),
+            indexShift(IndexShift)
         {
+        }
+    };
+
+    struct seTileLayer {
+        GLuint width;
+        GLuint height;
+
+        std::vector<seTile *> tiles;
+
+        seTileLayer(GLuint Width, GLuint Height) :
+            width(Width), height(Height),
+            tiles()
+        {
+        }
+
+        ~seTileLayer() {
+            for (auto it : tiles) {
+                delete it;
+            }
+            tiles.clear();
         }
     };
 
@@ -48,8 +74,6 @@ namespace spriteEngine {
         virtual void Render();
         virtual void UpdateMVP();
 
-        std::vector<seTile *> Tiles() const { return m_tiles; }
-        GLboolean IsTileInCoordCollidable(GLfloat x, GLfloat y) const;
         GLboolean Collision(seCollisionRect rect, seCollisionDirection direction) const;
 
     private:
@@ -57,9 +81,11 @@ namespace spriteEngine {
         GLfloat m_tileSize;
         GLuint m_indexBuffer;
 
-        std::vector<seTile *> m_tiles;
-    };
+        std::map<const std::string, seTileLayer *> m_layers;
 
+        void ParseLayer(GLuint *index, GLuint tilesetColumns, GLuint tilesetRows, tinyxml2::XMLElement *element,
+                        std::map<GLuint, seCollisionRect *> &tileBounds);
+    };
 }
 
 #endif /* gameLevel_hpp */

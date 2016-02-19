@@ -25,10 +25,6 @@ void OnError(int errorCode, const char* msg) {
     throw seException(ss);
 }
 
-void OnKeyPressed(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    scene->HandleInput(window, key, scancode, action, mods);
-}
-
 void Render() {
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -64,7 +60,6 @@ void AppMain() {
 
     // GLFW settings
     glfwMakeContextCurrent(gWindow);
-    glfwSetKeyCallback(gWindow, OnKeyPressed);
 
     // initalize GLEW
     glewExperimental = GL_TRUE;
@@ -89,7 +84,9 @@ void AppMain() {
     glDepthFunc(GL_LEQUAL);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-    scene = new gameScene(800, 600);
+    glfwSetInputMode(gWindow, GLFW_STICKY_KEYS, 0);
+
+    scene = new gameScene(gWindow, 800, 600);
 
     double lastTime = glfwGetTime();
     while (!glfwWindowShouldClose(gWindow)) {

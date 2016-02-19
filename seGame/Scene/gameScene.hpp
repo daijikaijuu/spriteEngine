@@ -20,24 +20,27 @@ namespace spriteEngine {
 
 using namespace spriteEngine;
 
+class gameHero;
+
 class gameScene : public seScene {
 public:
-    gameScene(unsigned int width, unsigned int height);
+    gameScene(GLFWwindow *window, unsigned int width, unsigned int height);
     virtual ~gameScene();
 
     virtual void InitializeResources();
 
-    void HandleInput(GLFWwindow *window, int key, int scancode, int action, int mods);
+    void HandleInput();
     void Update(GLfloat secondsElapsed);
 
 private:
+    GLFWwindow *m_window;
     seGameLevel *m_gameLevel;
-    seSpriteTile *m_hero;
+    gameHero *m_hero;
     seGenericSceneObject *m_backgroundMountain;
     GLfloat m_backgroundShift;
     GLboolean m_gravity;
 
-    void MoveHero(GLfloat shiftX, GLfloat shiftY);
+    void MoveHero(GLfloat secondsElapsed);
     void ScrollMap(GLfloat shiftX);
 };
 
