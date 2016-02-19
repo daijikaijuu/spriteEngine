@@ -36,10 +36,8 @@ namespace spriteEngine {
         }
 
         // Load map information
-        const char *levelName = doc.FirstChildElement("map")->FirstChildElement("layer")->Attribute("name");
         m_width = doc.FirstChildElement("map")->FirstChildElement("layer")->UnsignedAttribute("width");
         m_height = doc.FirstChildElement("map")->FirstChildElement("layer")->UnsignedAttribute("height");
-        LogDebug << "seGameLevel: Map name: " << quoteStr(levelName) << ". Width: " << m_width << ", height: " << m_height << eol;
 
         // Load tileset information
         std::string tilesetName = doc.FirstChildElement("map")->FirstChildElement("tileset")->FirstChildElement("image")->Attribute("source");
