@@ -54,12 +54,16 @@ gameScene::gameScene(GLFWwindow *window, unsigned int width, unsigned height) :
 
     AddItem("sceneObject:iceman", m_hero = new gameHero());
 
-    obj = new seSpriteTile(true,
-                           seNewShaderProgram("spriteTile.vs", "basic.fs"),
-                           seRManager->GetTexture("bird.png"), 14, 14);
-    obj->GetProgram()->SetUniform("alpha", 0.2f);
-    AddItem("sceneObject:bird", obj);
-    obj->SetSize(50, 100, -0.8f, 50, 50);
+    seSpriteTile *bird = new seSpriteTile(true,
+                                          seNewShaderProgram("spriteTile.vs", "basic.fs"),
+                                          seRManager->GetTexture("bird.png"), 14, 14);
+    bird->GetProgram()->SetUniform("alpha", 0.2f);
+    AddItem("sceneObject:bird", bird);
+    bird->SetSize(50, 100, -0.8f, 50, 50);
+    bird->AddItem(new seAnimation("animation:bird:movement",
+                                  inc_fill_vector((uint32_t)14),
+                                  0.1f),
+                  true);
 
     m_gameLevel = new seGameLevel(seNewShaderProgram("basic.vs", "basic.fs"),
                                   "level01.tmx");
@@ -127,7 +131,7 @@ void gameScene::Update(GLfloat secondsElapsed) {
     seGenericSceneObject *sun = GetItem("sceneObject:sun");
     sun->Rotate(secondsElapsed);
 
-    seGenericSceneObject *bird = GetItem("sceneObject:bird");
+    seSpriteTile *bird = dynamic_cast<seSpriteTile *>(GetItem("sceneObject:bird"));
     GLfloat x = bird->X();
     if (x > (800 - bird->Width() / 2) && !bird->IsMirrored())
         bird->SetMirrored(true);
@@ -135,15 +139,8 @@ void gameScene::Update(GLfloat secondsElapsed) {
         bird->SetMirrored(false);
     GLfloat dx = bird->IsMirrored() ? -1 : 1;
     bird->Move(dx, 0);
+    bird->DoAnimation(secondsElapsed);
     bird->GetProgram()->Unbind();
-
-    static GLfloat counter;
-    counter += secondsElapsed;
-    if (counter > 0.2f) {
-        bird->Animate();
-        bird->GetProgram()->Unbind();
-        counter = 0;
-    }
 
     MoveHero(secondsElapsed);
 }

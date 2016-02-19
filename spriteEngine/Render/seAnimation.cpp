@@ -56,10 +56,14 @@ namespace spriteEngine {
     seAnimator::~seAnimator() {
     }
 
-    void seAnimator::AddItem(seAnimation *animation) {
+    void seAnimator::AddItem(seAnimation *animation, bool makeCurrent) {
         seAssert(animation);
 
         seCollection::AddItem(animation);
+
+        if (makeCurrent) {
+            SetCurrentAnimation(animation->Name());
+        }
     }
 
     void seAnimator::SetCurrentAnimation(const std::string &name) {

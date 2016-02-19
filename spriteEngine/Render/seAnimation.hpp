@@ -35,7 +35,7 @@ namespace spriteEngine {
         seAnimator(uint32_t defaultSprite = 0);
         virtual ~seAnimator();
 
-        void AddItem(seAnimation *animation);
+        void AddItem(seAnimation *animation, bool makeCurrent = false);
 
         seAnimation* CurrentAnimation() { return m_currentAnimation; }
         uint32_t CurrentFrame() const;
