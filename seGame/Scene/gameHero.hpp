@@ -18,6 +18,13 @@ class gameHero : public seSpriteTile, public gameSceneObjectMovement {
 public:
     gameHero();
     virtual ~gameHero();
+
+    bool inJump() const { return m_isJumping; }
+    void Jump(bool jumping = true);
+    virtual void UpdateStats();
+
+protected:
+    bool m_isJumping;
 };
 
 #endif /* gameHero_hpp */

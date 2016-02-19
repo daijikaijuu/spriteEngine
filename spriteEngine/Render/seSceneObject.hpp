@@ -44,6 +44,7 @@ namespace spriteEngine {
         virtual void Rotate(GLfloat angle) { m_angle += angle; m_MVPupdated = false; }
         virtual void ResetRotation() { m_angle = 0; }
         virtual void Animate() {}
+        virtual void UpdateStats() {}
 
         virtual void Render();
         virtual void UpdateMVP();

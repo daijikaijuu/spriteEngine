@@ -11,6 +11,8 @@
 
 #include <string>
 #include <sstream>
+#include <numeric>
+#include <vector>
 #include <glm/glm.hpp>
 
 namespace spriteEngine {
@@ -31,6 +33,13 @@ namespace spriteEngine {
             pos += replace.length();
         }
         return subject;
+    }
+
+    template<typename T>
+    inline std::vector<T> inc_fill_vector(T count) {
+        std::vector<T> vec(count);
+        std::iota(std::begin(vec), std::end(vec), 0);
+        return vec;
     }
 
     template<typename T>

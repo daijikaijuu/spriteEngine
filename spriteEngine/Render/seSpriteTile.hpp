@@ -10,26 +10,30 @@
 #define seSpriteTile_hpp
 
 #include "seSprite.hpp"
-#include <stdio.h>
+#include "seAnimation.hpp"
 
 namespace spriteEngine {
     class seTexture;
     class seProgram;
 
-    class seSpriteTile : public seSprite {
+    class seSpriteTile :
+        public seSprite,
+        public seAnimator
+    {
     public:
-        seSpriteTile(bool centered, seProgram *shaderProgram, seTexture *texture, unsigned int itemsX, unsigned int itemCount);
+        seSpriteTile(bool centered, seProgram *shaderProgram, seTexture *texture, uint32_t itemsX, uint32_t itemCount);
         virtual ~seSpriteTile();
 
         virtual void Render();
 
-        virtual void SetCurrentSprite(unsigned int currentSprite);
-        virtual void SetMirrored(GLboolean mirrored);
+        virtual void SetCurrentSprite(uint32_t currentSprite);
+        virtual void SetMirrored(bool mirrored);
         virtual void Animate();
+        virtual void DoAnimation(float_t elapsedTime);
 
     protected:
-        unsigned int m_itemsX, m_itemCount;
-        unsigned int m_currentSprite;
+        uint32_t m_itemsX, m_itemCount;
+        uint32_t m_currentSprite;
     };
 }
 

@@ -54,12 +54,16 @@ gameScene::gameScene(GLFWwindow *window, unsigned int width, unsigned height) :
 
     AddItem("sceneObject:iceman", m_hero = new gameHero());
 
-    obj = new seSpriteTile(true,
-                           seNewShaderProgram("spriteTile.vs", "basic.fs"),
-                           seRManager->GetTexture("bird.png"), 14, 14);
-    obj->GetProgram()->SetUniform("alpha", 0.2f);
-    AddItem("sceneObject:bird", obj);
-    obj->SetSize(50, 100, -0.8f, 50, 50);
+    seSpriteTile *bird = new seSpriteTile(true,
+                                          seNewShaderProgram("spriteTile.vs", "basic.fs"),
+                                          seRManager->GetTexture("bird.png"), 14, 14);
+    bird->GetProgram()->SetUniform("alpha", 0.2f);
+    AddItem("sceneObject:bird", bird);
+    bird->SetSize(50, 100, -0.8f, 50, 50);
+    bird->AddItem(new seAnimation("animation:bird:movement",
+                                  inc_fill_vector((uint32_t)14),
+                                  0.1f),
+                  true);
 
     m_gameLevel = new seGameLevel(seNewShaderProgram("basic.vs", "basic.fs"),
                                   "level01.tmx");
@@ -89,44 +93,45 @@ void gameScene::InitializeResources() {
 }
 
 void gameScene::HandleInput() {
-    GLfloat heroShiftX = m_hero->Speed().x;
-    GLfloat heroShiftY = m_hero->Speed().y;
-    static GLuint spr;
-
     if ((glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)) {
         m_hero->SetMirrored(true);
-        heroShiftX += -1.0f;
+        m_hero->IncHorizontalSpeed(-1.0f);
     }
     if ((glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)) {
         m_hero->SetMirrored(false);
-        heroShiftX += 1.0f;
+        m_hero->IncHorizontalSpeed(1.0f);
     }
-    if ((glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS))
-        heroShiftY += -5.0f;
-    if ((glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS) || (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS))
-        heroShiftY += 5.0f;
+    if (((glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) ||
+         (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) ||
+         (glfwGetKey(m_window, GLFW_KEY_SPACE) == GLFW_PRESS)) &&
+        !m_hero->inJump())
+    {
+        m_hero->Jump();
+    }
+    if (((glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS) ||
+         (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)) &&
+         !m_gravity)
+    {
+        m_hero->IncVerticalSpeed(5.0f);
+    }
 
     if (glfwGetKey(m_window, GLFW_KEY_G) == GLFW_PRESS)
         m_gravity = !m_gravity;
 
     if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(m_window, GL_TRUE);
-
-    m_hero->SetSpeed(glm::vec2(heroShiftX, heroShiftY));
-
-    if (heroShiftX) spr++;
-    m_hero->GetProgram()->SetUniform("spriteCurrent", spr);
-    m_hero->GetProgram()->Unbind();
-    if (spr > 5) spr = 1;
 }
 
 void gameScene::Update(GLfloat secondsElapsed) {
     HandleInput();
 
+    m_hero->UpdateStats();
+    m_hero->DoAnimation(secondsElapsed);
+
     seGenericSceneObject *sun = GetItem("sceneObject:sun");
     sun->Rotate(secondsElapsed);
 
-    seGenericSceneObject *bird = GetItem("sceneObject:bird");
+    seSpriteTile *bird = dynamic_cast<seSpriteTile *>(GetItem("sceneObject:bird"));
     GLfloat x = bird->X();
     if (x > (800 - bird->Width() / 2) && !bird->IsMirrored())
         bird->SetMirrored(true);
@@ -134,15 +139,8 @@ void gameScene::Update(GLfloat secondsElapsed) {
         bird->SetMirrored(false);
     GLfloat dx = bird->IsMirrored() ? -1 : 1;
     bird->Move(dx, 0);
+    bird->DoAnimation(secondsElapsed);
     bird->GetProgram()->Unbind();
-
-    static GLfloat counter;
-    counter += secondsElapsed;
-    if (counter > 0.2f) {
-        bird->Animate();
-        bird->GetProgram()->Unbind();
-        counter = 0;
-    }
 
     MoveHero(secondsElapsed);
 }
@@ -162,9 +160,15 @@ void gameScene::MoveHero(GLfloat secondsElapsed) {
         shiftX = 0;
     rect = heroRect.Shift(0, shiftY);
     if (m_gameLevel->Collision(rect, (shiftY > 0 ? seCOLLISION_DOWN : seCOLLISION_UP)) || rect.y <= 0)
+    {
+        if (shiftY > 0)
+            m_hero->Jump(false);
         shiftY = 0;
+    }
     if (rect.Bottom() >= m_height) {
         Logger << "You loose. TODO: make something" << eol;
+        if (shiftY > 0)
+            m_hero->Jump(false);
         shiftY = 0;
     }
 
