@@ -57,8 +57,12 @@
 		</Linker>
 		<Unit filename="external/tinyxml2/tinyxml2.cpp" />
 		<Unit filename="external/tinyxml2/tinyxml2.h" />
+		<Unit filename="seGame/Scene/gameHero.cpp" />
+		<Unit filename="seGame/Scene/gameHero.hpp" />
 		<Unit filename="seGame/Scene/gameScene.cpp" />
 		<Unit filename="seGame/Scene/gameScene.hpp" />
+		<Unit filename="seGame/Scene/gameSceneObjectMovement.cpp" />
+		<Unit filename="seGame/Scene/gameSceneObjectMovement.hpp" />
 		<Unit filename="seGame/seMain.cpp" />
 		<Unit filename="spriteEngine/Debug/Debug.hpp" />
 		<Unit filename="spriteEngine/Debug/seDebug.hpp" />
