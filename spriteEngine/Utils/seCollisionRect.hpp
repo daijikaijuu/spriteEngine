@@ -14,7 +14,7 @@ namespace spriteEngine {
         float x, y;
         float width, height;
 
-        seCollisionRect(float x1, float y1, float w, float h) : x(x1), y(y1), width(w), height(h) {}
+        seCollisionRect(float x1 = 0.0f, float y1 = 0.0f, float w = 0.0f, float h = 0.0f) : x(x1), y(y1), width(w), height(h) {}
         seCollisionRect(const seCollisionRect &rect) : x(rect.x), y(rect.y), width(rect.width), height(rect.height) {}
 
         bool Contains(const seCollisionRect rect) const {
