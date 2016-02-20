@@ -129,7 +129,7 @@ namespace spriteEngine {
                 throw seException("Unknown libpng color type");
         }
 
-        LogDebug << "Texture loaded: " << quoteStr(m_resourceName) << eol;
+        LogDebug << "seTexture::LoadFromFile: Texture loaded: " << quoteStr(m_resourceName) << eol;
 
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, outData);
