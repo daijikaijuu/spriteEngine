@@ -18,10 +18,10 @@
 namespace spriteEngine {
     class seResource {
     public:
-        seResource(seResourceType resourceType, const std::string &resourceName) :
+        seResource(seResourceType resourceType, const std::string &resourceName, uint32_t ID = 0) :
             m_resourceType(resourceType),
             m_resourceName(resourceName),
-            m_ID(0)
+            m_ID(ID)
         {
             seAssert(!resourceName.empty());
 
@@ -44,7 +44,7 @@ namespace spriteEngine {
         virtual void Bind(GLuint param) {}
         virtual void Unbind() {}
 
-        inline GLuint ID() const { return m_ID; }
+        inline uint32_t ID() const { return m_ID; }
         inline const std::string& Name() const { return m_resourceName; }
         inline seResourceType Type() const { return m_resourceType; }
 
@@ -54,7 +54,7 @@ namespace spriteEngine {
     protected:
         seResourceType m_resourceType;
         std::string m_resourceName;
-        GLuint m_ID;
+        uint32_t m_ID;
 
         virtual void LoadFromFile() {}
     };
