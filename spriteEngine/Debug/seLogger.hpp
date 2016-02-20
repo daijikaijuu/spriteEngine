@@ -18,6 +18,7 @@
 
 namespace spriteEngine {
     const char eol[] = "\n";
+    const char DELIMITER[] = "----------------------------------------------------\n";
 
     class seLogger {
     public:
