@@ -185,7 +185,7 @@
 				4CF5B8F81C591E0700BD7366 /* Resources */,
 				4C9DB56F1C59109D005D6BEC /* Utils */,
 				4C9DB5641C590C0E005D6BEC /* Render */,
-				4CFE07411C5D69EB00289E4B /* seGamge */,
+				4CFE07411C5D69EB00289E4B /* seGame */,
 			);
 			path = spriteEngine;
 			sourceTree = "<group>";
@@ -222,13 +222,13 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		4CFE07411C5D69EB00289E4B /* seGamge */ = {
+		4CFE07411C5D69EB00289E4B /* seGame */ = {
 			isa = PBXGroup;
 			children = (
 				4CFE07441C5D6AD000289E4B /* Scene */,
 				4CFE07421C5D6A5100289E4B /* seMain.cpp */,
 			);
-			name = seGamge;
+			name = seGame;
 			path = ..;
 			sourceTree = "<group>";
 		};
