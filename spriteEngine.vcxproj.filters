@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="seGame">
+      <UniqueIdentifier>{33a15c96-5a3c-4290-a46b-ed7da4a596f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="seGame\Scene">
+      <UniqueIdentifier>{8ac06026-0e67-429b-af79-a0135f95e62d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="spriteEngine">
+      <UniqueIdentifier>{6d50aa32-1792-4278-8f49-1e2ea2f88f97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="spriteEngine\Debug">
+      <UniqueIdentifier>{6ea6c942-b086-4761-b9d5-27404fbd46da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="spriteEngine\Render">
+      <UniqueIdentifier>{111f3fa8-4777-4b47-a602-bacfa805e0a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="spriteEngine\Resources">
+      <UniqueIdentifier>{428e777f-ba15-4ff4-a064-0ccea86c74d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="spriteEngine\Utils">
+      <UniqueIdentifier>{c834c19b-46ef-4658-8601-388f690853a4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="seGame\Scene\gameSceneObjectMovement.hpp">
+      <Filter>seGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="seGame\Scene\gameHero.hpp">
+      <Filter>seGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="seGame\Scene\gameScene.hpp">
+      <Filter>seGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Debug\seExceptions.hpp">
+      <Filter>spriteEngine\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Debug\seLogger.hpp">
+      <Filter>spriteEngine\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Render\seAnimation.hpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Render\seGameLevel.hpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Render\seScene.hpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Render\seSceneObject.hpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Render\seSprite.hpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Render\seSpriteTile.hpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Render\seVAO.hpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Render\seVBO.hpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Render\seVertex.hpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Resources\Resources.hpp">
+      <Filter>spriteEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Resources\seProgram.hpp">
+      <Filter>spriteEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Resources\seResource.hpp">
+      <Filter>spriteEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Resources\seResourceManager.hpp">
+      <Filter>spriteEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Resources\seShader.hpp">
+      <Filter>spriteEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Resources\seTexture.hpp">
+      <Filter>spriteEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Utils\seCollection.hpp">
+      <Filter>spriteEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Utils\seCollisionRect.hpp">
+      <Filter>spriteEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Utils\seEnums.hpp">
+      <Filter>spriteEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Utils\seHelpers.hpp">
+      <Filter>spriteEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Utils\seSingleton.hpp">
+      <Filter>spriteEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteEngine\Debug\Debug.hpp">
+      <Filter>spriteEngine\Debug</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="seGame\seMain.cpp">
+      <Filter>seGame</Filter>
+    </ClCompile>
+    <ClCompile Include="seGame\Scene\gameHero.cpp">
+      <Filter>seGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="seGame\Scene\gameScene.cpp">
+      <Filter>seGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="seGame\Scene\gameSceneObjectMovement.cpp">
+      <Filter>seGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Debug\seExceptions.cpp">
+      <Filter>spriteEngine\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Debug\seLogger.cpp">
+      <Filter>spriteEngine\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Render\seAnimation.cpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Render\seGameLevel.cpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Render\seScene.cpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Render\seSceneObject.cpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Render\seSprite.cpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Render\seSpriteTile.cpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Render\seVAO.cpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Render\seVBO.cpp">
+      <Filter>spriteEngine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Resources\seProgram.cpp">
+      <Filter>spriteEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Resources\seResourceManager.cpp">
+      <Filter>spriteEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Resources\seShader.cpp">
+      <Filter>spriteEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="spriteEngine\Resources\seTexture.cpp">
+      <Filter>spriteEngine\Resources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
