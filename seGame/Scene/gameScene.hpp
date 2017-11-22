@@ -24,7 +24,7 @@ class gameHero;
 
 class gameScene : public seScene {
 public:
-    gameScene(GLFWwindow *window, unsigned int width, unsigned int height);
+    gameScene(GLFWwindow *window, uint32_t width, uint32_t height);
     virtual ~gameScene();
 
     virtual void InitializeResources();

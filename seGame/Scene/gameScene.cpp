@@ -15,7 +15,7 @@
 #include "Resources/seResourceManager.hpp"
 #include "Utils/seCollisionRect.hpp"
 
-gameScene::gameScene(GLFWwindow *window, unsigned int width, unsigned height) :
+gameScene::gameScene(GLFWwindow *window, uint32_t width, uint32_t height) :
     seScene((float)width, (float)height),
     m_window(window),
     m_gameLevel(nullptr),
@@ -137,7 +137,7 @@ void gameScene::Update(GLfloat secondsElapsed) {
         bird->SetMirrored(true);
     if (x < bird->Width() / 2 && bird->IsMirrored())
         bird->SetMirrored(false);
-    GLfloat dx = bird->IsMirrored() ? -1 : 1;
+    GLfloat dx = bird->IsMirrored() ? -1.0f : 1.0f;
     bird->Move(dx, 0);
     bird->DoAnimation(secondsElapsed);
     bird->GetProgram()->Unbind();
