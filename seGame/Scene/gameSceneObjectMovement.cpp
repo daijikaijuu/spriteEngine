@@ -11,7 +11,7 @@
 
 gameSceneObjectMovement::gameSceneObjectMovement() :
     m_speed(0.0f, 0.0f),
-    m_speedLimit(10.0f, 15.0f)
+    m_speedLimit(1.0f, 5.0f)
 {
 }
 
